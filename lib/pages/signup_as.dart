@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:proximity/routes/route_name.dart';
 import '../colors/color.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+
+import '../routes/route_name.dart';
 
 class SignupAs extends StatelessWidget {
   @override
@@ -24,7 +25,7 @@ class SignupAs extends StatelessWidget {
           ),
           SizedBox(height: 90),
           Text(
-            "What you want to do?",
+            "What do you want to do?",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w500,
@@ -61,7 +62,9 @@ class SignupAs extends StatelessWidget {
             width: 300,
             height: 50,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed('/RegisterMitra');
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -72,14 +75,22 @@ class SignupAs extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 80),
+          SizedBox(height: 15),
+          Divider(
+            height: 50,
+            thickness: 1.5,
+            color: Colors.black,
+            indent: 30,
+            endIndent: 30,
+          ),
           Text(
-            "Or you want to enter as guest?",
+            "Do you want to enter as a guest?",
             style: TextStyle(
+              fontWeight: FontWeight.w600,
               fontSize: 16,
             ),
           ),
-          SizedBox(height: 30),
+          SizedBox(height: 15),
           SizedBox(
             width: 300,
             height: 40,
@@ -87,12 +98,13 @@ class SignupAs extends StatelessWidget {
               style: buttonPrimarys,
               onPressed: () {},
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    Icons.person,
+                    FontAwesomeIcons.userSecret,
                     color: Colors.black,
                   ),
-                  SizedBox(width: 20),
+                  SizedBox(width: 15),
                   Text(
                     "Enter Guest Mode",
                     style: TextStyle(
@@ -113,7 +125,5 @@ final ButtonStyle buttonPrimarys = ElevatedButton.styleFrom(
   minimumSize: Size(324, 40),
   elevation: 0,
   backgroundColor: grayy,
-  shape: RoundedRectangleBorder(
-
-  ),
+  shape: RoundedRectangleBorder(),
 );

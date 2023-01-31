@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:proximity/routes/route_name.dart';
 import '../colors/color.dart';
 import 'package:get/get.dart';
+
+import '../routes/route_name.dart';
 
 class WelcomePage extends StatelessWidget {
   @override
@@ -48,7 +49,7 @@ class WelcomePage extends StatelessWidget {
           ElevatedButton(
             style: buttonPrimary,
             onPressed: () {
-              Get.toNamed(RouteName.signup_as);
+              Get.toNamed("LoginPage");
             },
             child: Text(
               "SIGN IN",
@@ -66,12 +67,18 @@ class WelcomePage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20),
-          Text(
-            "Create new Account",
-            style: TextStyle(
-              decoration: TextDecoration.underline,
-              fontSize: 17,
-              fontWeight: FontWeight.w700,
+          TextButton(
+            onPressed: () {
+              Get.toNamed(RouteName.signup_as);
+            },
+            child: Text(
+              "Create new Account",
+              style: TextStyle(
+                decoration: TextDecoration.underline,
+                fontSize: 17,
+                color: Colors.black,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ],
