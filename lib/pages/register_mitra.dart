@@ -4,7 +4,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:checkbox_formfield/checkbox_formfield.dart';
-import 'package:proximity_design/pages/register_mitra_v2.dart';
+import 'package:proximity/pages/register_mitra_v2.dart';
+
 
 class RegisterMitra extends StatefulWidget {
   const RegisterMitra({super.key});
