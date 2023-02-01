@@ -1,106 +1,111 @@
 import 'package:flutter/material.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter_verification_code/flutter_verification_code.dart';
+import '../colors/color.dart';
+import 'package:get/get.dart';
 
-class LandingPageWorker extends StatelessWidget {
-  final items = <Widget>[
-    Icon(Icons.home),
-    Icon(Icons.favorite),
-    Icon(Icons.add),
-    Icon(Icons.message),
-    Icon(Icons.settings),
-  ];
+class WhatsAppVerif extends StatefulWidget {
+  @override
+  State<WhatsAppVerif> createState() => _WhatsAppVerifState();
+}
+
+class _WhatsAppVerifState extends State<WhatsAppVerif> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff3FC5F0),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: 110,
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 185, 0),
-              child: Text(
-                "Hi, Nevi!",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 5, 92, 0),
-              child: Text(
-                "Welcome to Proximity!",
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 60, 0),
-              child: Text(
-                "Find your exellent job here.",
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ],
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              bottomRight: Radius.circular(90),
-            ),
-            color: Colors.white,
-          ),
-        ),
-      ),
-      bottomNavigationBar: CurvedNavigationBar(
-        items: items,
-      ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 30, 170, 0),
+            padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
             child: Text(
-              "Nearest Job Category",
+              "Whatsapp Verification",
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          SizedBox(height: 50),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 40),
+            child: Text(
+              "We have sent 4 digit verification number to your WhatsApp. Please input the 4 digit number here!",
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,
-                color: Colors.white,
                 fontWeight: FontWeight.w500,
               ),
             ),
           ),
-          SizedBox(height: 25),
+          SizedBox(height: 100),
+          VerificationCode(
+            textStyle: TextStyle(fontSize: 20.0, color: Colors.blue),
+            keyboardType: TextInputType.number,
+            underlineColor: Colors.blue,
+            length: 4,
+            cursorColor: Colors.blue,
+            onCompleted: (String value) {
+              setState(() {});
+            },
+            onEditing: (bool value) {
+              setState(() {});
+            },
+          ),
+          SizedBox(height: 50),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: GridView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: 9,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisSpacing: 13,
-                  crossAxisSpacing: 13,
-                  crossAxisCount: 3,
+            padding: const EdgeInsets.fromLTRB(0, 0, 120, 0),
+            child: Text(
+              "Didn't get the number yet?",
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 170, 0),
+            child: Text(
+              "resent the number",
+              style: TextStyle(
+                decoration: TextDecoration.underline,
+                fontWeight: FontWeight.w500,
+                fontSize: 15,
+              ),
+            ),
+          ),
+          SizedBox(height: 110),
+          SizedBox(
+            width: 300,
+            height: 35,
+            child: ElevatedButton(
+              onPressed: () {
+                Get.offAllNamed("LoginPage");
+              },
+              child: Text(
+                "SUBMIT",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
                 ),
-                itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      border: Border.all(width: 2, color: Colors.black),
-                    ),
-                  );
-                }),
+              ),
+              style: primmaryButtons,
+            ),
           ),
         ],
       ),
     );
   }
 }
+
+final ButtonStyle primmaryButtons = ElevatedButton.styleFrom(
+  minimumSize: Size(300, 35),
+  elevation: 0,
+  backgroundColor: skyBlue,
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(
+      Radius.circular(10),
+    ),
+  ),
+);
+
