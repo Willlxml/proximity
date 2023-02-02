@@ -34,6 +34,7 @@ class _LandingPageWorkerState extends State<LandingPageWorker> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: screens[index],
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
