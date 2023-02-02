@@ -13,6 +13,7 @@ class LandingPageWorker extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff3FC5F0),
+      
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
