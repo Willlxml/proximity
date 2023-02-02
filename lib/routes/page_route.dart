@@ -28,6 +28,10 @@ class AppPage {
       page: () => SignupWorker2(),
     ),
     GetPage(
+      name: RouteName.landingpageworker,
+      page: () => LandingPageWorker(),
+    ),
+    GetPage(
       name: '/RegisterMitra',
       page: () => RegisterMitra(),
     ),
