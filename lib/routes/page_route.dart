@@ -29,7 +29,7 @@ class AppPage {
     ),
     GetPage(
       name: RouteName.landingpageworker,
-      page: () => LandingPageWorker(),
+      page: () => (),
     ),
     GetPage(
       name: '/RegisterMitra',
