@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:proximity/pages/navigation_page_worker/homepage.dart';
-import '';
 import 'navigation_page_worker/addpage.dart';
 import 'navigation_page_worker/favoritepage.dart';
 import 'navigation_page_worker/messagepage.dart';
