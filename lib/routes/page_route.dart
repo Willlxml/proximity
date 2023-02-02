@@ -1,8 +1,9 @@
 import 'package:get/get.dart';
+import 'package:proximity/pages/landingpage_worker.dart';
+import 'package:proximity/pages/login.dart';
+import 'package:proximity/pages/register_mitra.dart';
+import 'package:proximity/pages/whatsapp_verif.dart';
 import 'package:proximity/routes/route_name.dart';
-
-import '../pages/login.dart';
-import '../pages/register_mitra.dart';
 import '../pages/register_mitra_v2.dart';
 import '../pages/signup_as.dart';
 import '../pages/signup_worker.dart';
@@ -28,8 +29,12 @@ class AppPage {
       page: () => SignupWorker2(),
     ),
     GetPage(
+      name: RouteName.whatsapp_verif,
+      page: () => WhatsAppVerif(),
+    ),
+    GetPage(
       name: RouteName.landingpageworker,
-      page: () => (),
+      page: () => LandingPageWorker(),
     ),
     GetPage(
       name: '/RegisterMitra',
@@ -43,6 +48,5 @@ class AppPage {
       name: '/LoginPage',
       page: () => LoginPage(),
     ),
-
   ];
 }

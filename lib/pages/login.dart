@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:proximity/pages/register_mitra.dart';
 import 'package:proximity/routes/route_name.dart';
 
+
 class LoginPage extends StatefulWidget {
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -71,35 +72,31 @@ class _LoginPageState extends State<LoginPage> {
               obscureText: !_passwordVisible,
               textInputAction: TextInputAction.done,
               decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(Icons.key),
-                  hintText: "Password",
-                  prefixIconColor: Colors.black,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 2.0),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _passwordVisible
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _passwordVisible = !_passwordVisible;
-                      });
-                    },
-                  )),
+                filled: true,
+                contentPadding: EdgeInsets.all(20),
+                fillColor: Colors.white,
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                prefixIcon: Icon(Icons.key),
+                hintText: "Password",
+                prefixIconColor: Colors.black,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.black, width: 1.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.black, width: 2.0),
+                ),
+                suffixIcon: IconButton(
+                  icon: Icon(_passwordVisible ? Icons.visibility : Icons.visibility_off, color: Colors.black,),
+                  onPressed: (){
+                    setState(() {
+                      _passwordVisible =  !_passwordVisible;
+                    });
+                  },
+                )
+              ),
             ),
           ),
           Row(
@@ -112,7 +109,6 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text(
                       "Forgot Password?",
                       style: TextStyle(
-                        color: Colors.black,
                           decoration: TextDecoration.underline, fontSize: 15),
                     )),
               ),
@@ -122,12 +118,11 @@ class _LoginPageState extends State<LoginPage> {
             width: 300,
             child: ElevatedButton(
               onPressed: () {
-                Get.toNamed();
+                Get.offAllNamed(RouteName.landingpageworker);
               },
               child: Text(
                 "LOGIN",
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
               ),
               style: ElevatedButton.styleFrom(
                 elevation: 5,
@@ -145,92 +140,45 @@ class _LoginPageState extends State<LoginPage> {
             endIndent: 15,
             thickness: 2.0,
           ),
-          SizedBox(
+           SizedBox(
+            width: 300,
+            child: ElevatedButton(
+              onPressed: () {},
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(FontAwesomeIcons.google, color: Colors.black,),
+                  SizedBox(width:15 ,),
+                  Text(
+                    "Sign In with Google",
+                    style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
+              style: ElevatedButton.styleFrom(
+                elevation: 5,
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 15,),
+           SizedBox(
             width: 300,
             child: ElevatedButton(
               onPressed: () {
-                Get.toNamed(RouteName.signup_as);
+                Get.to(() => RegisterMitra());
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    FontAwesomeIcons.users,
-                    color: Colors.black,
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                    "Click here to Register",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
-              style: ElevatedButton.styleFrom(
-                elevation: 5,
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          SizedBox(
-            width: 300,
-            child: ElevatedButton(
-              onPressed: () {},
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    FontAwesomeIcons.google,
-                    color: Colors.black,
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                    "Sign in with Google",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
-              style: ElevatedButton.styleFrom(
-                elevation: 5,
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          SizedBox(
-            width: 300,
-            child: ElevatedButton(
-              onPressed: () {},
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    FontAwesomeIcons.userSecret,
-                    color: Colors.black,
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
+                  Icon(FontAwesomeIcons.userSecret, color: Colors.black,),
+                  SizedBox(width:15 ,),
                   Text(
                     "Enter Guest Mode",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.w600),
+                    style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
@@ -248,3 +196,5 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
+

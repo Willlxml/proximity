@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:proximity/routes/route_name.dart';
 
 class SignupWorker2 extends StatelessWidget {
   @override
@@ -68,7 +70,9 @@ class SignupWorker2 extends StatelessWidget {
             width: 300,
             height: 35,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.offAllNamed(RouteName.whatsapp_verif);
+              },
               child: Text(
                 "SUBMIT",
                 style: TextStyle(
