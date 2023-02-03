@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 60, 0),
               child: Text(
-                "Find your exellent job here.",
+                "Find your best worker here.",
                 style: TextStyle(
                   color: Colors.grey,
                   fontSize: 16,

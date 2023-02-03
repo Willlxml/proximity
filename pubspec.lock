@@ -184,6 +184,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.6.2"
+  intrinsic_size_overflow_box:
+    dependency: transitive
+    description:
+      name: intrinsic_size_overflow_box
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1"
   js:
     dependency: transitive
     description:
@@ -219,6 +226,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  negative_padding:
+    dependency: "direct main"
+    description:
+      name: negative_padding
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1"
   path:
     dependency: transitive
     description:

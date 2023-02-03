@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:proximity/pages/landingpage_company.dart';
 import 'package:proximity/pages/landingpage_worker.dart';
 import 'package:proximity/pages/login.dart';
 import 'package:proximity/pages/register_mitra.dart';
@@ -35,6 +36,10 @@ class AppPage {
     GetPage(
       name: RouteName.landingpageworker,
       page: () => LandingPageWorker(),
+    ),
+    GetPage(
+      name: RouteName.landingpagecompany,
+      page: () => LandingPageCompany(),
     ),
     GetPage(
       name: '/RegisterMitra',

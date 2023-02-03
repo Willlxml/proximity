@@ -11,7 +11,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
+import 'package:proximity/routes/route_name.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
 
 class RegisterMitraV2 extends StatefulWidget {
   @override
@@ -176,7 +178,7 @@ class _RegisterMitraV2State extends State<RegisterMitraV2> {
             width: 300,
             child: ElevatedButton(
               onPressed: () {
-                _start();
+                Get.offNamed(RouteName.landingpagecompany);
               },
               child: Text(
                 "SUBMIT",
