@@ -81,7 +81,6 @@ class _AddPageState extends State<AddPage> {
     print(response);
   }
 
-
   @override
   Widget build(BuildContext context) {
     var _value = "-1";
@@ -140,8 +139,14 @@ class _AddPageState extends State<AddPage> {
                           onPressed: () {
                             getImageGalery();
                           },
-                          child: Icon(
-                            Icons.camera_alt,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.camera_alt,
+                                color: Colors.white,
+                              ),
+                            ],
                           ))
                     ],
                   )
@@ -158,7 +163,23 @@ class _AddPageState extends State<AddPage> {
                           onPressed: () {
                             getImageGalery();
                           },
-                          child: Icon(Icons.camera_alt),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.black,
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  "Upload your photo",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                )
+                              ]),
                         ),
                       ),
                     ),
@@ -448,7 +469,7 @@ class _AddPageState extends State<AddPage> {
               width: 300,
               child: ElevatedButton(
                 onPressed: () {
-                  Get.to(LandingPageWorker());
+                  _start();
                 },
                 child: Text(
                   "SUBMIT",
