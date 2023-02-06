@@ -42,6 +42,7 @@ dependencies:
   negative_padding: ^0.0.1
   path_provider: ^2.0.12
   provider: ^6.0.5
+  file_picker: ^5.2.5
   shared_preferences: ^2.0.17
 
 dev_dependencies:

@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/list_notifier.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:proximity/controller/AddPageCompany_controller.dart';
 import 'package:proximity/pages/landingpage_worker.dart';
 import 'package:proximity/pages/navigation_page_worker/homepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,6 +27,7 @@ class _AddPageCompanyState extends State<AddPageCompany> {
   String? base64image;
   File? tempFile;
   String? error = 'error';
+  final controller = Get.put(AddPageCompanyController());
   TextEditingController nameC = TextEditingController();
 
   Future getImageGalery() async {
@@ -195,8 +197,8 @@ class _AddPageCompanyState extends State<AddPageCompany> {
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(Icons.person),
-                  hintText: "Nama Lengkap",
+                  prefixIcon: Icon(FontAwesomeIcons.industry),
+                  hintText: "Nama Perusahaan",
                   prefixIconColor: Colors.black,
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -220,7 +222,7 @@ class _AddPageCompanyState extends State<AddPageCompany> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10)),
                   prefixIcon: Icon(Icons.pin_drop),
-                  hintText: "Lokasi Kerja",
+                  hintText: "Lokasi Perusahaan",
                   prefixIconColor: Colors.black,
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -331,90 +333,26 @@ class _AddPageCompanyState extends State<AddPageCompany> {
             ),
             Padding(
               padding: const EdgeInsets.all(10),
-              child: DropdownButtonFormField(
-                borderRadius: BorderRadius.circular(10),
-                isExpanded: true,
-                menuMaxHeight: 150,
-                decoration: InputDecoration(
-                    filled: true,
-                    contentPadding: EdgeInsets.all(20),
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    prefixIcon: Icon(FontAwesomeIcons.userGraduate),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.black, width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            BorderSide(color: Colors.black, width: 2.0))),
-                value: _value,
-                items: [
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("Pendidikan Terakhir"),
+              child: SizedBox(
+                width: 360,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () => controller.UploadFile(),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(FontAwesomeIcons.file, color: Colors.black,),
+                      SizedBox(width: 15,),
+                      Text(
+                        "Terms & Rules",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, color: Colors.black),
                       ),
-                      value: "-1"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("SD"),
-                      ),
-                      value: "1"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("SMP"),
-                      ),
-                      value: "2"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("SMA"),
-                      ),
-                      value: "3"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("D1"),
-                      ),
-                      value: "4"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("D2"),
-                      ),
-                      value: "5"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("D3"),
-                      ),
-                      value: "6"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("S1"),
-                      ),
-                      value: "7"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("S2"),
-                      ),
-                      value: "8"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("S3"),
-                      ),
-                      value: "9"),
-                ],
-                onChanged: (v) {},
+                    ],
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      elevation: 5, backgroundColor: Colors.white),
+                ),
               ),
             ),
             Padding(
@@ -427,8 +365,32 @@ class _AddPageCompanyState extends State<AddPageCompany> {
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(Icons.history),
-                  hintText: "Pengalaman Kerja",
+                  prefixIcon: Icon(FontAwesomeIcons.dollarSign),
+                  hintText: "Gaji Bulanan",
+                  prefixIconColor: Colors.black,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.black, width: 1.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.black, width: 2.0),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  filled: true,
+                  contentPadding: EdgeInsets.all(20),
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  prefixIcon: Icon(FontAwesomeIcons.fileContract),
+                  hintText: "SOP",
                   prefixIconColor: Colors.black,
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
