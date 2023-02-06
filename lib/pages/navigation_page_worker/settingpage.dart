@@ -82,6 +82,8 @@ class _SettingPageState extends State<SettingPage> {
     print(response);
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,7 +155,7 @@ class _SettingPageState extends State<SettingPage> {
                                 onPressed: () {
                                   getImageGalery().then((value) => _start());
                                 },
-                                icon: Icon(Icons.camera_alt),
+                                icon: Icon(Icons.camera_alt, color: Colors.white,),
                               ),
                             ),
                           ),
@@ -295,3 +297,5 @@ final ButtonStyle stylebutton = ElevatedButton.styleFrom(
     ),
   ),
 );
+
+
