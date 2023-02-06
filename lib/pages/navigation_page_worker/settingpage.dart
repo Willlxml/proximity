@@ -118,23 +118,26 @@ class _SettingPageState extends State<SettingPage> {
                     Column(
                       children: [
                         // photo profile
-                        _image != null ? Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 40, 0, 0),
-                          child: CircleAvatar(
-                            radius: 55,
-                            backgroundColor: Colors.grey,
-                            backgroundImage: Image.file(_image!).image
-                          ),
-                        ) : Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 40, 0, 0),
-                          child: CircleAvatar(
-                            radius: 55,
-                            backgroundColor: Colors.grey,
-                            backgroundImage: NetworkImage(
-                                "https://media.discordapp.net/attachments/1059838671144108122/1060455011877928960/IMG_20211120_121211.jpg"),
-                          ),
-                        ),
-                        
+                        _image != null
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 40, 0, 0),
+                                child: CircleAvatar(
+                                    radius: 55,
+                                    backgroundColor: Colors.grey,
+                                    backgroundImage: Image.file(_image!).image),
+                              )
+                            : Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 40, 0, 0),
+                                child: CircleAvatar(
+                                  radius: 55,
+                                  backgroundColor: Colors.grey,
+                                  backgroundImage: NetworkImage(
+                                      "https://media.discordapp.net/attachments/745141993948053598/1071953402218684496/default-avatar-profile-icon-of-social-media-user-vector.png?width=670&height=670"),
+                                ),
+                              ),
+
                         // button untuk ganti profile picture
                         NegativePadding(
                           padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
@@ -207,7 +210,9 @@ class _SettingPageState extends State<SettingPage> {
                 style: stylebutton,
               ),
             ),
-            SizedBox(height: 13,),
+            SizedBox(
+              height: 13,
+            ),
 
             SizedBox(
               width: 350,
