@@ -17,11 +17,11 @@ class _LandingPageCompanyState extends State<LandingPageCompany> {
   int index = 0;
 
   final screens = [
-    HomePage(),
-    FavoritePage(),
-    AddPage(),
-    MessagePage(),
-    SettingPage(),
+    HomePageCompany(),
+    FavoritePageCompany(),
+    AddPageCompany(),
+    MessagePageCompany(),
+    SettingPageCompany(),
   ];
 
   final items = <Widget>[

@@ -17,6 +17,8 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
+
+
   File? _image;
 
   String? status = '';

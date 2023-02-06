@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class FavoritePage extends StatelessWidget {
+class FavoritePageCompany extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePageCompany extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 60, 0),
+              padding: EdgeInsets.fromLTRB(0, 2, 55, 0),
               child: Text(
                 "Find your best worker here.",
                 style: TextStyle(
@@ -56,9 +56,9 @@ class HomePage extends StatelessWidget {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 30, 170, 0),
+            padding: EdgeInsets.fromLTRB(0, 30, 160, 0),
             child: Text(
-              "Nearest Job Category",
+              "Nearest Worker Category",
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.white,
