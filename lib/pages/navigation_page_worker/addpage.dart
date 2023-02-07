@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/list_notifier.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:proximity/controller/AddPageWorker_controller.dart';
 import 'package:proximity/pages/landingpage_worker.dart';
 import 'package:proximity/pages/navigation_page_worker/homepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,11 +23,25 @@ class AddPage extends StatefulWidget {
 
 class _AddPageState extends State<AddPage> {
   File? _image;
-  String? status = '';
-  String? base64image;
-  File? tempFile;
-  String? error = 'error';
-  TextEditingController nameC = TextEditingController();
+  List<Worker> _allWorkers = [];
+  List<Worker> get allWorkers => _allWorkers;
+  String? nama,
+      location,
+      jabatan,
+      desc_jabatan,
+      keahlian,
+      desc_keahlian,
+      pengalaman,
+      kontak;
+  final controller = Get.put(AddPageWorkerController());
+  final TextEditingController namaC = TextEditingController();
+  final TextEditingController lokasiC = TextEditingController();
+  final TextEditingController jabatanC = TextEditingController();
+  final TextEditingController descJabatanC = TextEditingController();
+  final TextEditingController keahlianC = TextEditingController();
+  final TextEditingController descKeahlianC = TextEditingController();
+  final TextEditingController pengalamanC = TextEditingController();
+  final TextEditingController contactC = TextEditingController();
 
   Future getImageGalery() async {
     try {
@@ -55,35 +70,11 @@ class _AddPageState extends State<AddPage> {
 
     return File(imagePath).copy(image.path);
   }
-
-  Future<Map<String, dynamic>> _uploadImage(File? image) async {
-    SharedPreferences imageData = await SharedPreferences.getInstance();
-    var uri =
-        Uri.parse('https://webhook.site/2b52220e-c683-44a3-95f4-095908cb11a3');
-
-    final imageUploadRequest = http.MultipartRequest('POST', uri);
-    imageUploadRequest.fields['name'] = "Static Title";
-    final file = await http.MultipartFile.fromPath('images[0]', image!.path);
-
-    imageUploadRequest.files.add(file);
-
-    final streamedResponse = await imageUploadRequest.send();
-    final response = await http.Response.fromStream(streamedResponse);
-    if (response.statusCode == 200) {
-      print("Uploaded");
-    }
-    final Map<String, dynamic> responseData = json.decode(response.body);
-    return responseData;
-  }
-
-  void _start() async {
-    final Map<String, dynamic> response = await _uploadImage(_image);
-    print(response);
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
-    var _value = "-1";
+    String? _value = "-1";
     return Scaffold(
       backgroundColor: skyBlue,
       appBar: AppBar(
@@ -188,7 +179,7 @@ class _AddPageState extends State<AddPage> {
               padding: const EdgeInsets.all(10),
               child: TextField(
                 textInputAction: TextInputAction.next,
-                controller: nameC,
+                controller: namaC,
                 decoration: InputDecoration(
                   filled: true,
                   contentPadding: EdgeInsets.all(20),
@@ -213,6 +204,7 @@ class _AddPageState extends State<AddPage> {
               padding: const EdgeInsets.all(10),
               child: TextField(
                 textInputAction: TextInputAction.next,
+                controller: lokasiC,
                 decoration: InputDecoration(
                   filled: true,
                   contentPadding: EdgeInsets.all(20),
@@ -237,6 +229,7 @@ class _AddPageState extends State<AddPage> {
               padding: const EdgeInsets.all(10),
               child: TextField(
                 textInputAction: TextInputAction.next,
+                controller: jabatanC,
                 decoration: InputDecoration(
                   filled: true,
                   contentPadding: EdgeInsets.all(20),
@@ -260,6 +253,7 @@ class _AddPageState extends State<AddPage> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: TextField(
+                controller: descJabatanC,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   filled: true,
@@ -285,6 +279,7 @@ class _AddPageState extends State<AddPage> {
               padding: const EdgeInsets.all(10),
               child: TextField(
                 textInputAction: TextInputAction.next,
+                controller: keahlianC,
                 decoration: InputDecoration(
                   filled: true,
                   contentPadding: EdgeInsets.all(20),
@@ -309,6 +304,7 @@ class _AddPageState extends State<AddPage> {
               padding: const EdgeInsets.all(10),
               child: TextField(
                 textInputAction: TextInputAction.next,
+                controller: descKeahlianC,
                 decoration: InputDecoration(
                   filled: true,
                   contentPadding: EdgeInsets.all(20),
@@ -414,13 +410,18 @@ class _AddPageState extends State<AddPage> {
                       ),
                       value: "9"),
                 ],
-                onChanged: (v) {},
+                onChanged: (newValue) {
+                  setState(() {
+                    _value = newValue;
+                  });
+                },
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10),
               child: TextField(
                 textInputAction: TextInputAction.next,
+                controller: pengalamanC,
                 decoration: InputDecoration(
                   filled: true,
                   contentPadding: EdgeInsets.all(20),
@@ -445,6 +446,7 @@ class _AddPageState extends State<AddPage> {
               padding: const EdgeInsets.all(10),
               child: TextField(
                 textInputAction: TextInputAction.done,
+                controller: contactC,
                 decoration: InputDecoration(
                   filled: true,
                   contentPadding: EdgeInsets.all(20),
@@ -469,7 +471,8 @@ class _AddPageState extends State<AddPage> {
               width: 300,
               child: ElevatedButton(
                 onPressed: () {
-                  _start();
+                  controller.addWorker(namaC.text, lokasiC.text, jabatanC.text, descJabatanC.text, keahlianC.text, descKeahlianC.text, pengalamanC.text, contactC.text, _image!, context);
+                  print("Uploaded");
                 },
                 child: Text(
                   "SUBMIT",
