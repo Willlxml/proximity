@@ -85,6 +85,8 @@ class _SettingPageCompanyState extends State<SettingPageCompany> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQueryWidth = MediaQuery.of(context).size.width;
+    final mediaQueryHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: skyBlue,
       appBar: AppBar(
@@ -105,10 +107,10 @@ class _SettingPageCompanyState extends State<SettingPageCompany> {
           children: [
             // ini card untuk profile
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
               child: Container(
-                height: 200,
-                width: 350,
+                height: mediaQueryHeight * 0.30,
+                width:  mediaQueryWidth * 1.5,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),

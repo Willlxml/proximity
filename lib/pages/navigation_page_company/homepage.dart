@@ -56,7 +56,7 @@ class HomePageCompany extends StatelessWidget {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 30, 160, 0),
+            padding: EdgeInsets.fromLTRB(0, 30, 130, 0),
             child: Text(
               "Nearest Worker Category",
               style: TextStyle(

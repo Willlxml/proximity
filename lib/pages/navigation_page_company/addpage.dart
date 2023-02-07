@@ -23,6 +23,7 @@ class AddPageCompany extends StatefulWidget {
   State<AddPageCompany> createState() => _AddPageCompanyState();
 }
 
+
 class _AddPageCompanyState extends State<AddPageCompany> {
   File? _image, _file;
   final controller = Get.put(AddPageCompanyController());
