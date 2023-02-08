@@ -26,14 +26,11 @@ class AddPageCompanyController extends GetxController {
       String contact) async {
     Uri url =
         Uri.parse("https://webhook.site/2b52220e-c683-44a3-95f4-095908cb11a3");
-    final namaimage = basename(image.path);
-    final namaFile = basename(file.path);
     final UploadRequest = http.MultipartRequest('POST', url);
+    
     final imageFile = await http.MultipartFile.fromPath('image', image.path);
     final FileFolder = await http.MultipartFile.fromPath('file', file.path);
 
-    UploadRequest.fields["nama_image"] = namaimage;
-    UploadRequest.fields["nama_file"] = namaFile;
     UploadRequest.fields["nama"] = nama;
     UploadRequest.fields["lokasi"] = location;
     UploadRequest.fields["jabatan"] = jabatan;
@@ -47,8 +44,10 @@ class AddPageCompanyController extends GetxController {
     UploadRequest.files.add(FileFolder);
     final StreamedResponse = await UploadRequest.send();
     final response = await http.Response.fromStream(StreamedResponse);
-    if (response.statusCode == 200) {
-      print("Uploaded");
+    if (response.statusCode == 201) {
+      print("Succesfully uploaded");
+    }else{
+      print("Failed");
     }
     final Map<String, dynamic> responseData = json.decode(response.body);
 

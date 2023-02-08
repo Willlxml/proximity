@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,6 +26,8 @@ class _AddPageState extends State<AddPage> {
   File? _image;
   List<Worker> _allWorkers = [];
   List<Worker> get allWorkers => _allWorkers;
+  List<dynamic> _dataPendidikan = [];
+  String? _valPendidikan;
   String? nama,
       location,
       jabatan,
@@ -42,6 +45,24 @@ class _AddPageState extends State<AddPage> {
   final TextEditingController descKeahlianC = TextEditingController();
   final TextEditingController pengalamanC = TextEditingController();
   final TextEditingController contactC = TextEditingController();
+
+  void getPendidikan() async {
+    final url = Uri.parse('http://192.168.1.20:8000/api/terakhir');
+    final response = await http.get(url);
+    var listdata = json.decode(response.body);
+    print("data : $listdata");
+
+    setState(() {
+      _dataPendidikan = listdata;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getPendidikan();
+  }
 
   Future getImageGalery() async {
     try {
@@ -70,11 +91,9 @@ class _AddPageState extends State<AddPage> {
 
     return File(imagePath).copy(image.path);
   }
- 
 
   @override
   Widget build(BuildContext context) {
-    String? _value = "-1";
     return Scaffold(
       backgroundColor: skyBlue,
       appBar: AppBar(
@@ -347,72 +366,17 @@ class _AddPageState extends State<AddPage> {
                         borderRadius: BorderRadius.circular(10),
                         borderSide:
                             BorderSide(color: Colors.black, width: 2.0))),
-                value: _value,
-                items: [
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("Pendidikan Terakhir"),
-                      ),
-                      value: "-1"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("SD"),
-                      ),
-                      value: "1"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("SMP"),
-                      ),
-                      value: "2"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("SMA"),
-                      ),
-                      value: "3"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("D1"),
-                      ),
-                      value: "4"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("D2"),
-                      ),
-                      value: "5"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("D3"),
-                      ),
-                      value: "6"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("S1"),
-                      ),
-                      value: "7"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("S2"),
-                      ),
-                      value: "8"),
-                  DropdownMenuItem(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1),
-                        child: Text("S3"),
-                      ),
-                      value: "9"),
-                ],
-                onChanged: (newValue) {
+                value: _valPendidikan,
+                items: _dataPendidikan.map((item) {
+                  return DropdownMenuItem(
+                    child: Text(item['nama']),
+                    value: item['id'].toString(),
+                  );
+                }).toList(),
+                onChanged: (v) {
                   setState(() {
-                    _value = newValue;
+                    _valPendidikan = v;
+                    print(_valPendidikan);
                   });
                 },
               ),
@@ -471,8 +435,8 @@ class _AddPageState extends State<AddPage> {
               width: 300,
               child: ElevatedButton(
                 onPressed: () {
-                  controller.addWorker(namaC.text, lokasiC.text, jabatanC.text, descJabatanC.text, keahlianC.text, descKeahlianC.text, pengalamanC.text, contactC.text, _image!, context);
-                  print("Uploaded");
+                  controller.addWorker(namaC.text, lokasiC.text, jabatanC.text, descJabatanC.text, keahlianC.text, descKeahlianC.text, pengalamanC.text, contactC.text,_valPendidikan!, _image!, context);
+                  print("Upload....");
                 },
                 child: Text(
                   "SUBMIT",
