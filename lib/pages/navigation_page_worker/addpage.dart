@@ -47,7 +47,7 @@ class _AddPageState extends State<AddPage> {
   final TextEditingController contactC = TextEditingController();
 
   void getPendidikan() async {
-    final url = Uri.parse('http://192.168.1.20:8000/api/terakhir');
+    final url = Uri.parse('http://103.179.86.77:4567/api/terakhir');
     final response = await http.get(url);
     var listdata = json.decode(response.body);
     print("data : $listdata");

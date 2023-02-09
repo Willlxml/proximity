@@ -32,7 +32,7 @@ class AddPageWorkerController extends GetxController {
       BuildContext context) async{
 
     Uri url = Uri.parse(
-      "http://192.168.1.20:8000/api/pekerjacreate",
+      "http://103.179.86.77:4567/api/pekerjacreate",
     );
     final UploadRequest = http.MultipartRequest('POST', url);
     final file = await http.MultipartFile.fromPath('file', image.path);
