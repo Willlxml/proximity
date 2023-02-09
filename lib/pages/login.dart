@@ -37,215 +37,199 @@ class _LoginPageState extends State<LoginPage> {
             style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
           )),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 40,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: TextField(
-              decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(Icons.email),
-                  hintText: "Email",
-                  prefixIconColor: Colors.black,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.black, width: 2.0))),
-              textInputAction: TextInputAction.next,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: TextField(
-              obscureText: !_passwordVisible,
-              textInputAction: TextInputAction.done,
-              decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(Icons.key),
-                  hintText: "Password",
-                  prefixIconColor: Colors.black,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 2.0),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _passwordVisible
-                          ? Icons.visibility
-                          : Icons.visibility_off,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(100),
+                  boxShadow: [
+                    BoxShadow(
                       color: Colors.black,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _passwordVisible = !_passwordVisible;
-                      });
-                    },
-                  )),
+                      blurRadius: 4.0,
+                      spreadRadius: 0.0,
+                    )
+                  ]
+                ),
+                child: Image.asset('lib/asset/image/logo.png')),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Forgot Password?",
-                      style: TextStyle(
-                          color: Colors.black,
-                          decoration: TextDecoration.underline,
-                          fontSize: 15),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                decoration: InputDecoration(
+                    filled: true,
+                    contentPadding: EdgeInsets.all(20),
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    prefixIcon: Icon(Icons.email),
+                    hintText: "Email",
+                    prefixIconColor: Colors.black,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.black, width: 2.0))),
+                textInputAction: TextInputAction.next,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                obscureText: !_passwordVisible,
+                textInputAction: TextInputAction.done,
+                decoration: InputDecoration(
+                    filled: true,
+                    contentPadding: EdgeInsets.all(20),
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    prefixIcon: Icon(Icons.key),
+                    hintText: "Password",
+                    prefixIconColor: Colors.black,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 2.0),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
                     )),
               ),
-            ],
-          ),
-          SizedBox(
-            width: 300,
-            child: ElevatedButton(
-              onPressed: () {
-                Get.offAllNamed(RouteName. landingpagecompany);
-              },
-              child: Text(
-                "LOGIN",
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-              ),
-              style: ElevatedButton.styleFrom(
-                elevation: 5,
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Forgot Password?",
+                        style: TextStyle(
+                            color: Colors.black,
+                            decoration: TextDecoration.underline,
+                            fontSize: 15),
+                      )),
+                ),
+              ],
+            ),
+            SizedBox(
+              width: 300,
+              child: ElevatedButton(
+                onPressed: () {
+                  Get.offAllNamed(RouteName.landingpagecompany);
+                },
+                child: Text(
+                  "LOGIN",
+                  style:
+                      TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+                ),
+                style: ElevatedButton.styleFrom(
+                  elevation: 5,
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                 ),
               ),
             ),
-          ),
-          Divider(
-            height: 50,
-            color: Colors.black,
-            indent: 15,
-            endIndent: 15,
-            thickness: 2.0,
-          ),
-          SizedBox(
-            width: 300,
-            child: ElevatedButton(
-              onPressed: () {
-                Get.toNamed(RouteName.signup_as);
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    FontAwesomeIcons.users,
-                    color: Colors.black,
+            Divider(
+              height: 50,
+              color: Colors.black,
+              indent: 15,
+              endIndent: 15,
+              thickness: 2.0,
+            ),
+            SizedBox(
+              width: 300,
+              child: ElevatedButton(
+                onPressed: () {
+                  Get.toNamed(RouteName.signup_as);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.users,
+                      color: Colors.black,
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      "Click here to Register",
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+                style: ElevatedButton.styleFrom(
+                  elevation: 5,
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                    "Click here to Register",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
-              style: ElevatedButton.styleFrom(
-                elevation: 5,
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          SizedBox(
-            width: 300,
-            child: ElevatedButton(
-              onPressed: () {},
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    FontAwesomeIcons.google,
-                    color: Colors.black,
+            SizedBox(
+              height: 15,
+            ),
+            SizedBox(
+              width: 300,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.userSecret,
+                      color: Colors.black,
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      "Enter Guest Mode",
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+                style: ElevatedButton.styleFrom(
+                  elevation: 5,
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                    "Sign In with Google",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
-              style: ElevatedButton.styleFrom(
-                elevation: 5,
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          SizedBox(
-            width: 300,
-            child: ElevatedButton(
-              onPressed: () {
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    FontAwesomeIcons.userSecret,
-                    color: Colors.black,
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                    "Enter Guest Mode",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
-              style: ElevatedButton.styleFrom(
-                elevation: 5,
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
