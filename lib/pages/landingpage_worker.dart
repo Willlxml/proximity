@@ -25,7 +25,7 @@ class _LandingPageWorkerState extends State<LandingPageWorker> {
   final items = <Widget>[
     Icon(Icons.home),
     Icon(Icons.favorite),
-    Icon(Icons.add),
+    Icon(Icons.person),
     Icon(Icons.message),
     Icon(Icons.settings),
   ];

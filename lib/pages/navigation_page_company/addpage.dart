@@ -23,7 +23,6 @@ class AddPageCompany extends StatefulWidget {
   State<AddPageCompany> createState() => _AddPageCompanyState();
 }
 
-
 class _AddPageCompanyState extends State<AddPageCompany> {
   File? _image, _file;
   final controller = Get.put(AddPageCompanyController());
@@ -69,10 +68,10 @@ class _AddPageCompanyState extends State<AddPageCompany> {
 
   void UploadFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
-
     if (result != null) {
       _file = File(result.files.single.path!);
-      print(_file);
+      PlatformFile resultFile = result.files.first;
+      print(resultFile.name);
     } else {
       print("File not found");
       // User canceled the picker
@@ -349,11 +348,19 @@ class _AddPageCompanyState extends State<AddPageCompany> {
                       SizedBox(
                         width: 15,
                       ),
-                      Text(
-                        "Terms & Rules",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, color: Colors.black),
-                      ),
+                      _file != null
+                          ? Text(
+                              "${_file!.path.split(Platform.pathSeparator).last}",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            )
+                          : Text(
+                              "Terms & Rules",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
                     ],
                   ),
                   style: ElevatedButton.styleFrom(
@@ -440,7 +447,18 @@ class _AddPageCompanyState extends State<AddPageCompany> {
               width: 300,
               child: ElevatedButton(
                 onPressed: () {
-                  controller.addCompany(_file!, _image!,  namaC.text, lokasiC.text, jabatanC.text, descJabatanC.text, keahlianC.text, descKeahlianC.text, gajiC.text, sopC.text, contactC.text);
+                  controller.addCompany(
+                      _file!,
+                      _image!,
+                      namaC.text,
+                      lokasiC.text,
+                      jabatanC.text,
+                      descJabatanC.text,
+                      keahlianC.text,
+                      descKeahlianC.text,
+                      gajiC.text,
+                      sopC.text,
+                      contactC.text);
                 },
                 child: Text(
                   "SUBMIT",

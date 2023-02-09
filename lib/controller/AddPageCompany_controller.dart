@@ -42,6 +42,7 @@ class AddPageCompanyController extends GetxController {
     UploadRequest.fields["kontak"] = contact;
     UploadRequest.files.add(imageFile);
     UploadRequest.files.add(FileFolder);
+    
     final StreamedResponse = await UploadRequest.send();
     final response = await http.Response.fromStream(StreamedResponse);
     if (response.statusCode == 201) {

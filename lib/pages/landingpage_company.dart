@@ -27,7 +27,7 @@ class _LandingPageCompanyState extends State<LandingPageCompany> {
   final items = <Widget>[
     Icon(Icons.home),
     Icon(Icons.favorite),
-    Icon(Icons.add),
+    Icon(Icons.person),
     Icon(Icons.message),
     Icon(Icons.settings),
   ];
