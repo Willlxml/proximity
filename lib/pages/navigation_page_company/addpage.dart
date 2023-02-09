@@ -70,8 +70,11 @@ class _AddPageCompanyState extends State<AddPageCompany> {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
       _file = File(result.files.single.path!);
-      PlatformFile resultFile = result.files.first;
-      print(resultFile.name);
+      final filetemporary = File(result.files.single.path!);
+
+      setState(() {
+        this._file = filetemporary;
+      });
     } else {
       print("File not found");
       // User canceled the picker

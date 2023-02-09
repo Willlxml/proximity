@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -21,63 +22,41 @@ class RegisterMitraV2 extends StatefulWidget {
 }
 
 class _RegisterMitraV2State extends State<RegisterMitraV2> {
-  File? _image;
+  File? _image, _file;
   String? status = '';
   String? base64image;
-  File? tempFile;
   String? error = 'error';
 
-  Future getImageGalery() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-      if (image == null) return;
-
-      final imagePermanent = await saveFilePermanently(image.path);
-      print(imagePermanent);
-
-      // final imageTemporary = File(image.path);
-      // print(imageTemporary);
+  void getImageGalery() async {
+       FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      _image = File(result.files.single.path!); 
+      final filetemporary = File(result.files.single.path!);
 
       setState(() {
-        this._image = imagePermanent;
+        this._image = filetemporary;  
       });
-    } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+
+    } else {
+      print("File not found");
+      // User canceled the picker
     }
   }
 
-  Future<File> saveFilePermanently(String imagePath) async {
-    final directory = await getApplicationDocumentsDirectory();
-    final name = basename(imagePath);
-    final image = File('${directory.path}/$name');
+  void UploadFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      _file = File(result.files.single.path!); 
+      final filetemporary = File(result.files.single.path!);
 
-    return File(imagePath).copy(image.path);
-  }
+      setState(() {
+        this._file = filetemporary;  
+      });
 
-  Future<Map<String, dynamic>> _uploadImage(File? image) async {
-    SharedPreferences imageData = await SharedPreferences.getInstance();
-    var uri =
-        Uri.parse('https://webhook.site/9760b12e-193f-4d42-b0fc-91d597b4f099');
-
-    final imageUploadRequest = http.MultipartRequest('POST', uri);
-    imageUploadRequest.fields['name'] = "Static Title";
-    final file = await http.MultipartFile.fromPath('images[0]', image!.path);
-
-    imageUploadRequest.files.add(file);
-
-    final streamedResponse = await imageUploadRequest.send();
-    final response = await http.Response.fromStream(streamedResponse);
-    if (response.statusCode == 200) {
-      print("Uploaded");
+    } else {
+      print("File not found");
+      // User canceled the picker
     }
-    final Map<String, dynamic> responseData = json.decode(response.body);
-    return responseData;
-  }
-
-  void _start() async {
-    final Map<String, dynamic> response = await _uploadImage(_image);
-    print(response);
   }
 
   @override
@@ -126,24 +105,27 @@ class _RegisterMitraV2State extends State<RegisterMitraV2> {
               textInputAction: TextInputAction.next,
             ),
           ),
-          _image != null
-              ? Image.file(
-                  _image!,
-                  width: 250,
-                  height: 0,
-                  fit: BoxFit.contain,
-                )
-              : Text("No Image"),
           SizedBox(
             width: 300,
             child: ElevatedButton(
               onPressed: () {
                 getImageGalery();
               },
-              child: Text(
-                "Foto KTP pemilik",
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _image != null
+                      ? Text(
+                          "${_image!.path.split(Platform.pathSeparator).last}",
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.w600),
+                        )
+                      : Text(
+                          "Foto KTP pemilik",
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.w600),
+                        ),
+                ],
               ),
               style: ElevatedButton.styleFrom(
                 elevation: 5,
@@ -157,13 +139,22 @@ class _RegisterMitraV2State extends State<RegisterMitraV2> {
           SizedBox(
             width: 300,
             child: ElevatedButton(
-              onPressed: () {
-                getImageGalery();
-              },
-              child: Text(
-                "Foto Surat Ijin Usaha",
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              onPressed: () => UploadFile(),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _file != null
+                      ? Text(
+                          "${_file!.path.split(Platform.pathSeparator).last}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, color: Colors.black),
+                        )
+                      : Text(
+                          "Foto Surat Izin Usaha",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, color: Colors.black),
+                        ),
+                ],
               ),
               style: ElevatedButton.styleFrom(
                 elevation: 5,
