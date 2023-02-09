@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 20,),
+            SizedBox(height: 10,),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Container(
