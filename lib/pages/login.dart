@@ -15,6 +15,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   late bool _passwordVisible;
+  TextEditingController emailC = TextEditingController();
+  TextEditingController passwordC = TextEditingController();
 
   @override
   void initState() {
@@ -63,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: TextField(
+                controller: emailC,
                 decoration: InputDecoration(
                     filled: true,
                     contentPadding: EdgeInsets.all(20),
@@ -85,6 +88,7 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: TextField(
+                controller: passwordC,
                 obscureText: !_passwordVisible,
                 textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
@@ -140,7 +144,6 @@ class _LoginPageState extends State<LoginPage> {
               width: 300,
               child: ElevatedButton(
                 onPressed: () {
-                  Get.offAllNamed(RouteName.landingpageworker);
                 },
                 child: Text(
                   "LOGIN",
