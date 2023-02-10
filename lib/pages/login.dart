@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:proximity/pages/landingpage_worker.dart';
 import 'package:proximity/pages/register_mitra.dart';
 import 'package:proximity/routes/route_name.dart';
 
@@ -144,6 +145,7 @@ class _LoginPageState extends State<LoginPage> {
               width: 300,
               child: ElevatedButton(
                 onPressed: () {
+                  Get.offNamed(RouteName.landingpageworker);
                 },
                 child: Text(
                   "LOGIN",

@@ -85,6 +85,11 @@ class HomePage extends StatelessWidget {
                       color: Colors.white,
                       border: Border.all(width: 2, color: Colors.black),
                     ),
+                    child: InkWell(
+                      onTap: () {
+                        print("Clicked");
+                      },
+                    ),
                   );
                 }),
           ),
