@@ -436,7 +436,6 @@ class _AddPageState extends State<AddPage> {
               child: ElevatedButton(
                 onPressed: () {
                   controller.addWorker(namaC.text, lokasiC.text, jabatanC.text, descJabatanC.text, keahlianC.text, descKeahlianC.text, pengalamanC.text, contactC.text,_valPendidikan!, _image!, context);
-                  print("Upload....");
                 },
                 child: Text(
                   "SUBMIT",
