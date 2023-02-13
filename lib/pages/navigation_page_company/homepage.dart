@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomePageCompany extends StatelessWidget {
   @override
@@ -84,6 +85,9 @@ class HomePageCompany extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
                       border: Border.all(width: 2, color: Colors.black),
+                    ),
+                    child: InkWell(
+                      onTap: () => Get.toNamed('/kategoriMitra/${index+1}'),
                     ),
                   );
                 }),

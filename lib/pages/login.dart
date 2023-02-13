@@ -145,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
               width: 300,
               child: ElevatedButton(
                 onPressed: () {
-                  Get.offNamed(RouteName.landingpageworker);
+                  Get.offNamed(RouteName.landingpagecompany);
                 },
                 child: Text(
                   "LOGIN",

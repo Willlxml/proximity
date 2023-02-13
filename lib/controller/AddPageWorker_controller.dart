@@ -32,8 +32,8 @@ class AddPageWorkerController extends GetxController {
       BuildContext context) async{
 
     Uri url = Uri.parse(
-      "https://webhook.site/2b52220e-c683-44a3-95f4-095908cb11a3"
-      // "http://103.179.86.77:4567/api/pekerjacreate",
+      // "https://webhook.site/2b52220e-c683-44a3-95f4-095908cb11a3"
+      "http://103.179.86.77:4567/api/pekerjacreate",
     );
     final UploadRequest = http.MultipartRequest('POST', url);
     final file = await http.MultipartFile.fromPath('file', image.path);

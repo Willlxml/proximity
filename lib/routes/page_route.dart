@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:proximity/pages/landingpage_company.dart';
 import 'package:proximity/pages/landingpage_worker.dart';
 import 'package:proximity/pages/login.dart';
+import 'package:proximity/pages/navigation_page_company/category_page/categoryPage.dart';
+import 'package:proximity/pages/navigation_page_worker/category_page/categoryPage.dart';
 import 'package:proximity/pages/register_mitra.dart';
 import 'package:proximity/pages/whatsapp_verif.dart';
 import 'package:proximity/routes/route_name.dart';
@@ -53,5 +55,7 @@ class AppPage {
       name: '/LoginPage',
       page: () => LoginPage(),
     ),
+    GetPage(name: '/kategori/:id?', page:() => CategoryPage()),
+    GetPage(name: '/kategoriMitra/:id?', page:() => CategoryPageMitra())
   ];
 }

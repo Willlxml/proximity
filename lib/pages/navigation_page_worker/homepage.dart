@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:faker/faker.dart';
 
 class HomePage extends StatelessWidget {
+ var faker = new Faker();
   @override
   Widget build(BuildContext context) {
+  var name = faker.person;
     return Scaffold(
       backgroundColor: Color(0xff3FC5F0),
       appBar: AppBar(
@@ -87,7 +91,7 @@ class HomePage extends StatelessWidget {
                     ),
                     child: InkWell(
                       onTap: () {
-                        print("Clicked");
+                        Get.toNamed('/kategori/${index+1}');
                       },
                     ),
                   );
