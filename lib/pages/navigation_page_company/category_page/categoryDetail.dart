@@ -16,7 +16,6 @@ class CategoryDetail extends StatefulWidget {
 
 class _CategoryDetailState extends State<CategoryDetail> {
   List<dynamic> _dataPendidikan = [];
-  String? _valPendidikan;
 
   final TextEditingController nameC =
       TextEditingController(text: "${Get.parameters['name']}");
@@ -37,6 +36,7 @@ class _CategoryDetailState extends State<CategoryDetail> {
 
   @override
   Widget build(BuildContext context) {
+    var _value = "-1";
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: skyBlue,
@@ -237,26 +237,76 @@ class _CategoryDetailState extends State<CategoryDetail> {
                 isExpanded: true,
                 menuMaxHeight: 150,
                 decoration: InputDecoration(
-                    filled: true,
-                    contentPadding: EdgeInsets.all(20),
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    prefixIcon: Icon(FontAwesomeIcons.userGraduate),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.black, width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            BorderSide(color: Colors.black, width: 2.0))),
-                // value: _value,
-                items: [],
-                onChanged: (value) {
-                  setState(() {});
-                },
+                  filled: true,
+                  contentPadding: EdgeInsets.all(20),
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  prefixIcon: Icon(FontAwesomeIcons.userGraduate),
+                  prefixIconColor: Colors.black,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.black, width: 1.0),
+                  ),
+                ),
+                value: _value = Get.parameters['pendidikan']!,
+                items: [
+                  DropdownMenuItem(
+                      child: Text(
+                        'SD',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      value: _value = 1.toString()),
+                  DropdownMenuItem(
+                      child: Text(
+                        'SMP',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      value: _value = 2.toString()),
+                  DropdownMenuItem(
+                      child: Text(
+                        'SMA',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      value: _value = 3.toString()),
+                  DropdownMenuItem(
+                      child: Text(
+                        'D1',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      value: _value = 4.toString()),
+                  DropdownMenuItem(
+                      child: Text(
+                        'D2',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      value: _value = 5.toString()),
+                  DropdownMenuItem(
+                      child: Text(
+                        'D3',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      value: _value = 6.toString()),
+                  DropdownMenuItem(
+                      child: Text(
+                        'S1',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      value: _value = 7.toString()),
+                  DropdownMenuItem(
+                      child: Text(
+                        'S2',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      value: _value = 8.toString()),
+                  DropdownMenuItem(
+                      child: Text(
+                        'S3',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      value: _value = 9.toString()),
+                ],
+                onChanged: null,
               ),
             ),
             Padding(

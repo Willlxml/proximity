@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -23,7 +23,8 @@ class AddPageCompanyController extends GetxController {
       String desc_keahlian,
       String gaji,
       String sop,
-      String contact) async {
+      String contact,
+      BuildContext context) async {
     Uri url =
         Uri.parse("https://webhook.site/2b52220e-c683-44a3-95f4-095908cb11a3");
     final UploadRequest = http.MultipartRequest('POST', url);
@@ -46,9 +47,27 @@ class AddPageCompanyController extends GetxController {
     final StreamedResponse = await UploadRequest.send();
     final response = await http.Response.fromStream(StreamedResponse);
     if (response.statusCode == 201) {
-      print("Succesfully uploaded");
+      final snackBar = SnackBar(
+        duration: 3.seconds,
+        elevation: 0,
+        backgroundColor: Colors.green,
+        behavior: SnackBarBehavior.floating,
+        content: Text("Your data successfully uploaded"),
+      );
+      ScaffoldMessenger.of(context)
+        ..hideCurrentMaterialBanner()
+        ..showSnackBar(snackBar);
     }else{
-      print("Failed");
+      final snackBar = SnackBar(
+        duration: 3.seconds,
+        elevation: 0,
+        backgroundColor: Colors.red,
+        behavior: SnackBarBehavior.floating,
+        content: Text("Failed to upload your data"),
+      );
+      ScaffoldMessenger.of(context)
+        ..hideCurrentMaterialBanner()
+        ..showSnackBar(snackBar);
     }
     final Map<String, dynamic> responseData = json.decode(response.body);
 

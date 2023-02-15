@@ -9,6 +9,7 @@ class HomePageCompany extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        leading: Container(),
         toolbarHeight: 110,
         title: Column(
           mainAxisAlignment: MainAxisAlignment.start,

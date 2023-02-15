@@ -13,6 +13,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         toolbarHeight: 110,
+        leading: Container(),
         title: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

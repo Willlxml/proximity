@@ -145,10 +145,30 @@ class _LoginPageState extends State<LoginPage> {
               width: 300,
               child: ElevatedButton(
                 onPressed: () {
+                  Get.offNamed(RouteName.landingpageworker);
+                },
+                child: Text(
+                  "LOGIN WORKER",
+                  style:
+                      TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+                ),
+                style: ElevatedButton.styleFrom(
+                  elevation: 5,
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 300,
+              child: ElevatedButton(
+                onPressed: () {
                   Get.offNamed(RouteName.landingpagecompany);
                 },
                 child: Text(
-                  "LOGIN",
+                  "LOGIN COMPANY",
                   style:
                       TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
                 ),
