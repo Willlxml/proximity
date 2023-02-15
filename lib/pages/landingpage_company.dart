@@ -37,7 +37,7 @@ class _LandingPageCompanyState extends State<LandingPageCompany> {
       extendBody: true,
       body: screens[index],
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.red,
         items: items,
         height: 60,
         animationCurve: Curves.easeOut,
