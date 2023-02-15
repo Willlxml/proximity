@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:proximity/colors/color.dart';
 import 'package:proximity/pages/navigation_page_worker/homepage.dart';
 import 'navigation_page_worker/addpage.dart';
 import 'navigation_page_worker/favoritepage.dart';
@@ -36,7 +37,7 @@ class _LandingPageWorkerState extends State<LandingPageWorker> {
       extendBody: true,
       body: screens[index],
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: skyBlue,
         items: items,
         height: 60,
         animationCurve: Curves.easeOut,
