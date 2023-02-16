@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home:WelcomePage(),
+      title: "Proximity",
       initialRoute: '/',
       getPages: AppPage.pages,
     );

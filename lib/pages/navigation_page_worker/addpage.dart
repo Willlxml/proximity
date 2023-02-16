@@ -105,8 +105,10 @@ class _AddPageState extends State<AddPage> {
             Padding(
               padding: const EdgeInsets.only(right: 10),
               child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.help, color: Colors.black)),
+                  onPressed: () {
+                    Get.toNamed('/listPage');
+                  },
+                  icon: Icon(Icons.edit, color: Colors.black)),
             )
           ],
           title: Text(
