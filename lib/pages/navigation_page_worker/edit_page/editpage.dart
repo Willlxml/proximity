@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -19,6 +21,7 @@ class EditPage extends StatefulWidget {
 class _EditPageState extends State<EditPage> {
   List<dynamic> _dataPendidikan = [];
   String? _valPendidikan;
+  File? _image;
   final id = Get.parameters[0].toString();
   final controller = Get.put(WorkerController());
   final TextEditingController nameC =
@@ -47,6 +50,21 @@ class _EditPageState extends State<EditPage> {
     setState(() {
       _dataPendidikan = listdata;
     });
+  }
+
+  void getImageGalery() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      _image = File(result.files.single.path!);
+      final filetemporary = File(result.files.single.path!);
+
+      setState(() {
+        this._image = filetemporary;
+      });
+    } else {
+      print("File not found");
+      // User canceled the picker
+    }
   }
 
   @override
@@ -89,15 +107,56 @@ class _EditPageState extends State<EditPage> {
             SizedBox(
               height: 20,
             ),
-            Center(
-              child: Container(
-                width: 300,
-                child: Image.network(
-                  '${Get.arguments[10]}',
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
+            _image != null
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Image.file(
+                            _image!,
+                            width: 350,
+                            height: 200,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        ElevatedButton(
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                              ),
+                            ),
+                            onPressed: () {
+                              getImageGalery();
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ))
+                      ])
+                : Center(
+                    child: Container(
+                      width: 300,
+                      child: InkWell(
+                        onTap: () {
+                          getImageGalery();
+                        },
+                        child: Image.network(
+                          '${Get.arguments[10]}',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
             // Padding(
             //   padding: const EdgeInsets.only(left: 20, top: 10),
             //   child: Row(
@@ -125,9 +184,13 @@ class _EditPageState extends State<EditPage> {
             //     ],
             //   ),
             // ),``
-            SizedBox(
-              height: 10,
-            ),
+            _image != null
+                ? SizedBox(
+                    height: 0,
+                  )
+                : SizedBox(
+                    height: 10,
+                  ),
             Padding(
               padding: const EdgeInsets.all(10),
               child: TextField(
@@ -276,8 +339,8 @@ class _EditPageState extends State<EditPage> {
                         borderRadius: BorderRadius.circular(10),
                         borderSide:
                             BorderSide(color: Colors.black, width: 2.0))),
-                value:  _valPendidikan = Get.arguments[7].toString(),
-                items:  [
+                value: _valPendidikan = Get.arguments[7].toString(),
+                items: [
                   DropdownMenuItem(
                       child: Text(
                         'SD',
@@ -388,7 +451,18 @@ class _EditPageState extends State<EditPage> {
               child: ElevatedButton(
                 onPressed: () {
                   print("clicked");
-                  controller.editUser(id, nameC.text, lokasiC.text, jabatanC.text, descJabatanC.text, keahlianC.text, descKeahlianC.text, pengalamanC.text, contactC.text, _valPendidikan!, context);
+                  controller.editUser(
+                      id,
+                      nameC.text,
+                      lokasiC.text,
+                      jabatanC.text,
+                      descJabatanC.text,
+                      keahlianC.text,
+                      descKeahlianC.text,
+                      pengalamanC.text,
+                      contactC.text,
+                      _valPendidikan!,
+                      context);
                 },
                 child: Text(
                   "SUBMIT",
