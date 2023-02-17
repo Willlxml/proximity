@@ -19,6 +19,7 @@ class WelcomePage extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.black),
               ),
+              child: Image(image: NetworkImage("https://cdn.discordapp.com/attachments/1027407023752622080/1075944982034268161/WhatsApp_Image_2023-01-30_at_14.32.28_1.jpg")),
             ),
           ),
           SizedBox(height: 25),
@@ -58,7 +59,7 @@ class WelcomePage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 20),
           Text(
             "Or",
             style: TextStyle(
@@ -66,7 +67,7 @@ class WelcomePage extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
           TextButton(
             onPressed: () {
               Get.toNamed(RouteName.signup_as);

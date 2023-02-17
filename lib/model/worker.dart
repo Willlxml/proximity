@@ -13,19 +13,19 @@ class Workerrr {
         required this.data,
     });
 
-    Data data;
+    List<Datum> data;
 
     factory Workerrr.fromJson(Map<String, dynamic> json) => Workerrr(
-        data: Data.fromJson(json["data"]),
+        data: List<Datum>.from(json["Data"].map((x) => Datum.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
-        "data": data.toJson(),
+        "Data": List<dynamic>.from(data.map((x) => x.toJson())),
     };
 }
 
-class Data {
-    Data({
+class Datum {
+    Datum({
         required this.id,
         required this.namaLengkap,
         required this.lokasi,
@@ -37,10 +37,9 @@ class Data {
         required this.pengalamanKerja,
         required this.kontak,
         required this.image,
-        required this.pilihan,
     });
 
-    int id;
+    String id;
     String namaLengkap;
     String lokasi;
     String jabatan;
@@ -51,9 +50,8 @@ class Data {
     String pengalamanKerja;
     String kontak;
     String image;
-    Pilihan pilihan;
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
+    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         namaLengkap: json["nama_lengkap"],
         lokasi: json["lokasi"],
@@ -65,7 +63,6 @@ class Data {
         pengalamanKerja: json["pengalaman_kerja"],
         kontak: json["kontak"],
         image: json["image"],
-        pilihan: Pilihan.fromJson(json["pilihan"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -80,26 +77,5 @@ class Data {
         "pengalaman_kerja": pengalamanKerja,
         "kontak": kontak,
         "image": image,
-        "pilihan": pilihan.toJson(),
-    };
-}
-
-class Pilihan {
-    Pilihan({
-        required this.id,
-        required this.nama,
-    });
-
-    int id;
-    String nama;
-
-    factory Pilihan.fromJson(Map<String, dynamic> json) => Pilihan(
-        id: json["id"],
-        nama: json["nama"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "nama": nama,
     };
 }

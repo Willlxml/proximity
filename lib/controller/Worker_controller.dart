@@ -1,23 +1,21 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
 import 'package:proximity/model/worker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:path/path.dart';
 
-class AddPageWorkerController extends GetxController {
+class WorkerController extends GetxController {
   List<Workerrr> _allWorkers = [];
-
+  List<Datum> _allDatum = [];
+  List<Datum> get allDatum => _allDatum;
   List<Workerrr> get allWorkers => _allWorkers;
 
-  Future<Map<String, dynamic>> addWorker(
+  Datum selectById(String id) =>
+      _allDatum.firstWhere((element) => element.id == id);
+
+  Future<Map<String, dynamic>> editUser(
+      String id,
       String nama,
       String location,
       String jabatan,
@@ -27,15 +25,11 @@ class AddPageWorkerController extends GetxController {
       String pengalaman,
       String kontak,
       String pendidikanTerakhir,
-      File image,
       BuildContext context) async {
-    Uri url =
-        Uri.parse(
-          // "https://webhook.site/2b52220e-c683-44a3-95f4-095908cb11a3"
-            "http://103.179.86.77:4567/api/pekerjacreate",
-            );
-    final UploadRequest = http.MultipartRequest('POST', url);
-    final file = await http.MultipartFile.fromPath('file', image.path);
+    Uri url = Uri.parse('http://10.0.0.15:4567/api/pekerjaupdate/');
+
+ final UploadRequest = http.MultipartRequest('PATCH', url);
+    // final file = await http.MultipartFile.fromPath('file', image.path);
 
     UploadRequest.fields["nama_lengkap"] = nama;
     UploadRequest.fields["lokasi"] = location;
@@ -46,7 +40,7 @@ class AddPageWorkerController extends GetxController {
     UploadRequest.fields["pendidikan_terakhir"] = pendidikanTerakhir;
     UploadRequest.fields["pengalaman_kerja"] = pengalaman;
     UploadRequest.fields["kontak"] = kontak;
-    UploadRequest.files.add(file);
+    // UploadRequest.files.add(file);
 
     final StreamedResponse = await UploadRequest.send();
     final response = await http.Response.fromStream(StreamedResponse);

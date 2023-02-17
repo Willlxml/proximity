@@ -58,10 +58,10 @@ class _AddPageState extends State<AddPage> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  void didChangeDependencies() {
     getPendidikan();
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
   }
 
   Future getImageGalery() async {
@@ -105,8 +105,10 @@ class _AddPageState extends State<AddPage> {
             Padding(
               padding: const EdgeInsets.only(right: 10),
               child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.help, color: Colors.black)),
+                  onPressed: () {
+                    Get.toNamed('/listPage');
+                  },
+                  icon: Icon(Icons.edit, color: Colors.black)),
             )
           ],
           title: Text(
@@ -435,8 +437,18 @@ class _AddPageState extends State<AddPage> {
               width: 300,
               child: ElevatedButton(
                 onPressed: () {
-                  controller.addWorker(namaC.text, lokasiC.text, jabatanC.text, descJabatanC.text, keahlianC.text, descKeahlianC.text, pengalamanC.text, contactC.text,_valPendidikan!, _image!, context);
-                  print("Upload....");
+                  controller.addWorker(
+                      namaC.text,
+                      lokasiC.text,
+                      jabatanC.text,
+                      descJabatanC.text,
+                      keahlianC.text,
+                      descKeahlianC.text,
+                      pengalamanC.text,
+                      contactC.text,
+                      _valPendidikan!,
+                      _image!,
+                      context);
                 },
                 child: Text(
                   "SUBMIT",
