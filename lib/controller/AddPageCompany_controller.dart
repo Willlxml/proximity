@@ -46,24 +46,36 @@ class AddPageCompanyController extends GetxController {
     
     final StreamedResponse = await UploadRequest.send();
     final response = await http.Response.fromStream(StreamedResponse);
-    if (response.statusCode == 201) {
+   if (response.statusCode == 201) {
       final snackBar = SnackBar(
         duration: 3.seconds,
         elevation: 0,
         backgroundColor: Colors.green,
         behavior: SnackBarBehavior.floating,
-        content: Text("Your data successfully uploaded"),
+        content: Row(
+          children: [
+            Icon(Icons.info, color: Colors.white,),
+            SizedBox(width: 10,),
+            Text("Your data successfully uploaded!", style: TextStyle(fontWeight: FontWeight.w600),),
+          ],
+        ),
       );
       ScaffoldMessenger.of(context)
         ..hideCurrentMaterialBanner()
         ..showSnackBar(snackBar);
-    }else{
+    } else {
       final snackBar = SnackBar(
         duration: 3.seconds,
         elevation: 0,
         backgroundColor: Colors.red,
         behavior: SnackBarBehavior.floating,
-        content: Text("Failed to upload your data"),
+        content: Row(
+          children: [
+            Icon(Icons.info, color: Colors.white,),
+            SizedBox(width: 10,),
+            Text("Failed to upload your data", style: TextStyle(fontWeight: FontWeight.w600),),
+          ],
+        ),
       );
       ScaffoldMessenger.of(context)
         ..hideCurrentMaterialBanner()
