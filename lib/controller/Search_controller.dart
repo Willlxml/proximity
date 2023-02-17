@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:proximity/controller/Worker_controller.dart';
 
 class SearchController extends SearchDelegate {
   @override
@@ -23,12 +24,13 @@ class SearchController extends SearchDelegate {
         icon: Icon(Icons.arrow_back_ios_new));
   }
 
+    final controller = Get.put(WorkerController());
+    List<dynamic> users = [];
+    Future<dynamic>? userData;
   @override
   Widget buildResults(BuildContext context) {
- List<dynamic> users = [];
-  Future<dynamic>? userData;
-    return FutureBuilder(
-        future: userData,
+    return FutureBuilder( 
+        future: controller.getFetchData(query: query),
         builder: (context, snapshot) {
           // making loading screen
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -70,7 +72,7 @@ class SearchController extends SearchDelegate {
                         onTap: () {
                           Get.toNamed(
                               '/kategoriDetail/:id?idd=$id&name=$nama&lokasi=$lokasi&jabatan=$jabatan&desc_jabatan=$descJabatan&keahlian=$keahlian&desc_keahlian=$descKeahlian&pendidikan=$pendidikanTerakhir&pengalaman_kerja=$pengalaman&kontak=$kontak&image=$image',
-                              );
+                              arguments: users);
                         },
                       ),
                     ),

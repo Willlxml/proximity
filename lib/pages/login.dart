@@ -145,7 +145,9 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               width: 300,
               child: ElevatedButton(
-                onPressed: () => loginController.loginWithEmail(),
+                onPressed: () {
+                  Get.toNamed(RouteName.landingpagecompany);
+                },
                 child: Text(
                   "LOGIN",
                   style:
