@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:proximity/pages/welcome_page.dart';
 import 'package:get/get.dart';
 import './routes/page_route.dart';
+import './pages/../pages/navigation_page_worker/settingpage.dart';
 
 void main() {
   runApp(MyApp());

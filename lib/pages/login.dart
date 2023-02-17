@@ -5,7 +5,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:proximity/pages/register_mitra.dart';
+import 'package:proximity/controller/login_controller.dart';
 import 'package:proximity/routes/route_name.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,7 +14,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late TextEditingController textEditingController;
   late bool _passwordVisible;
+
+  var islogin = false.obs;
 
   @override
   void initState() {
@@ -24,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    LoginController loginController = Get.put(LoginController());
     return Scaffold(
       backgroundColor: Color(0xff3FC5F0),
       resizeToAvoidBottomInset: false,
@@ -80,11 +84,13 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: Colors.black, width: 2.0))),
                 textInputAction: TextInputAction.next,
+                controller: loginController.emailC,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10),
               child: TextField(
+                controller: loginController.passC,
                 obscureText: !_passwordVisible,
                 textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
@@ -139,9 +145,7 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               width: 300,
               child: ElevatedButton(
-                onPressed: () {
-                  Get.offAllNamed(RouteName.landingpageworker);
-                },
+                onPressed: () => loginController.loginWithEmail(),
                 child: Text(
                   "LOGIN",
                   style:
