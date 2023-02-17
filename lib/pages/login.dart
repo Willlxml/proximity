@@ -5,8 +5,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:proximity/pages/landingpage_worker.dart';
-import 'package:proximity/pages/register_mitra.dart';
+import 'package:proximity/controller/login_controller.dart';
 import 'package:proximity/routes/route_name.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,9 +14,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late TextEditingController textEditingController;
   late bool _passwordVisible;
-  TextEditingController emailC = TextEditingController();
-  TextEditingController passwordC = TextEditingController();
+
+  var islogin = false.obs;
 
   @override
   void initState() {
@@ -27,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    LoginController loginController = Get.put(LoginController());
     return Scaffold(
       backgroundColor: Color(0xff3FC5F0),
       resizeToAvoidBottomInset: false,
@@ -66,7 +67,6 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: TextField(
-                controller: emailC,
                 decoration: InputDecoration(
                     filled: true,
                     contentPadding: EdgeInsets.all(20),
@@ -84,12 +84,13 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: Colors.black, width: 2.0))),
                 textInputAction: TextInputAction.next,
+                controller: loginController.emailC,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10),
               child: TextField(
-                controller: passwordC,
+                controller: loginController.passC,
                 obscureText: !_passwordVisible,
                 textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
@@ -144,31 +145,9 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               width: 300,
               child: ElevatedButton(
-                onPressed: () {
-                  Get.offNamed(RouteName.landingpageworker);
-                },
+                onPressed: () => loginController.loginWithEmail(),
                 child: Text(
-                  "LOGIN WORKER",
-                  style:
-                      TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-                ),
-                style: ElevatedButton.styleFrom(
-                  elevation: 5,
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 300,
-              child: ElevatedButton(
-                onPressed: () {
-                  Get.offNamed(RouteName.landingpagecompany);
-                },
-                child: Text(
-                  "LOGIN COMPANY",
+                  "LOGIN",
                   style:
                       TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
                 ),

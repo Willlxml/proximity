@@ -6,9 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:proximity/colors/color.dart';
-import 'package:negative_padding/negative_padding.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path/path.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class SettingPage extends StatefulWidget {
@@ -17,8 +17,6 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-
-
   File? _image;
 
   String? status = '';
@@ -84,8 +82,6 @@ class _SettingPageState extends State<SettingPage> {
     print(response);
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,38 +98,35 @@ class _SettingPageState extends State<SettingPage> {
         ),
         foregroundColor: Colors.black,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            // ini card untuk profile
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-              child: Container(
-                height: 200,
-                width: 350,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Column(
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // ini card untuk profile
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+                  child: Container(
+                    height: 200,
+                    width: 350,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        // photo profile
                         _image != null
                             ? Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 40, 0, 0),
+                                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                                 child: CircleAvatar(
                                     radius: 55,
                                     backgroundColor: Colors.grey,
                                     backgroundImage: Image.file(_image!).image),
                               )
                             : Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 40, 0, 0),
+                                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                                 child: CircleAvatar(
                                   radius: 55,
                                   backgroundColor: Colors.grey,
@@ -141,150 +134,131 @@ class _SettingPageState extends State<SettingPage> {
                                       "https://media.discordapp.net/attachments/745141993948053598/1071953402218684496/default-avatar-profile-icon-of-social-media-user-vector.png?width=670&height=670"),
                                 ),
                               ),
-
-                        // button untuk ganti profile picture
-                        NegativePadding(
-                          padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(100, 0, 0, 0),
-                            child: Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: skyBlue),
-                              child: IconButton(
-                                onPressed: () {
-                                  getImageGalery().then((value) => _start());
-                                },
-                                icon: Icon(Icons.camera_alt, color: Colors.white,),
+                        Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10, 70, 80, 0),
+                              child: Text(
+                                "William",
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
-                          ),
-                        ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                              child: Text(
+                                "william@gmail.com",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
-                    Column(
+                  ),
+                ),
+                SizedBox(height: 20),
+                SizedBox(
+                  width: 350,
+                  height: 40,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 70, 50, 0),
-                          child: Text(
-                            "William",
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(30, 10, 0, 0),
-                          child: Text(
-                            "william@gmail.com",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.grey,
-                            ),
+                        Icon(Icons.edit, color: Colors.black54),
+                        SizedBox(width: 15),
+                        Text(
+                          "Edit Profile",
+                          style: TextStyle(
+                            color: Colors.black54,
                           ),
                         ),
                       ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            SizedBox(
-              width: 350,
-              height: 40,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(Icons.edit, color: Colors.black54),
-                    SizedBox(width: 15),
-                    Text(
-                      "Edit Profile",
-                      style: TextStyle(
-                        color: Colors.black54,
-                      ),
                     ),
-                  ],
+                    style: stylebutton,
+                  ),
                 ),
-                style: stylebutton,
-              ),
-            ),
-            SizedBox(
-              height: 13,
-            ),
+                SizedBox(
+                  height: 13,
+                ),
 
-            SizedBox(
-              width: 350,
-              height: 40,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(Icons.info_rounded, color: Colors.black54),
-                    SizedBox(width: 15),
-                    Text(
-                      "Information Center",
-                      style: TextStyle(
-                        color: Colors.black54,
-                      ),
+                SizedBox(
+                  width: 350,
+                  height: 40,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.toNamed('/InformationCenter');
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.info_rounded, color: Colors.black54),
+                        SizedBox(width: 15),
+                        Text(
+                          "Information Center",
+                          style: TextStyle(
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                    style: stylebutton,
+                  ),
                 ),
-                style: stylebutton,
-              ),
-            ),
-            SizedBox(height: 13),
-            SizedBox(
-              width: 350,
-              height: 40,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(Icons.contact_phone, color: Colors.black54),
-                    SizedBox(width: 15),
-                    Text(
-                      "Contact Admin",
-                      style: TextStyle(
-                        color: Colors.black54,
-                      ),
+                SizedBox(height: 13),
+                SizedBox(
+                  width: 350,
+                  height: 40,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.contact_phone, color: Colors.black54),
+                        SizedBox(width: 15),
+                        Text(
+                          "Contact Admin",
+                          style: TextStyle(
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                    style: stylebutton,
+                  ),
                 ),
-                style: stylebutton,
-              ),
-            ),
-            SizedBox(height: 13),
-            SizedBox(
-              width: 350,
-              height: 40,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(Icons.login, color: Colors.black54),
-                    SizedBox(width: 15),
-                    Text(
-                      "Logout",
-                      style: TextStyle(
-                        color: Colors.black54,
-                      ),
+                SizedBox(height: 13),
+                SizedBox(
+                  width: 350,
+                  height: 40,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.login, color: Colors.black54),
+                        SizedBox(width: 15),
+                        Text(
+                          "Logout",
+                          style: TextStyle(
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                    style: stylebutton,
+                  ),
                 ),
-                style: stylebutton,
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -299,5 +273,3 @@ final ButtonStyle stylebutton = ElevatedButton.styleFrom(
     ),
   ),
 );
-
-
