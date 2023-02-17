@@ -62,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ]
                 ),
-                child: Image.asset('lib/asset/image/logo.png')),
+                child: Image.asset('lib/asset/image/logo.png',)),
             ),
             Padding(
               padding: const EdgeInsets.all(10),
