@@ -1,78 +1,33 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:proximity/controller/Search_controller.dart';
-import 'package:proximity/model/worker.dart';
-import 'package:proximity/controller/Worker_controller.dart';
-import 'package:http/http.dart' as http;
 
-import '../../../colors/color.dart';
-
-class CategoryPageMitra extends StatefulWidget {
+class SearchController extends SearchDelegate {
   @override
-  State<CategoryPageMitra> createState() => _CategoryPageMitraState();
-}
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () {
+          query = "";
+        },
+        icon: Icon(Icons.close),
+      )
+    ];
+  }
 
-class _CategoryPageMitraState extends State<CategoryPageMitra> {
-  final controller = Get.put(WorkerController());
-  List<dynamic> users = [];
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          Get.back();
+        },
+        icon: Icon(Icons.arrow_back_ios_new));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+ List<dynamic> users = [];
   Future<dynamic>? userData;
-  bool isIniate = true;
-
-  @override
-  void didChangeDependencies() {
-    if (isIniate) {
-      userData = fetchUsers();
-    }
-    isIniate = false;
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    isIniate = true;
-    // TODO: implement dispose
-    super.dispose();
-  }
-
-  Future fetchUsers() async {
-    // Get Data
-    Uri url = Uri.parse('http://103.179.86.77:4567/api/pekerja');
-    final response = await http.get(url);
-    final json = jsonDecode(response.body);
-    setState(() {
-      users = json['data'];
-    });
-
-    print(json);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: skyBlue,
-      appBar: AppBar(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(30))),
-        centerTitle: true,
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.white,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: IconButton(
-                onPressed: () {
-                  showSearch(context: context, delegate: SearchController());
-                },
-                icon: Icon(Icons.search, color: Colors.black)),
-          )
-        ],
-        title: Text("List Worker"),
-      ),
-      body: FutureBuilder(
+    return FutureBuilder(
         future: userData,
         builder: (context, snapshot) {
           // making loading screen
@@ -115,7 +70,7 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
                         onTap: () {
                           Get.toNamed(
                               '/kategoriDetail/:id?idd=$id&name=$nama&lokasi=$lokasi&jabatan=$jabatan&desc_jabatan=$descJabatan&keahlian=$keahlian&desc_keahlian=$descKeahlian&pendidikan=$pendidikanTerakhir&pengalaman_kerja=$pengalaman&kontak=$kontak&image=$image',
-                              arguments: users);
+                              );
                         },
                       ),
                     ),
@@ -125,7 +80,13 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
             );
           }
         },
-      ),
+      );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return Center(
+      child: Text("Search Workers"),
     );
   }
 }

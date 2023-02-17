@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:proximity/controller/Favourite_controller.dart';
 
 import '../../../colors/color.dart';
 
@@ -16,6 +17,7 @@ class CategoryDetail extends StatefulWidget {
 
 class _CategoryDetailState extends State<CategoryDetail> {
   List<dynamic> _dataPendidikan = [];
+  final controller = Get.put(FavouriteController());
 
   final TextEditingController nameC =
       TextEditingController(text: "${Get.parameters['name']}");
@@ -94,13 +96,22 @@ class _CategoryDetailState extends State<CategoryDetail> {
                           elevation: 5, backgroundColor: Colors.white),
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(FontAwesomeIcons.heart),
-                    style: IconButton.styleFrom(
-                      elevation: 5,
-                    ),
-                  ),
+                  Obx(() => IconButton(
+                        onPressed: () {
+                          controller.toggleFavorite(Get.arguments[0], context);
+                         
+                         
+                        },
+                        icon: controller.isExist(Get.arguments[0])
+                            ? Icon(Icons.favorite, color: Colors.red)
+                            : Icon(
+                                Icons.favorite_border,
+                                color: Colors.black,
+                              ),
+                        style: IconButton.styleFrom(
+                          elevation: 5,
+                        ),
+                      )),
                 ],
               ),
             ),
