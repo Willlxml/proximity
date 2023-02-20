@@ -45,25 +45,25 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Container(
-                  width: 150,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(100),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black,
-                        blurRadius: 4.0,
-                        spreadRadius: 0.0,
-                      )
-                    ]
-                  ),
-                  child: Image.asset('lib/asset/image/logo.png')),
-              ),
+            SizedBox(height: 10,),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(100),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 4.0,
+                      spreadRadius: 0.0,
+                    )
+                  ]
+                ),
+                child: Image.asset('lib/asset/image/logo.png',)),
+            ),
             Padding(
               padding: const EdgeInsets.all(10),
               child: TextField(
@@ -145,7 +145,9 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               width: 300,
               child: ElevatedButton(
-                onPressed: () => loginController.loginWithEmail(),
+                onPressed: () {
+                  Get.toNamed(RouteName.landingpagecompany);
+                },
                 child: Text(
                   "LOGIN",
                   style:
@@ -160,28 +162,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            SizedBox(
-              width: 300,
-              child: ElevatedButton(
-                onPressed: () {
-                  Get.toNamed(RouteName.landingpageworker);
-                },
-                child: Text(
-                  "LOGIN LANGSUNG",
-                  style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-                ),
-                style: ElevatedButton.styleFrom(
-                  elevation: 5,
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-              ),
-            ),
             Divider(
-              height: 80,
+              height: 50,
               color: Colors.black,
               indent: 15,
               endIndent: 15,
@@ -205,6 +187,39 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Text(
                       "Click here to Register",
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+                style: ElevatedButton.styleFrom(
+                  elevation: 5,
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            SizedBox(
+              width: 300,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.userSecret,
+                      color: Colors.black,
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      "Enter Guest Mode",
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w600),
                     ),

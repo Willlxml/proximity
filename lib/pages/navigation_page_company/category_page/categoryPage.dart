@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:proximity/controller/Search_controller.dart';
 import 'package:proximity/model/worker.dart';
 import 'package:proximity/controller/Worker_controller.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../colors/color.dart';
+import '../../../controller/Search_controller.dart';
 
 class CategoryPageMitra extends StatefulWidget {
   @override
@@ -19,6 +19,7 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
   List<dynamic> users = [];
   Future<dynamic>? userData;
   bool isIniate = true;
+  
 
   @override
   void didChangeDependencies() {
@@ -46,6 +47,7 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
       users = json['data'];
     });
 
+  
     print(json);
   }
 
@@ -76,6 +78,7 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
         future: userData,
         builder: (context, snapshot) {
           // making loading screen
+          // var data = snapshot.data;
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(),
@@ -83,7 +86,7 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
           } else {
             return ListView.builder(
               itemCount: users.length,
-              itemBuilder: (context, index) {
+              itemBuilder: (context, index) { 
                 final user = users[index];
                 final id = user['id'];
                 final nama = user['nama_lengkap'];
