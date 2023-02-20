@@ -12,17 +12,22 @@ class WelcomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
             child: Container(
-              height: 400,
-              width: 350,
+              height: 330,
+              width: 340,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
+                border: Border.all(color: Colors.black, width: 3),
+                color: skyBlue,
               ),
-              child: Image(image: NetworkImage("https://cdn.discordapp.com/attachments/1027407023752622080/1075944982034268161/WhatsApp_Image_2023-01-30_at_14.32.28_1.jpg")),
+              child: Image(
+                image: NetworkImage(
+                    "https://media.discordapp.net/attachments/1059838671144108122/1076035467075653662/how-it-works-animation_2.png?width=766&height=670"),
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-          SizedBox(height: 25),
+          SizedBox(height: 45),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(
@@ -59,7 +64,7 @@ class WelcomePage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 30),
           Text(
             "Or",
             style: TextStyle(
@@ -67,7 +72,7 @@ class WelcomePage extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 15),
           TextButton(
             onPressed: () {
               Get.toNamed(RouteName.signup_as);

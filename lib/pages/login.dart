@@ -164,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
               width: 300,
               child: ElevatedButton(
                 onPressed: () {
-                  Get.toNamed(RouteName.landingpagecompany);
+                  Get.toNamed(RouteName.landingpageworker);
                 },
                 child: Text(
                   "LOGIN LANGSUNG",
@@ -181,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Divider(
-              height: 50,
+              height: 80,
               color: Colors.black,
               indent: 15,
               endIndent: 15,
@@ -205,39 +205,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Text(
                       "Click here to Register",
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.w600),
-                    ),
-                  ],
-                ),
-                style: ElevatedButton.styleFrom(
-                  elevation: 5,
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            SizedBox(
-              width: 300,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      FontAwesomeIcons.userSecret,
-                      color: Colors.black,
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      "Enter Guest Mode",
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w600),
                     ),

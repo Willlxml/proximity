@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proximity/pages/login.dart';
 import '../colors/color.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -44,7 +45,7 @@ class SignupAs extends StatelessWidget {
                 children: [
                   FaIcon(FontAwesomeIcons.table),
                   SizedBox(width: 25),
-                  Text("SIGN IN AS WORKER")
+                  Text("SIGN UP AS WORKER")
                 ],
               ),
             ),
@@ -70,7 +71,7 @@ class SignupAs extends StatelessWidget {
                 children: [
                   FaIcon(FontAwesomeIcons.building),
                   SizedBox(width: 25),
-                  Text("SIGN IN AS COMPANY")
+                  Text("SIGN UP AS COMPANY")
                 ],
               ),
             ),
@@ -84,31 +85,30 @@ class SignupAs extends StatelessWidget {
             endIndent: 30,
           ),
           Text(
-            "Do you want to enter as a guest?",
+            "Already have account? Login Here!",
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 16,
             ),
           ),
-          SizedBox(height: 15),
+          SizedBox(height: 45),
           SizedBox(
             width: 300,
             height: 40,
             child: ElevatedButton(
               style: buttonPrimarys,
-              onPressed: () {},
+              onPressed: () {
+                Get.to(LoginPage());
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    FontAwesomeIcons.userSecret,
-                    color: Colors.black,
-                  ),
                   SizedBox(width: 15),
                   Text(
-                    "Enter Guest Mode",
+                    "SIGN IN",
                     style: TextStyle(
                       color: Colors.black,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],

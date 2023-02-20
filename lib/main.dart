@@ -1,7 +1,10 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:proximity/pages/welcome_page.dart';
+import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:get/get.dart';
+import 'colors/color.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import './routes/page_route.dart';
 
 void main() {
@@ -14,10 +17,24 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: AnimatedSplashScreen(
-        splashIconSize: double.infinity,
-          splash: Image(image: NetworkImage("https://cdn.discordapp.com/attachments/1027407023752622080/1076020493360054312/1_1.png"),),
+        backgroundColor: skyBlue,
+          splashIconSize: double.infinity,
+          splash: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 100, 20, 0),
+                child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(170),
+                      color: Colors.white,
+                    ),
+                    child: Image.asset('lib/asset/image/logo.png')),
+              ),
+              SizedBox(height: 110),
+              LoadingAnimationWidget.discreteCircle(color: Colors.white, size: 60)
+            ],
+          ),
           duration: 3000,
-          splashTransition: SplashTransition.fadeTransition,
           nextScreen: WelcomePage()),
       title: "Proximity",
       initialRoute: '/',

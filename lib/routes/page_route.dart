@@ -6,6 +6,11 @@ import 'package:proximity/pages/login.dart';
 import 'package:proximity/pages/register_mitra.dart';
 import 'package:proximity/pages/whatsapp_verif.dart';
 import 'package:proximity/routes/route_name.dart';
+import '../pages/navigation_page_company/category_page/categoryDetail.dart';
+import '../pages/navigation_page_company/category_page/categoryPage.dart';
+import '../pages/navigation_page_worker/category_page/categoryPage.dart';
+import '../pages/navigation_page_worker/edit_page/editpage.dart';
+import '../pages/navigation_page_worker/edit_page/listpage.dart';
 import '../pages/signup_as.dart';
 import '../pages/signup_worker.dart';
 import '../pages/welcome_page.dart';
@@ -46,7 +51,12 @@ class AppPage {
     ),
     GetPage(
       name: '/LoginPage',
-      page: () => LoginPage(),
+      page: () => LoginPage(),  
     ),
+    GetPage(name: '/kategori/:id?', page: () => CategoryPage()),
+    GetPage(name: '/kategoriMitra/:id?', page: () => CategoryPageMitra()),
+    GetPage(name: '/kategoriDetail/:id?', page: () => CategoryDetail()),
+    GetPage(name: '/listPage', page: () => ListPage()),
+    GetPage(name: '/editpage/', page: () => EditPage()),
   ];
 }
