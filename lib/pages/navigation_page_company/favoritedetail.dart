@@ -1,64 +1,98 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:proximity/controller/Worker_controller.dart';
 import 'package:http/http.dart' as http;
 import 'package:proximity/controller/databasehelper.dart';
-import 'package:proximity/model/favorite.dart';
-// import 'package:proximity/controller/Favourite_controller.dart';
-
 import '../../../colors/color.dart';
 
-class CategoryDetail extends StatefulWidget {
-  const CategoryDetail({super.key});
+class FavoriteDetail extends StatefulWidget {
+  const FavoriteDetail({super.key});
 
   @override
-  State<CategoryDetail> createState() => _CategoryDetailState();
+  State<FavoriteDetail> createState() => _FavoriteDetailState();
 }
 
-class _CategoryDetailState extends State<CategoryDetail> {
+class _FavoriteDetailState extends State<FavoriteDetail> {
   List<dynamic> _dataPendidikan = [];
-  // final controller = Get.put(FavouriteController());
+  String? _valPendidikan;
+  File? _image;
   bool Clicked = true;
+
+  final id = Get.parameters[0].toString();
+  final controller = Get.put(WorkerController());
+  final TextEditingController nameC =
+      TextEditingController(text: "${Get.arguments[1]}");
+  final TextEditingController lokasiC =
+      TextEditingController(text: "${Get.arguments[2]}");
+  final TextEditingController jabatanC =
+      TextEditingController(text: "${Get.arguments[3]}");
+  final TextEditingController descJabatanC =
+      TextEditingController(text: "${Get.arguments[4]}");
+  final TextEditingController keahlianC =
+      TextEditingController(text: "${Get.arguments[5]}");
+  final TextEditingController descKeahlianC =
+      TextEditingController(text: "${Get.arguments[6]}");
+  final TextEditingController pengalamanC =
+      TextEditingController(text: "${Get.arguments[8]}");
+  final TextEditingController contactC =
+      TextEditingController(text: "${Get.arguments[9]}");
+  bool isIniate = true;
+
+  void getPendidikan() async {
+    final url = Uri.parse('http://103.179.86.77:4567/api/terakhir');
+    final response = await http.get(url);
+    var listdata = json.decode(response.body);
+    print("data : $listdata");
+
+    setState(() {
+      _dataPendidikan = listdata;
+    });
+  }
+
+  // void getImageGalery() async {
+  //   FilePickerResult? result = await FilePicker.platform.pickFiles();
+  //   if (result != null) {
+  //     _image = File(result.files.single.path!);
+  //     final filetemporary = File(result.files.single.path!);
+
+  //     setState(() {
+  //       this._image = filetemporary;
+  //     });
+  //   } else {
+  //     print("File not found");
+  //     // User canceled the picker
+  //   }
+  // }
+
   @override
   void didChangeDependencies() {
-    if(Clicked ==  false){
-      Clicked == false;
-    }else{
-     Clicked == true;
+    if (isIniate) {
+      return null;
     }
+    isIniate = false;
+    getPendidikan();
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
-  final TextEditingController nameC =
-      TextEditingController(text: "${Get.parameters['name']}");
- 
-  final TextEditingController lokasiC =
-      TextEditingController(text: "${Get.parameters['lokasi']}");
-  final TextEditingController jabatanC =
-      TextEditingController(text: "${Get.parameters['jabatan']}");
-  final TextEditingController descJabatanC =
-      TextEditingController(text: "${Get.parameters['desc_jabatan']}");
-  final TextEditingController keahlianC =
-      TextEditingController(text: "${Get.parameters['keahlian']}");
-  final TextEditingController descKeahlianC =
-      TextEditingController(text: "${Get.parameters["desc_keahlian"]}");
-  final TextEditingController pengalamanC =
-      TextEditingController(text: "${Get.parameters["pengalaman_kerja"]}");
-  final TextEditingController contactC =
-      TextEditingController(text: "${Get.parameters["kontak"]}");
-  final TextEditingController pendidikanTerakhir =
-      TextEditingController(text: "${Get.parameters["pendidikan"]}");
-  final TextEditingController imageC =
-      TextEditingController(text: "${Get.parameters["image"]}");
+  @override
+  void dispose() {
+    isIniate = true;
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var _value = "-1";
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: skyBlue,
       appBar: AppBar(
           shape: RoundedRectangleBorder(
@@ -69,36 +103,75 @@ class _CategoryDetailState extends State<CategoryDetail> {
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 10),
-              child: IconButton(
-                  onPressed: () {
-                    // controller.createTable();
-                  },
-                  icon: Icon(Icons.help, color: Colors.black)),
+              // child: IconButton(
+              //     onPressed: () {},
+              //     icon: Icon(Icons.help, color: Colors.black)),
             )
           ],
           title: Text(
-            "Profile of ${Get.parameters['name']}",
+            "Profile of ${Get.arguments[1]}",
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
           )),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
               height: 20,
             ),
-            Center(
-              child: Container(
-                width: 300,
-                child: Image.network(
-                  '${Get.parameters['image']}',
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
+            _image != null
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Image.file(
+                            _image!,
+                            width: 350,
+                            height: 200,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        ElevatedButton(
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                              ),
+                            ),
+                            onPressed: () {
+                              // getImageGalery();
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ))
+                      ])
+                : Center(
+                    child: Container(
+                      width: 300,
+                      child: InkWell(
+                        onTap: () {
+                          // getImageGalery();
+                        },
+                        child: Image.network(
+                          '${Get.arguments[10]}',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
             Padding(
               padding: const EdgeInsets.only(left: 20, top: 10),
               child: Row(
@@ -118,50 +191,44 @@ class _CategoryDetailState extends State<CategoryDetail> {
                   ),
                   IconButton(
                     onPressed: () async {
-                      await DatabaseHelper.instace
-                          .add(Favorite(
-                              id: null,
-                              namaLengkap: nameC.text,
-                              lokasi: lokasiC.text,
-                              jabatan: jabatanC.text,
-                              descJabatan: descJabatanC.text,
-                              keahlian: keahlianC.text,
-                              descKeahlian: descKeahlianC.text,
-                              pendidikanTerakhir: pendidikanTerakhir.text,
-                              pengalamanKerja: pengalamanC.text,
-                              kontak: contactC.text,
-                              image: imageC.text))
-                          .then((value) {
-                        final snackBar = SnackBar(
-                          duration: 3.seconds,
-                          elevation: 0,
-                          backgroundColor: Colors.green,
-                          behavior: SnackBarBehavior.floating,
-                          content: Row(
-                            children: [
-                              Icon(
-                                Icons.info,
-                                color: Colors.white,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "Added to Favorites",
-                                style: TextStyle(fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                        );
-                        ScaffoldMessenger.of(context)
-                          ..hideCurrentMaterialBanner()
-                          ..showSnackBar(snackBar);
-                      });
+                        DatabaseHelper.instace
+                            .remove(Get.arguments[0])
+                            .then((value) {
+                          final snackBar = SnackBar(
+                            duration: 3.seconds,
+                            elevation: 0,
+                            backgroundColor: Colors.red,
+                            behavior: SnackBarBehavior.floating,
+                            content: Row(
+                              children: [
+                                Icon(
+                                  Icons.info,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "Removed from favorites",
+                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                ),
+                              ],
+                            ),
+                          );
+                          ScaffoldMessenger.of(context)
+                            ..hideCurrentMaterialBanner()
+                            ..showSnackBar(snackBar);
+                        });
                       setState(() {
                         Clicked = !Clicked;
                       });
                     },
-                    icon: Icon((Clicked == false) ? Icons.favorite : Icons.favorite_border , color: Colors.red,),
+                    icon: Icon(
+                      (Clicked == false)
+                          ? Icons.favorite_border
+                          : Icons.favorite,
+                      color: Colors.red,
+                    ),
                     style: IconButton.styleFrom(
                       elevation: 5,
                     ),
@@ -169,6 +236,13 @@ class _CategoryDetailState extends State<CategoryDetail> {
                 ],
               ),
             ),
+            _image != null
+                ? SizedBox(
+                    height: 0,
+                  )
+                : SizedBox(
+                    height: 0,
+                  ),
             Padding(
               padding: const EdgeInsets.all(10),
               child: TextField(
@@ -302,76 +376,84 @@ class _CategoryDetailState extends State<CategoryDetail> {
                 isExpanded: true,
                 menuMaxHeight: 150,
                 decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(FontAwesomeIcons.userGraduate),
-                  prefixIconColor: Colors.black,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                ),
-                value: _value = Get.parameters['pendidikan']!,
+                    filled: true,
+                    contentPadding: EdgeInsets.all(20),
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    prefixIcon: Icon(FontAwesomeIcons.userGraduate),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            BorderSide(color: Colors.black, width: 2.0))),
+                value: _valPendidikan = Get.arguments[7].toString(),
                 items: [
                   DropdownMenuItem(
                       child: Text(
                         'SD',
                         style: TextStyle(color: Colors.black),
                       ),
-                      value: _value = 1.toString()),
+                      value: _valPendidikan = 1.toString()),
                   DropdownMenuItem(
                       child: Text(
                         'SMP',
                         style: TextStyle(color: Colors.black),
                       ),
-                      value: _value = 2.toString()),
+                      value: _valPendidikan = 2.toString()),
                   DropdownMenuItem(
                       child: Text(
                         'SMA',
                         style: TextStyle(color: Colors.black),
                       ),
-                      value: _value = 3.toString()),
+                      value: _valPendidikan = 3.toString()),
                   DropdownMenuItem(
                       child: Text(
                         'D1',
                         style: TextStyle(color: Colors.black),
                       ),
-                      value: _value = 4.toString()),
+                      value: _valPendidikan = 4.toString()),
                   DropdownMenuItem(
                       child: Text(
                         'D2',
                         style: TextStyle(color: Colors.black),
                       ),
-                      value: _value = 5.toString()),
+                      value: _valPendidikan = 5.toString()),
                   DropdownMenuItem(
                       child: Text(
                         'D3',
                         style: TextStyle(color: Colors.black),
                       ),
-                      value: _value = 6.toString()),
+                      value: _valPendidikan = 6.toString()),
                   DropdownMenuItem(
                       child: Text(
                         'S1',
                         style: TextStyle(color: Colors.black),
                       ),
-                      value: _value = 7.toString()),
+                      value: _valPendidikan = 7.toString()),
                   DropdownMenuItem(
                       child: Text(
                         'S2',
                         style: TextStyle(color: Colors.black),
                       ),
-                      value: _value = 8.toString()),
+                      value: _valPendidikan = 8.toString()),
                   DropdownMenuItem(
                       child: Text(
                         'S3',
                         style: TextStyle(color: Colors.black),
                       ),
-                      value: _value = 9.toString()),
+                      value: _valPendidikan = 9.toString()),
                 ],
-                onChanged: null,
+                onChanged: (selectedValue) {
+                  setState(() {
+                    _valPendidikan = selectedValue.toString();
+                    print(selectedValue);
+                  });
+                },
               ),
             ),
             Padding(

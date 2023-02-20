@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
+import 'package:proximity/model/favorite.dart';
 import 'package:proximity/pages/navigation_page_company/category_page/categoryDetail.dart';
 import 'package:proximity/pages/navigation_page_company/category_page/categoryPage.dart';
+import 'package:proximity/pages/navigation_page_company/favoritedetail.dart';
 import 'package:proximity/pages/navigation_page_worker/category_page/categoryPage.dart';
 import 'package:proximity/pages/navigation_page_worker/edit_page/listpage.dart';
 import 'package:proximity/pages/navigation_page_worker/information_center.dart';
@@ -58,5 +60,6 @@ class AppPage {
     GetPage(name: '/kategoriDetail/:id?', page: () => CategoryDetail()),
     GetPage(name: '/listPage', page: () => ListPage()),
     GetPage(name: '/editpage/', page: () => EditPage()),
+    GetPage(name: '/favoriteDetail/', page: () => FavoriteDetail()),
   ];
 }
