@@ -19,7 +19,6 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
   List<dynamic> users = [];
   Future<dynamic>? userData;
   bool isIniate = true;
-  
 
   @override
   void didChangeDependencies() {
@@ -42,12 +41,15 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
     // Get Data
     Uri url = Uri.parse('http://103.179.86.77:4567/api/pekerja');
     final response = await http.get(url);
-    final json = jsonDecode(response.body);
-    setState(() {
-      users = json['data'];
-    });
+    try {
+      final json = jsonDecode(response.body);
+      setState(() {
+        users = json['data'];
+      });
+    } catch (e) {
+      return e;
+    }
 
-  
     print(json);
   }
 
@@ -86,7 +88,7 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
           } else {
             return ListView.builder(
               itemCount: users.length,
-              itemBuilder: (context, index) { 
+              itemBuilder: (context, index) {
                 final user = users[index];
                 final id = user['id'];
                 final nama = user['nama_lengkap'];

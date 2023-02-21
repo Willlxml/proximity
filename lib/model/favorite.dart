@@ -41,7 +41,6 @@ class Favorite {
 
   Map<String, dynamic> toMap() {
     return {
-      "id" : id,
       "nama_lengkap": namaLengkap,
       "lokasi": lokasi,
       "jabatan": jabatan,

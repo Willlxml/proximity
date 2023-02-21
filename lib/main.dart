@@ -9,7 +9,7 @@ void main() async {
   runApp(MyApp());
   WidgetsFlutterBinding.ensureInitialized();
 
-  final database = openDatabase(join(await getDatabasesPath(), 'favorite_database.db'));
+  final database = openDatabase(join(await getDatabasesPath(), 'favorite.db'));
 }
 
 class MyApp extends StatelessWidget {
