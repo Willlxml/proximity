@@ -84,6 +84,8 @@ class _AddPageCompanyState extends State<AddPageCompany> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQueryHeight = MediaQuery.of(context).size.height;
+    final mediaQueryWidht = MediaQuery.of(context).size.width;
     var _value = "-1";
     return Scaffold(
       backgroundColor: skyBlue,
@@ -123,8 +125,8 @@ class _AddPageCompanyState extends State<AddPageCompany> {
                             borderRadius: BorderRadius.circular(10)),
                         child: Image.file(
                           _image!,
-                          width: 350,
-                          height: 200,
+                          width: mediaQueryWidht * 0.8,
+                          height: mediaQueryHeight * 0.3,
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -338,8 +340,8 @@ class _AddPageCompanyState extends State<AddPageCompany> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: SizedBox(
-                width: 360,
-                height: 50,
+                width: mediaQueryWidht * 0.9,
+                height: mediaQueryHeight * 0.07,
                 child: ElevatedButton(
                   onPressed: () => UploadFile(),
                   child: Row(
@@ -447,8 +449,9 @@ class _AddPageCompanyState extends State<AddPageCompany> {
                 ),
               ),
             ),
+            SizedBox(height: 25),
             SizedBox(
-              width: 300,
+              width: mediaQueryWidht * 0.7,
               child: ElevatedButton(
                 onPressed: () {
                   controller.addCompany(
@@ -480,7 +483,7 @@ class _AddPageCompanyState extends State<AddPageCompany> {
               ),
             ),
             SizedBox(
-              height: 80,
+              height: 90,
             )
           ],
         ),

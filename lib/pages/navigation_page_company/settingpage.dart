@@ -85,6 +85,8 @@ class _SettingPageCompanyState extends State<SettingPageCompany> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQueryHeight = MediaQuery.of(context).size.height;
+    final mediaQueryWidht = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: skyBlue,
       appBar: AppBar(
@@ -107,10 +109,10 @@ class _SettingPageCompanyState extends State<SettingPageCompany> {
               children: [
                 // ini card untuk profile
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+                  padding: const EdgeInsets.fromLTRB(18, 20, 0, 0),
                   child: Container(
-                    height: 200,
-                    width: 350,
+                    height: mediaQueryHeight * 0.3,
+                    width: mediaQueryWidht * 0.9,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
@@ -164,96 +166,107 @@ class _SettingPageCompanyState extends State<SettingPageCompany> {
                   ),
                 ),
                 SizedBox(height: 20),
-                SizedBox(
-                  width: 350,
-                  height: 40,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(Icons.edit, color: Colors.black54),
-                        SizedBox(width: 15),
-                        Text(
-                          "Edit Profile",
-                          style: TextStyle(
-                            color: Colors.black54,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(18, 0, 0, 0),
+                  child: SizedBox(
+                    width: mediaQueryWidht * 0.9,
+                    height: mediaQueryHeight * 0.05,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.edit, color: Colors.black54),
+                          SizedBox(width: 15),
+                          Text(
+                            "Edit Profile",
+                            style: TextStyle(
+                              color: Colors.black54,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      style: stylebutton,
                     ),
-                    style: stylebutton,
                   ),
                 ),
                 SizedBox(
                   height: 13,
                 ),
-
-                SizedBox(
-                  width: 350,
-                  height: 40,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Get.toNamed('/InformationCenter');
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(Icons.info_rounded, color: Colors.black54),
-                        SizedBox(width: 15),
-                        Text(
-                          "Information Center",
-                          style: TextStyle(
-                            color: Colors.black54,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(18, 0, 0, 0),
+                  child: SizedBox(
+                    width: mediaQueryWidht * 0.9,
+                    height: mediaQueryHeight * 0.05,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.toNamed('/InformationCenter');
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.info_rounded, color: Colors.black54),
+                          SizedBox(width: 15),
+                          Text(
+                            "Information Center",
+                            style: TextStyle(
+                              color: Colors.black54,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      style: stylebutton,
                     ),
-                    style: stylebutton,
                   ),
                 ),
                 SizedBox(height: 13),
-                SizedBox(
-                  width: 350,
-                  height: 40,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(Icons.contact_phone, color: Colors.black54),
-                        SizedBox(width: 15),
-                        Text(
-                          "Contact Admin",
-                          style: TextStyle(
-                            color: Colors.black54,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(18, 0, 0, 0),
+                  child: SizedBox(
+                    width: mediaQueryWidht * 0.9,
+                    height: mediaQueryHeight * 0.05,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.contact_phone, color: Colors.black54),
+                          SizedBox(width: 15),
+                          Text(
+                            "Contact Admin",
+                            style: TextStyle(
+                              color: Colors.black54,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      style: stylebutton,
                     ),
-                    style: stylebutton,
                   ),
                 ),
                 SizedBox(height: 13),
-                SizedBox(
-                  width: 350,
-                  height: 40,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(Icons.login, color: Colors.black54),
-                        SizedBox(width: 15),
-                        Text(
-                          "Logout",
-                          style: TextStyle(
-                            color: Colors.black54,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(18, 0, 0, 0),
+                  child: SizedBox(
+                    width: mediaQueryWidht * 0.9,
+                    height: mediaQueryHeight * 0.05,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.login, color: Colors.black54),
+                          SizedBox(width: 15),
+                          Text(
+                            "Logout",
+                            style: TextStyle(
+                              color: Colors.black54,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      style: stylebutton,
                     ),
-                    style: stylebutton,
                   ),
                 ),
               ],

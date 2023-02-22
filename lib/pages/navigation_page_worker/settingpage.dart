@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:proximity/colors/color.dart';
+import 'package:proximity/controller/Login_controller.dart';
+import 'package:proximity/pages/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path/path.dart';
 import 'package:get/get.dart';
@@ -84,6 +86,9 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuerywidht = MediaQuery.of(context).size.width;
+    final mediaQueryheight = MediaQuery.of(context).size.height;
+    LoginController logoutController = Get.put(LoginController());
     return Scaffold(
       backgroundColor: skyBlue,
       appBar: AppBar(
@@ -106,10 +111,10 @@ class _SettingPageState extends State<SettingPage> {
               children: [
                 // ini card untuk profile
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+                  padding: const EdgeInsets.fromLTRB(18, 20, 10, 0),
                   child: Container(
-                    height: 200,
-                    width: 350,
+                    height: mediaQueryheight * 0.3,
+                    width: mediaQuerywidht * 0.9,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
@@ -162,97 +167,102 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
-                SizedBox(
-                  width: 350,
-                  height: 40,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(Icons.edit, color: Colors.black54),
-                        SizedBox(width: 15),
-                        Text(
-                          "Edit Profile",
-                          style: TextStyle(
-                            color: Colors.black54,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
+                  child: SizedBox(
+                    width: mediaQuerywidht * 0.9,
+                    height: mediaQueryheight * 0.05,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.edit, color: Colors.black54),
+                          SizedBox(width: 15),
+                          Text(
+                            "Edit Profile",
+                            style: TextStyle(
+                              color: Colors.black54,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      style: stylebutton,
                     ),
-                    style: stylebutton,
                   ),
                 ),
-                SizedBox(
-                  height: 13,
-                ),
-
-                SizedBox(
-                  width: 350,
-                  height: 40,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Get.toNamed('/InformationCenter');
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(Icons.info_rounded, color: Colors.black54),
-                        SizedBox(width: 15),
-                        Text(
-                          "Information Center",
-                          style: TextStyle(
-                            color: Colors.black54,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
+                  child: SizedBox(
+                    width: mediaQuerywidht * 0.9,
+                    height: mediaQueryheight * 0.05,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.toNamed('/InformationCenter');
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.info_rounded, color: Colors.black54),
+                          SizedBox(width: 15),
+                          Text(
+                            "Information Center",
+                            style: TextStyle(
+                              color: Colors.black54,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      style: stylebutton,
                     ),
-                    style: stylebutton,
                   ),
                 ),
-                SizedBox(height: 13),
-                SizedBox(
-                  width: 350,
-                  height: 40,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(Icons.contact_phone, color: Colors.black54),
-                        SizedBox(width: 15),
-                        Text(
-                          "Contact Admin",
-                          style: TextStyle(
-                            color: Colors.black54,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
+                  child: SizedBox(
+                    width: mediaQuerywidht * 0.9,
+                    height: mediaQueryheight * 0.05,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.contact_phone, color: Colors.black54),
+                          SizedBox(width: 15),
+                          Text(
+                            "Contact Admin",
+                            style: TextStyle(
+                              color: Colors.black54,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      style: stylebutton,
                     ),
-                    style: stylebutton,
                   ),
                 ),
-                SizedBox(height: 13),
-                SizedBox(
-                  width: 350,
-                  height: 40,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(Icons.login, color: Colors.black54),
-                        SizedBox(width: 15),
-                        Text(
-                          "Logout",
-                          style: TextStyle(
-                            color: Colors.black54,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
+                  child: SizedBox(
+                    width: mediaQuerywidht * 0.9,
+                    height: mediaQueryheight * 0.05,
+                    child: ElevatedButton(
+                      onPressed: () => logoutController.logOut(),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.login, color: Colors.black54),
+                          SizedBox(width: 15),
+                          Text(
+                            "Logout",
+                            style: TextStyle(
+                              color: Colors.black54,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      style: stylebutton,
                     ),
-                    style: stylebutton,
                   ),
                 ),
               ],

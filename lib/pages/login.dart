@@ -5,7 +5,8 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:proximity/controller/login_controller.dart';
+import 'package:proximity/controller/Login_controller.dart';
+import 'package:proximity/pages/landingpage_worker.dart';
 import 'package:proximity/routes/route_name.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,6 +15,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController emailC = TextEditingController();
+  TextEditingController passC = TextEditingController();
   late TextEditingController textEditingController;
   late bool _passwordVisible;
 
@@ -84,13 +87,13 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: Colors.black, width: 2.0))),
                 textInputAction: TextInputAction.next,
-                controller: loginController.emailC,
+                controller: emailC,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10),
               child: TextField(
-                controller: loginController.passC,
+                controller: passC,
                 obscureText: !_passwordVisible,
                 textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
@@ -145,9 +148,7 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               width: 300,
               child: ElevatedButton(
-                onPressed: () {
-                  Get.toNamed(RouteName.landingpagecompany);
-                },
+                onPressed: () => loginController.loginWithEmail(emailC.text, passC.text),
                 child: Text(
                   "LOGIN",
                   style:
