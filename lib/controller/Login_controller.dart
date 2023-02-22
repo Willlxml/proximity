@@ -11,8 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  String? token;
-  var tokens = ''.obs;
 
   Future<void> loginWithEmail(String email, String password) async {
     Map<String, String> headers = {
@@ -36,10 +34,10 @@ class LoginController extends GetxController {
         final json = jsonDecode(response.body);
 
         if (json['status'] == 0) {
-          token = json['token'];
+          var token = json['token'];
           print(token);
           final SharedPreferences? prefs = await _prefs;
-          await prefs?.setString('token', token!);
+          await prefs?.setString('token', token);
 
           Get.offAll(LandingPageWorker());
 
@@ -65,12 +63,6 @@ class LoginController extends GetxController {
         );
       });
     }
-  }
-  Future<void> logOut() async{
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    print(pref);
-    await pref.remove('token');
-    tokens.value = '';
   }
 }
 

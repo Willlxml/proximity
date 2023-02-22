@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
+import 'package:proximity/pages/splash_screen.dart';
 import 'package:proximity/pages/welcome_page.dart';
 import 'package:get/get.dart';
 import 'package:sqflite/sqflite.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: WelcomePage(),
+      home: SplashScreen(),
       title: "Proximity",
       initialRoute: '/',
       getPages: AppPage.pages,

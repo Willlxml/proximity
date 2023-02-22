@@ -247,7 +247,7 @@ class _SettingPageState extends State<SettingPage> {
                     width: mediaQuerywidht * 0.9,
                     height: mediaQueryheight * 0.05,
                     child: ElevatedButton(
-                      onPressed: () => logoutController.logOut(),
+                      onPressed: () {},
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
