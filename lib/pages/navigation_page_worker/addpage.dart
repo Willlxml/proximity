@@ -36,6 +36,7 @@ class _AddPageState extends State<AddPage> {
       desc_keahlian,
       pengalaman,
       kontak;
+  final GlobalKey<FormState> _formState = GlobalKey<FormState>();
   final controller = Get.put(AddPageWorkerController());
   final TextEditingController namaC = TextEditingController();
   final TextEditingController lokasiC = TextEditingController();
@@ -118,356 +119,378 @@ class _AddPageState extends State<AddPage> {
           )),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            _image != null
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Image.file(
-                          _image!,
-                          width: 350,
-                          height: 200,
-                          fit: BoxFit.contain,
+        child: Form(
+          key: _formState,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              _image != null
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Image.file(
+                            _image!,
+                            width: 350,
+                            height: 200,
+                            fit: BoxFit.contain,
+                          ),
                         ),
-                      ),
-                      ElevatedButton(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
+                        ElevatedButton(
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
                               ),
                             ),
-                          ),
-                          onPressed: () {
-                            getImageGalery();
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.camera_alt,
-                                color: Colors.white,
-                              ),
-                            ],
-                          ))
-                    ],
-                  )
-                : SizedBox(
-                    width: 300,
-                    height: 200,
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: TextButton(
-                          onPressed: () {
-                            getImageGalery();
-                          },
-                          child: Column(
+                            onPressed: () {
+                              getImageGalery();
+                            },
+                            child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
                                   Icons.camera_alt,
-                                  color: Colors.black,
+                                  color: Colors.white,
                                 ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  "Upload your photo",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black),
-                                )
-                              ]),
+                              ],
+                            ))
+                      ],
+                    )
+                  : SizedBox(
+                      width: 300,
+                      height: 200,
+                      child: Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: TextButton(
+                            onPressed: () {
+                              getImageGalery();
+                            },
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.camera_alt,
+                                    color: Colors.black,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "Upload your photo",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black),
+                                  )
+                                ]),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                textInputAction: TextInputAction.next,
-                controller: namaC,
-                decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(Icons.person),
-                  hintText: "Nama Lengkap",
-                  prefixIconColor: Colors.black,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 2.0),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                textInputAction: TextInputAction.next,
-                controller: lokasiC,
-                decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(Icons.pin_drop),
-                  hintText: "Lokasi Kerja",
-                  prefixIconColor: Colors.black,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 2.0),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                textInputAction: TextInputAction.next,
-                controller: jabatanC,
-                decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(FontAwesomeIcons.briefcase),
-                  hintText: "Jabatan",
-                  prefixIconColor: Colors.black,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 2.0),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                controller: descJabatanC,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(FontAwesomeIcons.briefcase),
-                  hintText: "Deskripsi Jabatan",
-                  prefixIconColor: Colors.black,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 2.0),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                textInputAction: TextInputAction.next,
-                controller: keahlianC,
-                decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(FontAwesomeIcons.trophy),
-                  hintText: "Keahlian Khusus",
-                  prefixIconColor: Colors.black,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 2.0),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                textInputAction: TextInputAction.next,
-                controller: descKeahlianC,
-                decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(FontAwesomeIcons.trophy),
-                  hintText: "Deskripsi Keahlian",
-                  prefixIconColor: Colors.black,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 2.0),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: DropdownButtonFormField(
-                borderRadius: BorderRadius.circular(10),
-                isExpanded: true,
-                menuMaxHeight: 150,
-                decoration: InputDecoration(
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: TextFormField(
+                  textInputAction: TextInputAction.next,
+                  controller: namaC,
+                  validator: (value) =>
+                      value!.isEmpty ? 'Nama cannot be empty' : null,
+                  decoration: InputDecoration(
                     filled: true,
                     contentPadding: EdgeInsets.all(20),
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    prefixIcon: Icon(FontAwesomeIcons.userGraduate),
+                        borderRadius: BorderRadius.circular(10)),
+                    prefixIcon: Icon(Icons.person),
+                    hintText: "Nama Lengkap",
+                    prefixIconColor: Colors.black,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(color: Colors.black, width: 1.0),
                     ),
                     focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 2.0),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: TextFormField(
+                   validator: (value) =>
+                      value!.isEmpty ? 'Lokasi cannot be empty' : null,
+                  textInputAction: TextInputAction.next,
+                  controller: lokasiC,
+                  decoration: InputDecoration(
+                    filled: true,
+                    contentPadding: EdgeInsets.all(20),
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    prefixIcon: Icon(Icons.pin_drop),
+                    hintText: "Lokasi Kerja",
+                    prefixIconColor: Colors.black,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 2.0),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: TextFormField(
+                  textInputAction: TextInputAction.next,
+                  controller: jabatanC,
+                   validator: (value) =>
+                      value!.isEmpty ? 'Jabatan cannot be empty' : null,
+                  decoration: InputDecoration(
+                    filled: true,
+                    contentPadding: EdgeInsets.all(20),
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    prefixIcon: Icon(FontAwesomeIcons.briefcase),
+                    hintText: "Jabatan",
+                    prefixIconColor: Colors.black,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 2.0),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: TextFormField(
+                  controller: descJabatanC,
+                   validator: (value) =>
+                      value!.isEmpty ? 'Deskripsi Jabatan cannot be empty' : null,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    filled: true,
+                    contentPadding: EdgeInsets.all(20),
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    prefixIcon: Icon(FontAwesomeIcons.briefcase),
+                    hintText: "Deskripsi Jabatan",
+                    prefixIconColor: Colors.black,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 2.0),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: TextFormField(
+                  textInputAction: TextInputAction.next,
+                   validator: (value) =>
+                      value!.isEmpty ? 'Keahlian Khusus cannot be empty' : null,
+                  controller: keahlianC,
+                  decoration: InputDecoration(
+                    filled: true,
+                    contentPadding: EdgeInsets.all(20),
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    prefixIcon: Icon(FontAwesomeIcons.trophy),
+                    hintText: "Keahlian Khusus",
+                    prefixIconColor: Colors.black,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 2.0),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: TextFormField(
+                  textInputAction: TextInputAction.next,
+                  controller: descKeahlianC,
+                   validator: (value) =>
+                      value!.isEmpty ? 'Deskripsi Keahlian cannot be empty' : null,
+                  decoration: InputDecoration(
+                    filled: true,
+                    contentPadding: EdgeInsets.all(20),
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    prefixIcon: Icon(FontAwesomeIcons.trophy),
+                    hintText: "Deskripsi Keahlian",
+                    prefixIconColor: Colors.black,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 2.0),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: DropdownButtonFormField(
+                  borderRadius: BorderRadius.circular(10),
+                  validator: (value) => value!.isEmpty ? 'Pendidikan Terakhir cannot be empty' : null,
+                  isExpanded: true,
+                  menuMaxHeight: 150,
+                  decoration: InputDecoration(
+                      filled: true,
+                      contentPadding: EdgeInsets.all(20),
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            BorderSide(color: Colors.black, width: 2.0))),
-                value: _valPendidikan,
-                items: _dataPendidikan.map((item) {
-                  return DropdownMenuItem(
-                    child: Text(item['nama']),
-                    value: item['id'].toString(),
-                  );
-                }).toList(),
-                onChanged: (v) {
-                  setState(() {
-                    _valPendidikan = v;
-                    print(_valPendidikan);
-                  });
-                },
+                      ),
+                      prefixIcon: Icon(FontAwesomeIcons.userGraduate),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.black, width: 1.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 2.0))),
+                  value: _valPendidikan,
+                  items: _dataPendidikan.map((item) {
+                    return DropdownMenuItem(
+                      child: Text(item['nama']),
+                      value: item['id'].toString(),
+                    );
+                  }).toList(),
+                  onChanged: (v) {
+                    setState(() {
+                      _valPendidikan = v;
+                      print(_valPendidikan);
+                    });
+                  },
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                textInputAction: TextInputAction.next,
-                controller: pengalamanC,
-                decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(Icons.history),
-                  hintText: "Pengalaman Kerja",
-                  prefixIconColor: Colors.black,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 2.0),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: TextFormField(
+                  textInputAction: TextInputAction.next,
+                  controller: pengalamanC,
+                   validator: (value) =>
+                      value!.isEmpty ? 'Pengalaman cannot be empty' : null,
+                  decoration: InputDecoration(
+                    filled: true,
+                    contentPadding: EdgeInsets.all(20),
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    prefixIcon: Icon(Icons.history),
+                    hintText: "Pengalaman Kerja",
+                    prefixIconColor: Colors.black,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 2.0),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                textInputAction: TextInputAction.done,
-                controller: contactC,
-                decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(FontAwesomeIcons.idCard),
-                  hintText: "Contact",
-                  prefixIconColor: Colors.black,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 2.0),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 300,
-              child: ElevatedButton(
-                onPressed: () {
-                  controller.addWorker(
-                      namaC.text,
-                      lokasiC.text,
-                      jabatanC.text,
-                      descJabatanC.text,
-                      keahlianC.text,
-                      descKeahlianC.text,
-                      pengalamanC.text,
-                      contactC.text,
-                      _valPendidikan!,
-                      _image!,
-                      context);
-                },
-                child: Text(
-                  "SUBMIT",
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.w600),
-                ),
-                style: ElevatedButton.styleFrom(
-                  elevation: 5,
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: TextFormField(
+                  textInputAction: TextInputAction.done,
+                  controller: contactC,
+                   validator: (value) =>
+                      value!.isEmpty ? 'Kontak cannot be empty' : null,
+                  decoration: InputDecoration(
+                    filled: true,
+                    contentPadding: EdgeInsets.all(20),
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    prefixIcon: Icon(FontAwesomeIcons.idCard),
+                    hintText: "Contact",
+                    prefixIconColor: Colors.black,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 2.0),
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 80,
-            )
-          ],
+              SizedBox(
+                width: 300,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if(_formState.currentState!.validate()){
+                    controller.addWorker(
+                        namaC.text,
+                        lokasiC.text,
+                        jabatanC.text,
+                        descJabatanC.text,
+                        keahlianC.text,
+                        descKeahlianC.text,
+                        pengalamanC.text,
+                        contactC.text,
+                        _valPendidikan!,
+                        _image!,
+                        context);
+                    }
+                  },
+                  child: Text(
+                    "SUBMIT",
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.w600),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 5,
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 80,
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:proximity/controller/databasehelper.dart';
 import 'package:proximity/model/favorite.dart';
+import 'package:sqflite/sqflite.dart';
 import '../../colors/color.dart';
 
 class FavoritePageCompany extends StatefulWidget {
@@ -14,6 +15,13 @@ class FavoritePageCompany extends StatefulWidget {
 
 class _FavoritePageCompanyState extends State<FavoritePageCompany> {
   // final controller = Get.put(FavouriteController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    DatabaseHelper.instace.getFavorite();
+    super.initState();
+  }
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -38,7 +46,7 @@ class _FavoritePageCompanyState extends State<FavoritePageCompany> {
         leading: Container(),
         backgroundColor: Colors.white,
         title: Text(
-          "Favourite",
+          "Favorite",
           style: TextStyle(
               fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
         ),
@@ -50,7 +58,7 @@ class _FavoritePageCompanyState extends State<FavoritePageCompany> {
               (BuildContext context, AsyncSnapshot<List<Favorite>> snapshot) {
             if (!snapshot.hasData) {
               return Center(
-                child: CircularProgressIndicator(),
+                child: Text("Empty data"),
               );
             }
             return ListView(
@@ -95,13 +103,13 @@ class _FavoritePageCompanyState extends State<FavoritePageCompany> {
                           print(favorite.pendidikanTerakhir);
                         },
                         leading: CircleAvatar(
-                            backgroundImage: NetworkImage(favorite.image)),
-                        title: Text(favorite.namaLengkap),
+                            backgroundImage: NetworkImage(favorite.image!)),
+                        title: Text(favorite.namaLengkap!),
                         tileColor: Colors.white,
                         shape: RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10))),
-                        subtitle: Text(favorite.jabatan),
+                        subtitle: Text(favorite.jabatan!),
                         trailing: IconButton(
                           onPressed: () async {
                             setState(() {

@@ -21,12 +21,40 @@ class _CategoryDetailState extends State<CategoryDetail> {
   List<dynamic> _dataPendidikan = [];
   // final controller = Get.put(FavouriteController());
   bool Clicked = true;
+  String text = "Kosong";
+
+  var data = [
+    "default",
+    "SD",
+    "SMP",
+    "SMA",
+    "D1",
+    "D2",
+    "D3",
+    "S1",
+    "S2",
+    "S3"
+  ];
+
+  void changeText() {
+    setState(() {
+      text = data[int.parse('${Get.parameters['pendidikan']}')];
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    changeText();
+    super.initState();
+  }
+
   @override
   void didChangeDependencies() {
-    if(Clicked ==  false){
+    if (Clicked == false) {
       Clicked == false;
-    }else{
-     Clicked == true;
+    } else {
+      Clicked == true;
     }
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
@@ -34,7 +62,6 @@ class _CategoryDetailState extends State<CategoryDetail> {
 
   final TextEditingController nameC =
       TextEditingController(text: "${Get.parameters['name']}");
- 
   final TextEditingController lokasiC =
       TextEditingController(text: "${Get.parameters['lokasi']}");
   final TextEditingController jabatanC =
@@ -56,7 +83,8 @@ class _CategoryDetailState extends State<CategoryDetail> {
 
   @override
   Widget build(BuildContext context) {
-    var _value = "-1";
+    var idd = Get.parameters["idd"];
+    var pendidikanInt = Get.parameters["pendidikan"];
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: skyBlue,
@@ -70,10 +98,59 @@ class _CategoryDetailState extends State<CategoryDetail> {
             Padding(
               padding: const EdgeInsets.only(right: 10),
               child: IconButton(
-                  onPressed: () {
-                    // controller.createTable();
-                  },
-                  icon: Icon(Icons.help, color: Colors.black)),
+                onPressed: () async {
+                  await DatabaseHelper.instace
+                      .add(Favorite(
+                          id: int.parse(idd!),
+                          namaLengkap: nameC.text,
+                          lokasi: lokasiC.text,
+                          jabatan: jabatanC.text,
+                          descJabatan: descJabatanC.text,
+                          keahlian: keahlianC.text,
+                          descKeahlian: descKeahlianC.text,
+                          pendidikanTerakhir:
+                              int.parse(pendidikanTerakhir.text),
+                          pengalamanKerja: pengalamanC.text,
+                          kontak: contactC.text,
+                          image: imageC.text))
+                      .then((value) {
+                    final snackBar = SnackBar(
+                      duration: 3.seconds,
+                      elevation: 0,
+                      backgroundColor: Colors.green,
+                      behavior: SnackBarBehavior.floating,
+                      content: Row(
+                        children: [
+                          Icon(
+                            Icons.info,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "Added to Favorites",
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                    );
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentMaterialBanner()
+                      ..showSnackBar(snackBar);
+                  });
+                  setState(() {
+                    Clicked = !Clicked;
+                  });
+                },
+                icon: Icon(
+                  (Clicked == false) ? Icons.favorite : Icons.favorite_border,
+                  color: Colors.red,
+                ),
+                style: IconButton.styleFrom(
+                  elevation: 5,
+                ),
+              ),
             )
           ],
           title: Text(
@@ -90,328 +167,284 @@ class _CategoryDetailState extends State<CategoryDetail> {
             SizedBox(
               height: 20,
             ),
-            Center(
-              child: Container(
-                width: 300,
-                child: Image.network(
-                  '${Get.parameters['image']}',
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
             Padding(
-              padding: const EdgeInsets.only(left: 20, top: 10),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 100,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Hire",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.w600),
+              padding: const EdgeInsets.only(right: 10, left: 10),
+              child: Card(
+                clipBehavior: Clip.hardEdge,
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      right: 10, left: 10, top: 15, bottom: 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                              width: 100,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.black, width: 1.5),
+                                  shape: BoxShape.circle),
+                              child: CircleAvatar(
+                                backgroundImage: Image.network(
+                                  '${Get.parameters["image"]}',
+                                  fit: BoxFit.cover,
+                                ).image,
+                              )),
+                        ),
                       ),
-                      style: ElevatedButton.styleFrom(
-                          elevation: 5, backgroundColor: Colors.white),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () async {
-                      await DatabaseHelper.instace
-                          .add(Favorite(
-                              id: null,
-                              namaLengkap: nameC.text,
-                              lokasi: lokasiC.text,
-                              jabatan: jabatanC.text,
-                              descJabatan: descJabatanC.text,
-                              keahlian: keahlianC.text,
-                              descKeahlian: descKeahlianC.text,
-                              pendidikanTerakhir: pendidikanTerakhir.text,
-                              pengalamanKerja: pengalamanC.text,
-                              kontak: contactC.text,
-                              image: imageC.text))
-                          .then((value) {
-                        final snackBar = SnackBar(
-                          duration: 3.seconds,
-                          elevation: 0,
-                          backgroundColor: Colors.green,
-                          behavior: SnackBarBehavior.floating,
-                          content: Row(
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 10, right: 10, top: 5, bottom: 5),
+                            child: Text("${Get.parameters["name"]}",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                    overflow: TextOverflow.ellipsis,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20)),
+                          ),
+                          Divider(
+                            thickness: 1,
+                            color: Colors.black,
+                            indent: 30,
+                            endIndent: 30,
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Icon(
-                                Icons.info,
-                                color: Colors.white,
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 5,
+                                  bottom: 5,
+                                  top: 5,
+                                ),
+                                child: RichText(
+                                  text: TextSpan(
+                                      text: "Jabatan yang di inginkan: ",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 16,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text:
+                                                "${Get.parameters['jabatan']}",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black))
+                                      ]),
+                                ),
                               ),
-                              SizedBox(
-                                width: 10,
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 5,
+                                  bottom: 5,
+                                  top: 5,
+                                ),
+                                child: RichText(
+                                  overflow: TextOverflow.clip,
+                                  text: TextSpan(
+                                      text: "Deskripsi jabatan: ",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 16,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text:
+                                                "${Get.parameters['desc_jabatan']}",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black))
+                                      ]),
+                                ),
                               ),
-                              Text(
-                                "Added to Favorites",
-                                style: TextStyle(fontWeight: FontWeight.w600),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 5,
+                                  bottom: 5,
+                                  top: 5,
+                                ),
+                                child: RichText(
+                                  text: TextSpan(
+                                      text: "Lokasi Kerja: ",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 16,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: "${Get.parameters['lokasi']}",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black))
+                                      ]),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 5,
+                                  bottom: 5,
+                                  top: 5,
+                                ),
+                                child: Container(
+                                  width: 330,
+                                  child: RichText(
+                                    softWrap: true,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                        text: "Keahlian: ",
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16,
+                                        ),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                              text:
+                                                  "${Get.parameters['keahlian']}",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black))
+                                        ]),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 5,
+                                  bottom: 5,
+                                  top: 5,
+                                ),
+                                child: Container(
+                                  width: 330,
+                                  child: RichText(
+                                    overflow: TextOverflow.clip,
+                                    text: TextSpan(
+                                        text: "Deskripsi Keahlian: ",
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                              text:
+                                                  "${Get.parameters['desc_keahlian']}",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black))
+                                        ]),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 5,
+                                  bottom: 5,
+                                  top: 5,
+                                ),
+                                child: RichText(
+                                  text: TextSpan(
+                                      text: "Pendidikan Terakhir: ",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 16,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: text,
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black))
+                                      ]),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 5,
+                                  bottom: 5,
+                                  top: 5,
+                                ),
+                                child: RichText(
+                                  text: TextSpan(
+                                      text: "Pengalaman Kerja: ",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 16,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text:
+                                                "${Get.parameters['pengalaman_kerja']}",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black))
+                                      ]),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 5,
+                                  bottom: 5,
+                                  top: 5,
+                                ),
+                                child: RichText(
+                                  text: TextSpan(
+                                      text: "Kontak: ",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 16,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: "${Get.parameters['kontak']}",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black))
+                                      ]),
+                                ),
                               ),
                             ],
                           ),
-                        );
-                        ScaffoldMessenger.of(context)
-                          ..hideCurrentMaterialBanner()
-                          ..showSnackBar(snackBar);
-                      });
-                      setState(() {
-                        Clicked = !Clicked;
-                      });
-                    },
-                    icon: Icon((Clicked == false) ? Icons.favorite : Icons.favorite_border , color: Colors.red,),
-                    style: IconButton.styleFrom(
-                      elevation: 5,
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Center(
+                child: SizedBox(
+                  width: 330,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Hire",
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w600),
                     ),
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                controller: nameC,
-                enabled: false,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(Icons.person),
-                  prefixIconColor: Colors.black,
-                  disabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                controller: lokasiC,
-                enabled: false,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(Icons.pin_drop),
-                  prefixIconColor: Colors.black,
-                  disabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                controller: jabatanC,
-                enabled: false,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(FontAwesomeIcons.briefcase),
-                  prefixIconColor: Colors.black,
-                  disabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                controller: descJabatanC,
-                enabled: false,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(FontAwesomeIcons.briefcase),
-                  prefixIconColor: Colors.black,
-                  disabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                controller: keahlianC,
-                enabled: false,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(FontAwesomeIcons.trophy),
-                  prefixIconColor: Colors.black,
-                  disabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                controller: descKeahlianC,
-                enabled: false,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(FontAwesomeIcons.trophy),
-                  prefixIconColor: Colors.black,
-                  disabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: DropdownButtonFormField(
-                borderRadius: BorderRadius.circular(10),
-                isExpanded: true,
-                menuMaxHeight: 150,
-                decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(FontAwesomeIcons.userGraduate),
-                  prefixIconColor: Colors.black,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                ),
-                value: _value = Get.parameters['pendidikan']!,
-                items: [
-                  DropdownMenuItem(
-                      child: Text(
-                        'SD',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _value = 1.toString()),
-                  DropdownMenuItem(
-                      child: Text(
-                        'SMP',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _value = 2.toString()),
-                  DropdownMenuItem(
-                      child: Text(
-                        'SMA',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _value = 3.toString()),
-                  DropdownMenuItem(
-                      child: Text(
-                        'D1',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _value = 4.toString()),
-                  DropdownMenuItem(
-                      child: Text(
-                        'D2',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _value = 5.toString()),
-                  DropdownMenuItem(
-                      child: Text(
-                        'D3',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _value = 6.toString()),
-                  DropdownMenuItem(
-                      child: Text(
-                        'S1',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _value = 7.toString()),
-                  DropdownMenuItem(
-                      child: Text(
-                        'S2',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _value = 8.toString()),
-                  DropdownMenuItem(
-                      child: Text(
-                        'S3',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _value = 9.toString()),
-                ],
-                onChanged: null,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                controller: pengalamanC,
-                enabled: false,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(Icons.history),
-                  prefixIconColor: Colors.black,
-                  disabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                controller: contactC,
-                enabled: false,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  filled: true,
-                  contentPadding: EdgeInsets.all(20),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  prefixIcon: Icon(FontAwesomeIcons.idCard),
-                  prefixIconColor: Colors.black,
-                  disabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 1.0),
+                    style: ElevatedButton.styleFrom(
+                        elevation: 5, backgroundColor: Colors.white),
                   ),
                 ),
               ),

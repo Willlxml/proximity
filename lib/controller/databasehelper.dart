@@ -22,17 +22,17 @@ class DatabaseHelper {
   }
 
   Future _onCreate(Database db, int version) async {
-    await db.execute('''CREATE TABLE favorite(
-    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    await db.execute('''CREATE TABLE IF NOT EXISTS favorite(
+    id INTEGER PRIMARY KEY NOT NULL,
     nama_lengkap TEXT,
     lokasi TEXT,
     jabatan TEXT,
     desc_jabatan TEXT,
-    keahlian TEXT, 
+    keahlian TEXT,
     desc_keahlian TEXT,
     pendidikan_terakhir INTEGER,
     pengalaman_kerja TEXT,
-    kontak TEXT, 
+    kontak TEXT,
     image TEXT)
 ''');
   }
@@ -48,7 +48,8 @@ class DatabaseHelper {
 
   Future<int> add(Favorite favorite) async {
     Database db = await instace.database;
-    return await db.insert('favorite', favorite.toMap());
+    return await db.insert('favorite', favorite.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future<int> remove(int id) async {
