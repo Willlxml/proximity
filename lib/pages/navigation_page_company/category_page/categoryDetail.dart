@@ -83,6 +83,8 @@ class _CategoryDetailState extends State<CategoryDetail> {
 
   @override
   Widget build(BuildContext context) {
+    var idd = Get.parameters["idd"];
+    var pendidikanInt = Get.parameters["pendidikan"];
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: skyBlue,
@@ -99,14 +101,14 @@ class _CategoryDetailState extends State<CategoryDetail> {
                 onPressed: () async {
                   await DatabaseHelper.instace
                       .add(Favorite(
-                          id: null,
+                          id: int.parse(idd!),
                           namaLengkap: nameC.text,
                           lokasi: lokasiC.text,
                           jabatan: jabatanC.text,
                           descJabatan: descJabatanC.text,
                           keahlian: keahlianC.text,
                           descKeahlian: descKeahlianC.text,
-                          pendidikanTerakhir: pendidikanTerakhir.text,
+                          pendidikanTerakhir: int.parse(pendidikanTerakhir.text),
                           pengalamanKerja: pengalamanC.text,
                           kontak: contactC.text,
                           image: imageC.text))
@@ -418,7 +420,7 @@ class _CategoryDetailState extends State<CategoryDetail> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only( top: 10),
+              padding: const EdgeInsets.only(top: 10),
               child: Center(
                 child: SizedBox(
                   width: 330,
@@ -435,85 +437,6 @@ class _CategoryDetailState extends State<CategoryDetail> {
                 ),
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.all(10),
-            //   child: DropdownButtonFormField(
-            //     borderRadius: BorderRadius.circular(10),
-            //     isExpanded: true,
-            //     menuMaxHeight: 150,
-            //     decoration: InputDecoration(
-            //       filled: true,
-            //       contentPadding: EdgeInsets.all(20),
-            //       fillColor: Colors.white,
-            //       border: OutlineInputBorder(
-            //           borderRadius: BorderRadius.circular(10)),
-            //       prefixIcon: Icon(FontAwesomeIcons.userGraduate),
-            //       prefixIconColor: Colors.black,
-            //       enabledBorder: OutlineInputBorder(
-            //         borderRadius: BorderRadius.circular(10),
-            //         borderSide: BorderSide(color: Colors.black, width: 1.0),
-            //       ),
-            //     ),
-            //     value: _value = Get.parameters['pendidikan']!,
-            //     items: [
-            //       DropdownMenuItem(
-            //           child: Text(
-            //             'SD',
-            //             style: TextStyle(color: Colors.black),
-            //           ),
-            //           value: _value = 1.toString()),
-            //       DropdownMenuItem(
-            //           child: Text(
-            //             'SMP',
-            //             style: TextStyle(color: Colors.black),
-            //           ),
-            //           value: _value = 2.toString()),
-            //       DropdownMenuItem(
-            //           child: Text(
-            //             'SMA',
-            //             style: TextStyle(color: Colors.black),
-            //           ),
-            //           value: _value = 3.toString()),
-            //       DropdownMenuItem(
-            //           child: Text(
-            //             'D1',
-            //             style: TextStyle(color: Colors.black),
-            //           ),
-            //           value: _value = 4.toString()),
-            //       DropdownMenuItem(
-            //           child: Text(
-            //             'D2',
-            //             style: TextStyle(color: Colors.black),
-            //           ),
-            //           value: _value = 5.toString()),
-            //       DropdownMenuItem(
-            //           child: Text(
-            //             'D3',
-            //             style: TextStyle(color: Colors.black),
-            //           ),
-            //           value: _value = 6.toString()),
-            //       DropdownMenuItem(
-            //           child: Text(
-            //             'S1',
-            //             style: TextStyle(color: Colors.black),
-            //           ),
-            //           value: _value = 7.toString()),
-            //       DropdownMenuItem(
-            //           child: Text(
-            //             'S2',
-            //             style: TextStyle(color: Colors.black),
-            //           ),
-            //           value: _value = 8.toString()),
-            //       DropdownMenuItem(
-            //           child: Text(
-            //             'S3',
-            //             style: TextStyle(color: Colors.black),
-            //           ),
-            //           value: _value = 9.toString()),
-            //     ],
-            //     onChanged: null,
-            //   ),
-            // ),
           ],
         ),
       ),

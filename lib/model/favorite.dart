@@ -14,16 +14,16 @@ class Favorite {
   });
 
   int? id;
-  String namaLengkap;
-  String lokasi;
-  String jabatan;
-  String descJabatan;
-  String keahlian;
-  String descKeahlian;
-  String pendidikanTerakhir;
-  String pengalamanKerja;
-  String kontak;
-  String image;
+  String? namaLengkap;
+  String? lokasi;
+  String? jabatan;
+  String? descJabatan;
+  String? keahlian;
+  String? descKeahlian;
+  int? pendidikanTerakhir;
+  String? pengalamanKerja;
+  String? kontak;
+  String? image;
 
     factory Favorite.fromMap(Map<String, dynamic> json) => new Favorite(
         id: json['id'],
@@ -38,7 +38,7 @@ class Favorite {
         kontak: json['kontak'],
         image: json['image'],
       );
-
+ 
   Map<String, dynamic> toMap() {
     return {
       "nama_lengkap": namaLengkap,
@@ -52,6 +52,7 @@ class Favorite {
       "kontak": kontak,
       "image": image,
     };
+
   }
 
  
