@@ -81,7 +81,6 @@ class AddPageWorkerController extends GetxController {
         ..showSnackBar(snackBar);
     }
     final Map<String, dynamic> responseData = json.decode(response.body);
-
     return responseData;
   }
 }

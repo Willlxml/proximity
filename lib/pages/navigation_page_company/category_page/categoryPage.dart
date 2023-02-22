@@ -37,20 +37,25 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
     super.dispose();
   }
 
-  Future fetchUsers() async {
+  Future fetchUsers({int maxRetries = 5}) async {
     // Get Data
-    Uri url = Uri.parse('http://103.179.86.77:4567/api/pekerja');
-    final response = await http.get(url);
-    try {
-      final json = jsonDecode(response.body);
-      setState(() {
-        users = json['data'];
-      });
-    } catch (e) {
-      return e;
+    int retryCount = 0;
+    while (retryCount < maxRetries) {
+      Uri url = Uri.parse('http://103.179.86.77:4567/api/pekerja');
+      final response = await http.get(url);
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+          final json = jsonDecode(response.body);
+          setState(() {
+            users = json['data'];
+          });
+          return response;
+      } else {
+        await Future.delayed(Duration(seconds: 3));
+        retryCount++;
+        print(retryCount);
+      }
     }
-
-    print(json);
+    throw Exception('Failed to get response after $maxRetries retries.');
   }
 
   @override
@@ -83,7 +88,7 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
           // var data = snapshot.data;
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: Colors.white,),
             );
           } else {
             return ListView.builder(

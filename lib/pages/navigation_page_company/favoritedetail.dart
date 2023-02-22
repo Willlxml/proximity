@@ -278,22 +278,25 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                                   bottom: 5,
                                   top: 5,
                                 ),
-                                child: RichText(
-                                  text: TextSpan(
-                                      text: "Keahlian: ",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 16,
-                                      ),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                            text:
-                                                "${Get.arguments[5]}",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.black))
-                                      ]),
+                                child: Container(
+                                  width: 330,
+                                  child: RichText(
+                                    text: TextSpan(
+                                        text: "Keahlian: ",
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16,
+                                        ),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                              text:
+                                                  "${Get.arguments[5]}",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black))
+                                        ]),
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -302,22 +305,25 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                                   bottom: 5,
                                   top: 5,
                                 ),
-                                child: RichText(
-                                  text: TextSpan(
-                                      text: "Deskripsi Keahlian: ",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 16,
-                                      ),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                            text:
-                                                "${Get.arguments[6]}",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.black))
-                                      ]),
+                                child: Container(
+                                  width: 330,
+                                  child: RichText(
+                                    text: TextSpan(
+                                        text: "Deskripsi Keahlian: ",
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16,
+                                        ),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                              text:
+                                                  "${Get.arguments[6]}",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black))
+                                        ]),
+                                  ),
                                 ),
                               ),
                               Padding(

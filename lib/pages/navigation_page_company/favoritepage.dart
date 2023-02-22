@@ -58,7 +58,7 @@ class _FavoritePageCompanyState extends State<FavoritePageCompany> {
               (BuildContext context, AsyncSnapshot<List<Favorite>> snapshot) {
             if (!snapshot.hasData) {
               return Center(
-                child: CircularProgressIndicator(),
+                child: Text("Empty data"),
               );
             }
             return ListView(

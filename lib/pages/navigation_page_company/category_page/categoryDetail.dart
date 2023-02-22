@@ -108,7 +108,8 @@ class _CategoryDetailState extends State<CategoryDetail> {
                           descJabatan: descJabatanC.text,
                           keahlian: keahlianC.text,
                           descKeahlian: descKeahlianC.text,
-                          pendidikanTerakhir: int.parse(pendidikanTerakhir.text),
+                          pendidikanTerakhir:
+                              int.parse(pendidikanTerakhir.text),
                           pengalamanKerja: pengalamanC.text,
                           kontak: contactC.text,
                           image: imageC.text))
@@ -252,6 +253,7 @@ class _CategoryDetailState extends State<CategoryDetail> {
                                   top: 5,
                                 ),
                                 child: RichText(
+                                  overflow: TextOverflow.clip,
                                   text: TextSpan(
                                       text: "Deskripsi jabatan: ",
                                       style: TextStyle(
@@ -298,22 +300,28 @@ class _CategoryDetailState extends State<CategoryDetail> {
                                   bottom: 5,
                                   top: 5,
                                 ),
-                                child: RichText(
-                                  text: TextSpan(
-                                      text: "Keahlian: ",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 16,
-                                      ),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                            text:
-                                                "${Get.parameters['keahlian']}",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.black))
-                                      ]),
+                                child: Container(
+                                  width: 330,
+                                  child: RichText(
+                                    softWrap: true,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                        text: "Keahlian: ",
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16,
+                                        ),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                              text:
+                                                  "${Get.parameters['keahlian']}",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black))
+                                        ]),
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -322,22 +330,26 @@ class _CategoryDetailState extends State<CategoryDetail> {
                                   bottom: 5,
                                   top: 5,
                                 ),
-                                child: RichText(
-                                  text: TextSpan(
-                                      text: "Deskripsi Keahlian: ",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 16,
-                                      ),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                            text:
-                                                "${Get.parameters['desc_keahlian']}",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.black))
-                                      ]),
+                                child: Container(
+                                  width: 330,
+                                  child: RichText(
+                                    overflow: TextOverflow.clip,
+                                    text: TextSpan(
+                                        text: "Deskripsi Keahlian: ",
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                              text:
+                                                  "${Get.parameters['desc_keahlian']}",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black))
+                                        ]),
+                                  ),
                                 ),
                               ),
                               Padding(
