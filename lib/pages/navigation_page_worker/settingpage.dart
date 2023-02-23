@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:proximity/colors/color.dart';
 import 'package:proximity/controller/Login_controller.dart';
 import 'package:proximity/pages/login.dart';
+import 'package:proximity/routes/route_name.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path/path.dart';
 import 'package:get/get.dart';
@@ -21,15 +22,10 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   final controller = Get.put(LoginController());
   File? _image;
-
   String? status = '';
-
   String? base64image;
-
   File? tempFile;
-
   String? error = 'error';
-
   TextEditingController nameC = TextEditingController();
 
   Future getImageGalery() async {
@@ -248,8 +244,34 @@ class _SettingPageState extends State<SettingPage> {
                     width: mediaQuerywidht * 0.9,
                     height: mediaQueryheight * 0.05,
                     child: ElevatedButton(
-                      onPressed: () {
-                        controller.Logout();
+                      onPressed: () async {
+                        await controller.Logout().then((value) {
+                          Get.off(LoginPage());
+                          final snackBar = SnackBar(
+                              duration: 3.seconds,
+                              elevation: 0,
+                              backgroundColor: Colors.green,
+                              behavior: SnackBarBehavior.floating,
+                              content: Row(
+                                children: [
+                                  Icon(
+                                    Icons.info,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "Successfully logged out",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              ));
+                          ScaffoldMessenger.of(context)
+                            ..hideCurrentMaterialBanner()
+                            ..showSnackBar(snackBar);
+                        });
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,

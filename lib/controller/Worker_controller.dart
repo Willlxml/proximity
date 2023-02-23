@@ -89,4 +89,15 @@ class WorkerController extends GetxController {
     }
     return _allDatum;
   }
+
+   Future<void> delete(String id) {
+    Uri url = Uri.parse(
+      "http://10.0.0.15:4567/api/pekerjadelete",
+    );
+    return http.delete(url).then(
+      (response) {
+        _allDatum.removeWhere((element) => element.id == id);
+      },
+    );
+  }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
+import 'package:proximity/pages/landingpage_company.dart';
 import 'package:proximity/pages/landingpage_worker.dart';
 import 'package:proximity/pages/login.dart';
 import 'package:proximity/utils/api_endpoints.dart';
@@ -14,10 +15,10 @@ class LoginController extends GetxController {
 
   String? _token;
 
-  String? get bearer{
-    if (_token != null){
+  String? get bearer {
+    if (_token != null) {
       return _token!;
-    }else{
+    } else {
       return null;
     }
   }
@@ -40,47 +41,56 @@ class LoginController extends GetxController {
       // jika berhasil
       if (response.statusCode >= 200 && response.statusCode < 300) {
         final responseData = jsonDecode(response.body);
-        if (responseData['status'] == 0) {
-           _token = responseData['token'];
+        if (responseData['message'] == 'Success') {
+          _token = responseData['token'];
           print(_token);
           final SharedPreferences? prefs = await _prefs;
           await prefs?.setString('token', _token!);
-
           Get.offAll(LandingPageWorker());
-
         } else {
           throw jsonDecode(response.body)["message"];
         }
       } else {
         // invalid response
         Get.back();
-        showDialog(context: Get.context!, builder: (context) {
-          return SimpleDialog(
-            title: Text("Error"),
-            contentPadding: EdgeInsets.all(20),
-            children: [Text("Login Failed Email Or Password Invalid")],
-          );
-        });
+        showDialog(
+            context: Get.context!,
+            builder: (context) {
+              return SimpleDialog(
+                title: Text("Error"),
+                contentPadding: EdgeInsets.all(20),
+                children: [Text("Something went wrong!")],
+              );
+            });
       }
     } catch (error) {
       // jika error
-      showDialog(context: Get.context!, builder: (context) {
-        return SimpleDialog(
-          title: Text("Error"),
-          contentPadding: EdgeInsets.all(20),
-          children: [Text("Login Failed, Email Or Password Invalid")],
-        );
-      });
+      print(error);
+      // showDialog(context: Get.context!, builder: (context) {
+      //   return SimpleDialog(
+      //     title: Text("Error"),
+      //     contentPadding: EdgeInsets.all(20),
+      //     children: [Text("Login Failed, Email Or Password Invalid")],
+      //   );
+      // });
     }
   }
 
-  Future <void> Logout() async {
+  Future<void> Logout() async {
     // menghapus token dari local state
     final pref = await SharedPreferences.getInstance();
-    _token = '';
-    final tokens = pref.remove('token');
-    print(_token);
-
+    final tokens = pref.getString('token');
+    // print(_token);
+    // menghapus token dari server
+    Uri url = Uri.parse('http://103.179.86.77:4567/api/logout');
+    final response =
+        await http.get(url, headers: {'Authorization': 'Bearer $tokens'});
+    if (response.statusCode == 200) {
+      print("success");
+      _token = '';
+      pref.remove('token');
+    } else {
+      throw Exception('gagal logout');
+    }
   }
 }
-

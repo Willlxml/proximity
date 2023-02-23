@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:proximity/controller/Worker_controller.dart';
 import 'package:proximity/controller/databasehelper.dart';
 import 'package:proximity/model/favorite.dart';
 // import 'package:proximity/controller/Favourite_controller.dart';
@@ -19,8 +20,8 @@ class CategoryDetail extends StatefulWidget {
 
 class _CategoryDetailState extends State<CategoryDetail> {
   List<dynamic> _dataPendidikan = [];
-  // final controller = Get.put(FavouriteController());
   bool Clicked = true;
+  final controller = Get.put(WorkerController());
   String text = "Kosong";
 
   var data = [
@@ -440,6 +441,26 @@ class _CategoryDetailState extends State<CategoryDetail> {
                     onPressed: () {},
                     child: Text(
                       "Hire",
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w600),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        elevation: 5, backgroundColor: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Center(
+                child: SizedBox(
+                  width: 330,
+                  child: ElevatedButton(
+                    onPressed: () {
+
+                    },
+                    child: Text(
+                      "Delete this job vacancy",
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w600),
                     ),
