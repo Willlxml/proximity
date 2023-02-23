@@ -19,6 +19,7 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
+  final controller = Get.put(LoginController());
   File? _image;
 
   String? status = '';
@@ -247,7 +248,9 @@ class _SettingPageState extends State<SettingPage> {
                     width: mediaQuerywidht * 0.9,
                     height: mediaQueryheight * 0.05,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        controller.Logout();
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [

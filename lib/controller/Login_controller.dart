@@ -12,6 +12,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginController extends GetxController {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
+  String? _token;
+
+  String? get bearer{
+    if (_token != null){
+      return _token!;
+    }else{
+      return null;
+    }
+  }
+
   Future<void> loginWithEmail(String email, String password) async {
     Map<String, String> headers = {
       'Content-type': 'application/json;charset=UTF-8',
@@ -20,24 +30,21 @@ class LoginController extends GetxController {
     try {
       var url = Uri.parse(
           ApiEndPoints.baseUrl + ApiEndPoints.authEndPoints.loginEmail);
-
       final request = http.MultipartRequest('POST', url);
-
+      // request
       request.fields["email"] = email;
       request.fields["password"] = password;
-
+      // request send
       final streamres = await request.send();
       final response = await http.Response.fromStream(streamres);
-      final json = jsonDecode(response.body);
-      print(json);
-      if (response.statusCode == 200) {
-        final json = jsonDecode(response.body);
-
-        if (json['status'] == 0) {
-          var token = json['token'];
-          print(token);
+      // jika berhasil
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        final responseData = jsonDecode(response.body);
+        if (responseData['status'] == 0) {
+           _token = responseData['token'];
+          print(_token);
           final SharedPreferences? prefs = await _prefs;
-          await prefs?.setString('token', token);
+          await prefs?.setString('token', _token!);
 
           Get.offAll(LandingPageWorker());
 
@@ -45,6 +52,7 @@ class LoginController extends GetxController {
           throw jsonDecode(response.body)["message"];
         }
       } else {
+        // invalid response
         Get.back();
         showDialog(context: Get.context!, builder: (context) {
           return SimpleDialog(
@@ -55,6 +63,7 @@ class LoginController extends GetxController {
         });
       }
     } catch (error) {
+      // jika error
       showDialog(context: Get.context!, builder: (context) {
         return SimpleDialog(
           title: Text("Error"),
@@ -63,6 +72,15 @@ class LoginController extends GetxController {
         );
       });
     }
+  }
+
+  Future <void> Logout() async {
+    // menghapus token dari local state
+    final pref = await SharedPreferences.getInstance();
+    _token = '';
+    final tokens = pref.remove('token');
+    print(_token);
+
   }
 }
 
