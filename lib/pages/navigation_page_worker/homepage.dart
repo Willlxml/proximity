@@ -1,12 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:faker/faker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomePage extends StatelessWidget {
- var faker = new Faker();
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+   String? nama;
+
+  Future<dynamic>? userData;
+
+  Future<void> GetData() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      nama = pref.getString('nama');
+    });
+  }
+
+  @override
+  void initState() {
+    userData = GetData();
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-  var name = faker.person;
     return Scaffold(
       backgroundColor: Color(0xff3FC5F0),
       appBar: AppBar(
@@ -20,7 +42,7 @@ class HomePage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 185, 0),
               child: Text(
-                "Hi, Nevi!",
+                "Hi, $nama!",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,

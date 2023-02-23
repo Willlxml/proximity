@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginController extends GetxController {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  String? _token;
+  String? _token, role, nama, emaill;
 
   String? get bearer {
     if (_token != null) {
@@ -23,7 +23,8 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<void> loginWithEmail(String email, String password) async {
+  Future<void> loginWithEmail(
+      String email, String password, BuildContext context) async {
     Map<String, String> headers = {
       'Content-type': 'application/json;charset=UTF-8',
       'Charset': 'utf-8'
@@ -38,41 +39,59 @@ class LoginController extends GetxController {
       // request send
       final streamres = await request.send();
       final response = await http.Response.fromStream(streamres);
+
+      // jika email tidak ditemukan
+      if (response.statusCode >= 300 && response.statusCode < 500) {
+        final snackBar = SnackBar(
+            duration: 3.seconds,
+            elevation: 0,
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            content: Row(
+              children: [
+                Icon(
+                  Icons.info,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  "Email not found, Please try again!",
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+              ],
+            ));
+        ScaffoldMessenger.of(context)
+          ..hideCurrentMaterialBanner()
+          ..showSnackBar(snackBar);
+      }
       // jika berhasil
       if (response.statusCode >= 200 && response.statusCode < 300) {
         final responseData = jsonDecode(response.body);
         if (responseData['message'] == 'Success') {
           _token = responseData['token'];
-          print(_token);
+          role = responseData['data']['role'];
+          emaill = responseData['data']['email'];
+          nama = responseData['data']['nama'];
           final SharedPreferences? prefs = await _prefs;
+          await prefs?.setString('role', role!);
           await prefs?.setString('token', _token!);
-          Get.offAll(LandingPageWorker());
+          await prefs?.setString('email', emaill!);
+          await prefs?.setString('nama', nama!);
+          // menentukan role
+          if (role! == 'pekerja') {
+            Get.off(LandingPageWorker());
+          } else {
+            Get.off(LandingPageCompany());
+          }
         } else {
           throw jsonDecode(response.body)["message"];
         }
-      } else {
-        // invalid response
-        Get.back();
-        showDialog(
-            context: Get.context!,
-            builder: (context) {
-              return SimpleDialog(
-                title: Text("Error"),
-                contentPadding: EdgeInsets.all(20),
-                children: [Text("Something went wrong!")],
-              );
-            });
-      }
+      } 
     } catch (error) {
-      // jika error
+      // jika terjadi error
       print(error);
-      // showDialog(context: Get.context!, builder: (context) {
-      //   return SimpleDialog(
-      //     title: Text("Error"),
-      //     contentPadding: EdgeInsets.all(20),
-      //     children: [Text("Login Failed, Email Or Password Invalid")],
-      //   );
-      // });
     }
   }
 
@@ -85,10 +104,9 @@ class LoginController extends GetxController {
     Uri url = Uri.parse('http://103.179.86.77:4567/api/logout');
     final response =
         await http.get(url, headers: {'Authorization': 'Bearer $tokens'});
-    if (response.statusCode == 200) {
-      print("success");
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       _token = '';
-      pref.remove('token');
+      pref.clear();
     } else {
       throw Exception('gagal logout');
     }

@@ -1,7 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomePageCompany extends StatelessWidget {
+class HomePageCompany extends StatefulWidget {
+  @override
+  State<HomePageCompany> createState() => _HomePageCompanyState();
+}
+
+class _HomePageCompanyState extends State<HomePageCompany> {
+  String? nama;
+  Future<dynamic>? userData;
+
+  Future<void> GetData() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      nama = pref.getString('nama');
+    });
+  }
+
+  @override
+  void initState() {
+    userData =  GetData();
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +41,7 @@ class HomePageCompany extends StatelessWidget {
             Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 185, 0),
               child: Text(
-                "Hi, Nevi!",
+                "Hi, $nama!",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,
@@ -89,7 +112,7 @@ class HomePageCompany extends StatelessWidget {
                       border: Border.all(width: 2, color: Colors.black),
                     ),
                     child: InkWell(
-                      onTap: () => Get.toNamed('/kategoriMitra/${index+1}'),
+                      onTap: () => Get.toNamed('/kategoriMitra/${index + 1}'),
                     ),
                   );
                 }),

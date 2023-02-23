@@ -21,12 +21,30 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   final controller = Get.put(LoginController());
+  Future<dynamic>? userData;
+  String? nama, email;
+
   File? _image;
   String? status = '';
   String? base64image;
   File? tempFile;
   String? error = 'error';
   TextEditingController nameC = TextEditingController();
+
+  Future<void> GetData() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      nama = pref.getString('nama');
+      email = pref.getString('email');
+    });
+  }
+
+  @override
+  void initState() {
+    userData = GetData();
+    // TODO: implement initState
+    super.initState();
+  }
 
   Future getImageGalery() async {
     try {
@@ -100,200 +118,210 @@ class _SettingPageState extends State<SettingPage> {
         ),
         foregroundColor: Colors.black,
       ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // ini card untuk profile
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(18, 20, 10, 0),
-                  child: Container(
-                    height: mediaQueryheight * 0.3,
-                    width: mediaQuerywidht * 0.9,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        _image != null
-                            ? Padding(
-                                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                                child: CircleAvatar(
-                                    radius: 55,
-                                    backgroundColor: Colors.grey,
-                                    backgroundImage: Image.file(_image!).image),
-                              )
-                            : Padding(
-                                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                                child: CircleAvatar(
-                                  radius: 55,
-                                  backgroundColor: Colors.grey,
-                                  backgroundImage: NetworkImage(
-                                      "https://media.discordapp.net/attachments/745141993948053598/1071953402218684496/default-avatar-profile-icon-of-social-media-user-vector.png?width=670&height=670"),
-                                ),
-                              ),
-                        Column(
+      body: FutureBuilder(
+        future: userData,
+        builder: (context, snapshot) {
+           if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(color: Colors.white),
+              );
+            }
+          return Stack(
+            children: [
+              SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    // ini card untuk profile
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(18, 20, 10, 0),
+                      child: Container(
+                        height: mediaQueryheight * 0.3,
+                        width: mediaQuerywidht * 0.9,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(10, 70, 80, 0),
-                              child: Text(
-                                "William",
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w500,
+                            _image != null
+                                ? Padding(
+                                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                    child: CircleAvatar(
+                                        radius: 55,
+                                        backgroundColor: Colors.grey,
+                                        backgroundImage: Image.file(_image!).image),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                    child: CircleAvatar(
+                                      radius: 55,
+                                      backgroundColor: Colors.grey,
+                                      backgroundImage: NetworkImage(
+                                          "https://media.discordapp.net/attachments/745141993948053598/1071953402218684496/default-avatar-profile-icon-of-social-media-user-vector.png?width=670&height=670"),
+                                    ),
+                                  ),
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(10, 70, 80, 0),
+                                  child: Text(
+                                    nama!,
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                              child: Text(
-                                "william@gmail.com",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.grey,
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                                  child: Text(
+                                    email!,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
+                              ],
+                            )
                           ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
-                  child: SizedBox(
-                    width: mediaQuerywidht * 0.9,
-                    height: mediaQueryheight * 0.05,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(Icons.edit, color: Colors.black54),
-                          SizedBox(width: 15),
-                          Text(
-                            "Edit Profile",
-                            style: TextStyle(
-                              color: Colors.black54,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                      style: stylebutton,
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
-                  child: SizedBox(
-                    width: mediaQuerywidht * 0.9,
-                    height: mediaQueryheight * 0.05,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Get.toNamed('/InformationCenter');
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(Icons.info_rounded, color: Colors.black54),
-                          SizedBox(width: 15),
-                          Text(
-                            "Information Center",
-                            style: TextStyle(
-                              color: Colors.black54,
-                            ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
+                      child: SizedBox(
+                        width: mediaQuerywidht * 0.9,
+                        height: mediaQueryheight * 0.05,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.edit, color: Colors.black54),
+                              SizedBox(width: 15),
+                              Text(
+                                "Edit Profile",
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                          style: stylebutton,
+                        ),
                       ),
-                      style: stylebutton,
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
-                  child: SizedBox(
-                    width: mediaQuerywidht * 0.9,
-                    height: mediaQueryheight * 0.05,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(Icons.contact_phone, color: Colors.black54),
-                          SizedBox(width: 15),
-                          Text(
-                            "Contact Admin",
-                            style: TextStyle(
-                              color: Colors.black54,
-                            ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
+                      child: SizedBox(
+                        width: mediaQuerywidht * 0.9,
+                        height: mediaQueryheight * 0.05,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Get.toNamed('/InformationCenter');
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.info_rounded, color: Colors.black54),
+                              SizedBox(width: 15),
+                              Text(
+                                "Information Center",
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                          style: stylebutton,
+                        ),
                       ),
-                      style: stylebutton,
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
-                  child: SizedBox(
-                    width: mediaQuerywidht * 0.9,
-                    height: mediaQueryheight * 0.05,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        await controller.Logout().then((value) {
-                          Get.off(LoginPage());
-                          final snackBar = SnackBar(
-                              duration: 3.seconds,
-                              elevation: 0,
-                              backgroundColor: Colors.green,
-                              behavior: SnackBarBehavior.floating,
-                              content: Row(
-                                children: [
-                                  Icon(
-                                    Icons.info,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Successfully logged out",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w600),
-                                  ),
-                                ],
-                              ));
-                          ScaffoldMessenger.of(context)
-                            ..hideCurrentMaterialBanner()
-                            ..showSnackBar(snackBar);
-                        });
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(Icons.login, color: Colors.black54),
-                          SizedBox(width: 15),
-                          Text(
-                            "Logout",
-                            style: TextStyle(
-                              color: Colors.black54,
-                            ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
+                      child: SizedBox(
+                        width: mediaQuerywidht * 0.9,
+                        height: mediaQueryheight * 0.05,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.contact_phone, color: Colors.black54),
+                              SizedBox(width: 15),
+                              Text(
+                                "Contact Admin",
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                          style: stylebutton,
+                        ),
                       ),
-                      style: stylebutton,
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
+                      child: SizedBox(
+                        width: mediaQuerywidht * 0.9,
+                        height: mediaQueryheight * 0.05,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            await controller.Logout().then((value) {
+                              Get.off(LoginPage());
+                              final snackBar = SnackBar(
+                                  duration: 3.seconds,
+                                  elevation: 0,
+                                  backgroundColor: Colors.green,
+                                  behavior: SnackBarBehavior.floating,
+                                  content: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.info,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        "Successfully logged out!",
+                                        style:
+                                            TextStyle(fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  ));
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentMaterialBanner()
+                                ..showSnackBar(snackBar);
+                            });
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.login, color: Colors.black54),
+                              SizedBox(width: 15),
+                              Text(
+                                "Logout",
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
+                          ),
+                          style: stylebutton,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        }
       ),
     );
   }

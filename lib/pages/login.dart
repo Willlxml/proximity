@@ -105,6 +105,11 @@ class _LoginPageState extends State<LoginPage> {
                   validator: (value) =>
                       value!.isEmpty ? 'Password cannot be empty' : null,
                   onChanged: (value) => print("Mengetik"),
+                  onFieldSubmitted: (value) {
+                     if (_formState.currentState!.validate()) {
+                      loginController.loginWithEmail(emailC.text, passC.text, context);
+                    }
+                  },
                   controller: passC,
                   obscureText: !_passwordVisible,
                   textInputAction: TextInputAction.done,
@@ -162,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formState.currentState!.validate()) {
-                      loginController.loginWithEmail(emailC.text, passC.text);
+                      loginController.loginWithEmail(emailC.text, passC.text, context);
                     }
                   },
                   child: Text(
