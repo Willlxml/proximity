@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/company.dart';
 
@@ -23,13 +24,16 @@ class AddPageCompanyController extends GetxController {
       String sop,
       String contact,
       BuildContext context) async {
-    Uri url =
-        Uri.parse("https://webhook.site/2b52220e-c683-44a3-95f4-095908cb11a3");
+    Uri url = Uri.parse("http://103.179.86.77:4567/api/mitrapost");
     final UploadRequest = http.MultipartRequest('POST', url);
-    
+
+    final pref = await SharedPreferences.getInstance();
+    String? tokens = pref.getString('token');
+
     final imageFile = await http.MultipartFile.fromPath('image', image.path);
     final FileFolder = await http.MultipartFile.fromPath('file', file.path);
 
+    UploadRequest.headers["authorization"] = tokens!;
     UploadRequest.fields["nama"] = nama;
     UploadRequest.fields["lokasi"] = location;
     UploadRequest.fields["jabatan"] = jabatan;
@@ -41,10 +45,10 @@ class AddPageCompanyController extends GetxController {
     UploadRequest.fields["kontak"] = contact;
     UploadRequest.files.add(imageFile);
     UploadRequest.files.add(FileFolder);
-    
+
     final StreamedResponse = await UploadRequest.send();
     final response = await http.Response.fromStream(StreamedResponse);
-   if (response.statusCode == 201) {
+    if (response.statusCode == 201) {
       final snackBar = SnackBar(
         duration: 3.seconds,
         elevation: 0,
@@ -52,9 +56,17 @@ class AddPageCompanyController extends GetxController {
         behavior: SnackBarBehavior.floating,
         content: Row(
           children: [
-            Icon(Icons.info, color: Colors.white,),
-            SizedBox(width: 10,),
-            Text("Your data successfully uploaded!", style: TextStyle(fontWeight: FontWeight.w600),),
+            Icon(
+              Icons.info,
+              color: Colors.white,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              "Your data successfully uploaded!",
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
           ],
         ),
       );
@@ -69,9 +81,17 @@ class AddPageCompanyController extends GetxController {
         behavior: SnackBarBehavior.floating,
         content: Row(
           children: [
-            Icon(Icons.info, color: Colors.white,),
-            SizedBox(width: 10,),
-            Text("Failed to upload your data", style: TextStyle(fontWeight: FontWeight.w600),),
+            Icon(
+              Icons.info,
+              color: Colors.white,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              "Failed to upload your data",
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
           ],
         ),
       );

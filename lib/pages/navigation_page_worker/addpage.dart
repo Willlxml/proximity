@@ -27,7 +27,9 @@ class _AddPageState extends State<AddPage> {
   List<Worker> _allWorkers = [];
   List<Worker> get allWorkers => _allWorkers;
   List<dynamic> _dataPendidikan = [];
+  List<dynamic> _dataCategory = [];
   String? _valPendidikan;
+  String? _valCategory;
   String? nama,
       location,
       jabatan,
@@ -49,7 +51,10 @@ class _AddPageState extends State<AddPage> {
 
   void getPendidikan() async {
     final url = Uri.parse('http://103.179.86.77:4567/api/terakhir');
-    final response = await http.get(url);
+    final pref = await SharedPreferences.getInstance();
+    final tokens = pref.getString('token');
+    final response =
+        await http.get(url, headers: {'Authorization': 'Bearer $tokens'});
     var listdata = json.decode(response.body);
     print("data : $listdata");
 
@@ -58,9 +63,23 @@ class _AddPageState extends State<AddPage> {
     });
   }
 
+  void getCategory() async {
+    final url = Uri.parse('http://103.179.86.77:4567/api/category/');
+    final pref = await SharedPreferences.getInstance();
+    final tokens = pref.getString('token');
+    final response =
+        await http.get(url, headers: {'Authorization': 'Bearer $tokens'});
+    var listCategory = jsonDecode(response.body);
+
+    setState(() {
+      _dataCategory = listCategory;
+    });
+  }
+
   @override
   void didChangeDependencies() {
     getPendidikan();
+    getCategory();
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
@@ -229,7 +248,7 @@ class _AddPageState extends State<AddPage> {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
-                   validator: (value) =>
+                  validator: (value) =>
                       value!.isEmpty ? 'Lokasi cannot be empty' : null,
                   textInputAction: TextInputAction.next,
                   controller: lokasiC,
@@ -258,7 +277,7 @@ class _AddPageState extends State<AddPage> {
                 child: TextFormField(
                   textInputAction: TextInputAction.next,
                   controller: jabatanC,
-                   validator: (value) =>
+                  validator: (value) =>
                       value!.isEmpty ? 'Jabatan cannot be empty' : null,
                   decoration: InputDecoration(
                     filled: true,
@@ -284,8 +303,9 @@ class _AddPageState extends State<AddPage> {
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: descJabatanC,
-                   validator: (value) =>
-                      value!.isEmpty ? 'Deskripsi Jabatan cannot be empty' : null,
+                  validator: (value) => value!.isEmpty
+                      ? 'Deskripsi Jabatan cannot be empty'
+                      : null,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     filled: true,
@@ -311,7 +331,7 @@ class _AddPageState extends State<AddPage> {
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   textInputAction: TextInputAction.next,
-                   validator: (value) =>
+                  validator: (value) =>
                       value!.isEmpty ? 'Keahlian Khusus cannot be empty' : null,
                   controller: keahlianC,
                   decoration: InputDecoration(
@@ -339,8 +359,9 @@ class _AddPageState extends State<AddPage> {
                 child: TextFormField(
                   textInputAction: TextInputAction.next,
                   controller: descKeahlianC,
-                   validator: (value) =>
-                      value!.isEmpty ? 'Deskripsi Keahlian cannot be empty' : null,
+                  validator: (value) => value!.isEmpty
+                      ? 'Deskripsi Keahlian cannot be empty'
+                      : null,
                   decoration: InputDecoration(
                     filled: true,
                     contentPadding: EdgeInsets.all(20),
@@ -365,11 +386,14 @@ class _AddPageState extends State<AddPage> {
                 padding: const EdgeInsets.all(10),
                 child: DropdownButtonFormField(
                   borderRadius: BorderRadius.circular(10),
-                  validator: (value) => value!.isEmpty ? 'Pendidikan Terakhir cannot be empty' : null,
+                  validator: (value) => value!.isEmpty
+                      ? 'Pendidikan Terakhir cannot be empty'
+                      : null,
                   isExpanded: true,
                   menuMaxHeight: 150,
                   decoration: InputDecoration(
                       filled: true,
+                      hintText: "Pendidikan Terakhir",
                       contentPadding: EdgeInsets.all(20),
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -404,7 +428,7 @@ class _AddPageState extends State<AddPage> {
                 child: TextFormField(
                   textInputAction: TextInputAction.next,
                   controller: pengalamanC,
-                   validator: (value) =>
+                  validator: (value) =>
                       value!.isEmpty ? 'Pengalaman cannot be empty' : null,
                   decoration: InputDecoration(
                     filled: true,
@@ -431,7 +455,7 @@ class _AddPageState extends State<AddPage> {
                 child: TextFormField(
                   textInputAction: TextInputAction.done,
                   controller: contactC,
-                   validator: (value) =>
+                  validator: (value) =>
                       value!.isEmpty ? 'Kontak cannot be empty' : null,
                   decoration: InputDecoration(
                     filled: true,
@@ -453,23 +477,65 @@ class _AddPageState extends State<AddPage> {
                   ),
                 ),
               ),
+               Padding(
+                padding: const EdgeInsets.all(10),
+                child: DropdownButtonFormField(
+                  borderRadius: BorderRadius.circular(10),
+                  validator: (value) => value!.isEmpty
+                      ? 'Category pekerjaan cannot be empty'
+                      : null,
+                  isExpanded: true,
+                  menuMaxHeight: 150,
+                  decoration: InputDecoration(
+                      filled: true,
+                      contentPadding: EdgeInsets.all(20),
+                      fillColor: Colors.white,
+                      hintText: "Category Pekerjaan",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      prefixIcon: Icon(FontAwesomeIcons.list),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.black, width: 1.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 2.0))),
+                  value: _valCategory,
+                  items: _dataCategory.map((item) {
+                    return DropdownMenuItem(
+                      child: Text(item['name']),
+                      value: item['id'].toString(),
+                    );
+                  }).toList(),
+                  onChanged: (v) {
+                    setState(() {
+                      _valCategory = v;
+                      print(_valCategory);
+                    });
+                  },
+                ),
+              ),
               SizedBox(
                 width: 300,
                 child: ElevatedButton(
                   onPressed: () {
-                    if(_formState.currentState!.validate()){
-                    controller.addWorker(
-                        namaC.text,
-                        lokasiC.text,
-                        jabatanC.text,
-                        descJabatanC.text,
-                        keahlianC.text,
-                        descKeahlianC.text,
-                        pengalamanC.text,
-                        contactC.text,
-                        _valPendidikan!,
-                        _image!,
-                        context);
+                    if (_formState.currentState!.validate()) {
+                      controller.addWorker(
+                          namaC.text,
+                          lokasiC.text,
+                          jabatanC.text,
+                          descJabatanC.text,
+                          keahlianC.text,
+                          descKeahlianC.text,
+                          pengalamanC.text,
+                          contactC.text,
+                          _valPendidikan!,
+                          _valCategory!,
+                          _image!,
+                          context);
                     }
                   },
                   child: Text(

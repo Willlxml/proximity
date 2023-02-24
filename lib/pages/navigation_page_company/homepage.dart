@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:proximity/controller/Login_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePageCompany extends StatefulWidget {
@@ -10,19 +11,29 @@ class HomePageCompany extends StatefulWidget {
 class _HomePageCompanyState extends State<HomePageCompany> {
   String? nama;
   Future<dynamic>? userData;
+  bool isLoggedin = false;
+  final controller = Get.put(LoginController());
 
   Future<void> GetData() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     setState(() {
       nama = pref.getString('nama');
+      print(nama);
     });
   }
 
   @override
   void initState() {
-    userData =  GetData();
-    // TODO: implement initState
+    userData = GetData();
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    userData = GetData();
+
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
   }
 
   @override

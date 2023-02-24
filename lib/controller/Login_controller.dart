@@ -10,18 +10,14 @@ import 'package:proximity/pages/login.dart';
 import 'package:proximity/utils/api_endpoints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../colors/color.dart';
+
 class LoginController extends GetxController {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   String? _token, role, nama, emaill;
 
-  String? get bearer {
-    if (_token != null) {
-      return _token!;
-    } else {
-      return null;
-    }
-  }
+
 
   Future<void> loginWithEmail(
       String email, String password, BuildContext context) async {
@@ -39,9 +35,10 @@ class LoginController extends GetxController {
       // request send
       final streamres = await request.send();
       final response = await http.Response.fromStream(streamres);
+      print(response.body);
 
       // jika email tidak ditemukan
-      if (response.statusCode >= 300 && response.statusCode < 500) {
+      if (response.statusCode == 302) {
         final snackBar = SnackBar(
             duration: 3.seconds,
             elevation: 0,
@@ -57,7 +54,7 @@ class LoginController extends GetxController {
                   width: 10,
                 ),
                 Text(
-                  "Email not found, Please try again!",
+                  "Invalid email or password, Please try again!",
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
               ],
@@ -75,25 +72,97 @@ class LoginController extends GetxController {
           emaill = responseData['data']['email'];
           nama = responseData['data']['nama'];
           final SharedPreferences? prefs = await _prefs;
-          await prefs?.setString('role', role!);
-          await prefs?.setString('token', _token!);
-          await prefs?.setString('email', emaill!);
-          await prefs?.setString('nama', nama!);
+          await saveToken(_token!);
+          await SaveData(role!, emaill!, nama!);
+          prefs?.reload();
           // menentukan role
           if (role! == 'pekerja') {
             Get.off(LandingPageWorker());
+            final snackBar = SnackBar(
+                duration: 3.seconds,
+                elevation: 0,
+                backgroundColor: Colors.blue,
+                behavior: SnackBarBehavior.floating,
+                content: Row(
+                  children: [
+                    Icon(
+                      Icons.info,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "Successfully logged in as Pekerja",
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ));
+            ScaffoldMessenger.of(context)
+              ..hideCurrentMaterialBanner()
+              ..showSnackBar(snackBar);
           } else {
             Get.off(LandingPageCompany());
+            final snackBar = SnackBar(
+                duration: 3.seconds,
+                elevation: 0,
+                backgroundColor: Colors.amber,
+                behavior: SnackBarBehavior.floating,
+                content: Row(
+                  children: [
+                    Icon(
+                      Icons.info,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "Successfully logged in as Mitra",
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ));
+            ScaffoldMessenger.of(context)
+              ..hideCurrentMaterialBanner()
+              ..showSnackBar(snackBar);
           }
         } else {
           throw jsonDecode(response.body)["message"];
         }
-      } 
+      } else {}
     } catch (error) {
       // jika terjadi error
       print(error);
     }
   }
+
+  Future<void> saveToken(String token) async {
+    final pref = await SharedPreferences.getInstance();
+    await pref.setString('token', token);
+  }
+
+  // Future<String> getAuthToken() async {
+  //   final pref = await SharedPreferences.getInstance();
+  //   final authToken = pref.getString('token');
+  //   return authToken!;
+  // }
+
+  Future<void> SaveData(String role, String emaill, String nama) async{
+    final pref = await SharedPreferences.getInstance();
+    await pref.setString('nama', nama);
+    await pref.setString('email', emaill);
+    await pref.setString('role', role);
+  }
+
+  Future<void> removeAuthToken() async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.remove('token');
+  await prefs.remove('emaill');
+  await prefs.remove('role');
+  await prefs.remove('nama');
+}
+
 
   Future<void> Logout() async {
     // menghapus token dari local state
@@ -105,8 +174,7 @@ class LoginController extends GetxController {
     final response =
         await http.get(url, headers: {'Authorization': 'Bearer $tokens'});
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      _token = '';
-      pref.clear();
+     await removeAuthToken();
     } else {
       throw Exception('gagal logout');
     }

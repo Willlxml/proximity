@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:proximity/model/worker.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WorkerController extends GetxController {
   var data = [];
@@ -25,11 +26,14 @@ class WorkerController extends GetxController {
       String kontak,
       String pendidikanTerakhir,
       BuildContext context) async {
-    Uri url = Uri.parse('http://10.0.0.15:4567/api/pekerjaupdate/');
+    Uri url = Uri.parse('http://103.179.86.77:4567/api/pekerjaupdate/');
 
- final UploadRequest = http.MultipartRequest('PATCH', url);
+    final pref = await SharedPreferences.getInstance();
+    String? tokens = pref.getString('token');
+    final UploadRequest = http.MultipartRequest('PATCH', url);
     // final file = await http.MultipartFile.fromPath('file', image.path);
 
+    UploadRequest.headers["authorization"] = tokens!;
     UploadRequest.fields["nama_lengkap"] = nama;
     UploadRequest.fields["lokasi"] = location;
     UploadRequest.fields["jabatan"] = jabatan;
@@ -73,28 +77,36 @@ class WorkerController extends GetxController {
 
   Future<List<Datum>> getFetchData({String? query}) async {
     Uri url = Uri.parse('http://103.179.86.77:4567/api/pekerja');
-    final response = await http.get(url);
-    try{
-      if (response.statusCode == 200){
+    final pref = await SharedPreferences.getInstance();
+    String? tokens = pref.getString('token');
+    final response = await http.get(url, headers: {'Authorization': 'Bearer $tokens'});
+    try {
+      if (response.statusCode == 200) {
         data = json.decode(response.body);
-        _allDatum =  data.map((e) => Datum.fromJson(e)).toList();
+        _allDatum = data.map((e) => Datum.fromJson(e)).toList();
         if (query != null) {
-          _allDatum = allDatum.where((element) => element.namaLengkap.toLowerCase().contains(query.toLowerCase())).toList();
+          _allDatum = allDatum
+              .where((element) => element.namaLengkap
+                  .toLowerCase()
+                  .contains(query.toLowerCase()))
+              .toList();
         }
-      }else{
-        print ('api error');
+      } else {
+        print('api error');
       }
-    }on Exception catch (e) {
+    } on Exception catch (e) {
       print('error : $e');
     }
     return _allDatum;
   }
 
-   Future<void> delete(String id) {
+  Future<void> delete(String id) async {
+    final pref = await SharedPreferences.getInstance();
+    final tokens = pref.getString('token');
     Uri url = Uri.parse(
-      "http://10.0.0.15:4567/api/pekerjadelete",
+      "http://103.179.86.77:4567/api/pekerjadelete",
     );
-    return http.delete(url).then(
+    return http.delete(url, headers: {'Authorization' : 'Bearer $tokens'}).then(
       (response) {
         _allDatum.removeWhere((element) => element.id == id);
       },

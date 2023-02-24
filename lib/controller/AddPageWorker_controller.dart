@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:proximity/model/worker.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddPageWorkerController extends GetxController {
   List<Workerrr> _allWorkers = [];
@@ -22,6 +23,7 @@ class AddPageWorkerController extends GetxController {
       String pengalaman,
       String kontak,
       String pendidikanTerakhir,
+      String category,
       File image,
       BuildContext context) async {
     Uri url =
@@ -29,9 +31,17 @@ class AddPageWorkerController extends GetxController {
           // "https://webhook.site/2b52220e-c683-44a3-95f4-095908cb11a3"
             "http://103.179.86.77:4567/api/pekerjacreate",
             );
+    final pref = await SharedPreferences.getInstance();
+    final tokens = pref.getString('token');
+    Map<String, String> headers = {'Authorization' : 'Bearer $tokens'};
+  
+
+
     final UploadRequest = http.MultipartRequest('POST', url);
     final file = await http.MultipartFile.fromPath('file', image.path);
+    
 
+    UploadRequest.headers.addAll(headers);
     UploadRequest.fields["nama_lengkap"] = nama;
     UploadRequest.fields["lokasi"] = location;
     UploadRequest.fields["jabatan"] = jabatan;
@@ -41,6 +51,7 @@ class AddPageWorkerController extends GetxController {
     UploadRequest.fields["pendidikan_terakhir"] = pendidikanTerakhir;
     UploadRequest.fields["pengalaman_kerja"] = pengalaman;
     UploadRequest.fields["kontak"] = kontak;
+    UploadRequest.fields["category_id"] = category;
     UploadRequest.files.add(file);
 
     final StreamedResponse = await UploadRequest.send();
@@ -63,6 +74,7 @@ class AddPageWorkerController extends GetxController {
         ..hideCurrentMaterialBanner()
         ..showSnackBar(snackBar);
     } else {
+      print(response.statusCode);
       final snackBar = SnackBar(
         duration: 3.seconds,
         elevation: 0,

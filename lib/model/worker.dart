@@ -37,6 +37,7 @@ class Datum {
         required this.pengalamanKerja,
         required this.kontak,
         required this.image,
+        required this.category,
     });
 
     String id;
@@ -50,6 +51,7 @@ class Datum {
     String pengalamanKerja;
     String kontak;
     String image;
+    String category;
 
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
@@ -63,6 +65,7 @@ class Datum {
         pengalamanKerja: json["pengalaman_kerja"],
         kontak: json["kontak"],
         image: json["image"],
+        category: json["category_id"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -77,5 +80,6 @@ class Datum {
         "pengalaman_kerja": pengalamanKerja,
         "kontak": kontak,
         "image": image,
+        "category_id": category,
     };
 }
