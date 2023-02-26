@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:faker/faker.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,6 +13,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
    String? nama;
+   String? idCategory;
+    List<dynamic> _dataCategory = [];
 
   Future<dynamic>? userData;
 
@@ -20,9 +25,24 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void getCategory() async {
+    final url = Uri.parse('http://103.179.86.77:4567/api/category/');
+    final pref = await SharedPreferences.getInstance();
+    final tokens = pref.getString('token');
+    final response =
+        await http.get(url, headers: {'Authorization': 'Bearer $tokens'});
+    var responseData = jsonDecode(response.body);
+    
+    setState(() {
+      _dataCategory = responseData;
+    });
+  }
+
+
   @override
   void initState() {
     userData = GetData();
+    getCategory();
     // TODO: implement initState
     super.initState();
   }
@@ -113,8 +133,12 @@ class _HomePageState extends State<HomePage> {
                       border: Border.all(width: 2, color: Colors.black),
                     ),
                     child: InkWell(
-                      onTap: () {
+                      onTap: () async{
                         Get.toNamed('/kategori/${index+1}');
+                        // Obtain shared preferences.
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.setString(idCategory!, '');
+
                       },
                     ),
                   );

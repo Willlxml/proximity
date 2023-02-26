@@ -92,6 +92,7 @@ class _ListPageState extends State<ListPage> {
                   final keahlian = user['keahlian'];
                   final descKeahlian = user['desc_keahlian'];
                   final pendidikanTerakhir = user['pendidikan_terakhir'];
+                  final category = user['category_id'];
                   final pengalaman = user['pengalaman_kerja'];
                   final kontak = user['kontak'];
                   final image = user['image'];
@@ -112,19 +113,24 @@ class _ListPageState extends State<ListPage> {
                                   BorderRadius.all(Radius.circular(10))),
                           subtitle: Text(jabatan),
                           onTap: () {
-                            Get.toNamed('editpage', arguments: [
+                            Get.offNamed('editpage', arguments: [
                               id, // 0
                               nama, // 1
                               lokasi, // 2
                               jabatan, // 3
                               descJabatan, // 4
-                              keahlian,// 5
+                              keahlian, // 5
                               descKeahlian, // 6
                               pendidikanTerakhir, // 7
-                              pengalaman,// 8
+                              pengalaman, // 8
                               kontak, // 9
-                              image // 10
-                            ]);
+                              image, // 10
+                              category, // 11
+                            ])!.then((value) {
+                              setState(() {
+                                
+                              });
+                            });
                           },
                         ),
                       ),

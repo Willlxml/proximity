@@ -42,7 +42,7 @@ class LoginController extends GetxController {
         final snackBar = SnackBar(
             duration: 3.seconds,
             elevation: 0,
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.redAccent,
             behavior: SnackBarBehavior.floating,
             content: Row(
               children: [
@@ -81,7 +81,7 @@ class LoginController extends GetxController {
             final snackBar = SnackBar(
                 duration: 3.seconds,
                 elevation: 0,
-                backgroundColor: Colors.blue,
+                backgroundColor: Colors.blueAccent,
                 behavior: SnackBarBehavior.floating,
                 content: Row(
                   children: [
@@ -106,7 +106,7 @@ class LoginController extends GetxController {
             final snackBar = SnackBar(
                 duration: 3.seconds,
                 elevation: 0,
-                backgroundColor: Colors.amber,
+                backgroundColor: Colors.amberAccent,
                 behavior: SnackBarBehavior.floating,
                 content: Row(
                   children: [
@@ -141,13 +141,6 @@ class LoginController extends GetxController {
     final pref = await SharedPreferences.getInstance();
     await pref.setString('token', token);
   }
-
-  // Future<String> getAuthToken() async {
-  //   final pref = await SharedPreferences.getInstance();
-  //   final authToken = pref.getString('token');
-  //   return authToken!;
-  // }
-
   Future<void> SaveData(String role, String emaill, String nama) async{
     final pref = await SharedPreferences.getInstance();
     await pref.setString('nama', nama);

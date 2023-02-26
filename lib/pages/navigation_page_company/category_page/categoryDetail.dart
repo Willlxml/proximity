@@ -23,6 +23,7 @@ class _CategoryDetailState extends State<CategoryDetail> {
   bool Clicked = true;
   final controller = Get.put(WorkerController());
   String text = "Kosong";
+  String textCat = "kosong";
 
   var data = [
     "default",
@@ -37,9 +38,23 @@ class _CategoryDetailState extends State<CategoryDetail> {
     "S3"
   ];
 
+  var dataCat = [
+    "default",
+    "Health",
+    "Entertainment",
+    "Culinary",
+    "Management",
+    "Content Creator",
+    "Law",
+    "Otomotive",
+    "Marketing",
+    "Goverment",
+  ];
+
   void changeText() {
     setState(() {
       text = data[int.parse('${Get.parameters['pendidikan']}')];
+      textCat = dataCat[int.parse('${Get.parameters['category']}')];
     });
   }
 
@@ -118,7 +133,7 @@ class _CategoryDetailState extends State<CategoryDetail> {
                     final snackBar = SnackBar(
                       duration: 3.seconds,
                       elevation: 0,
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.greenAccent,
                       behavior: SnackBarBehavior.floating,
                       content: Row(
                         children: [
@@ -417,6 +432,29 @@ class _CategoryDetailState extends State<CategoryDetail> {
                                       children: <TextSpan>[
                                         TextSpan(
                                             text: "${Get.parameters['kontak']}",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black))
+                                      ]),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 5,
+                                  bottom: 5,
+                                  top: 5,
+                                ),
+                                child: RichText(
+                                  text: TextSpan(
+                                      text: "Kategori: ",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 16,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: textCat,
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.black))

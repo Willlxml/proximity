@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:proximity/model/worker.dart';
 import 'package:proximity/controller/Worker_controller.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../colors/color.dart';
 import '../../../controller/Search_controller.dart';
@@ -39,10 +40,12 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
 
   Future fetchUsers({int maxRetries = 5}) async {
     // Get Data
+    final pref = await SharedPreferences.getInstance();
+    final tokens = await pref.getString('token');
     int retryCount = 0;
     while (retryCount < maxRetries) {
       Uri url = Uri.parse('http://103.179.86.77:4567/api/pekerja');
-      final response = await http.get(url);
+      final response = await http.get(url, headers: {'Authorization': 'Bearer $tokens'} );
       if (response.statusCode >= 200 && response.statusCode < 300) {
           final json = jsonDecode(response.body);
           setState(() {
@@ -105,6 +108,7 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
                 final pendidikanTerakhir = user['pendidikan_terakhir'];
                 final pengalaman = user['pengalaman_kerja'];
                 final kontak = user['kontak'];
+                final category = user['category_id'];
                 final image = user['image'];
                 return Column(
                   children: [
@@ -124,7 +128,7 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
                         subtitle: Text(jabatan),
                         onTap: () {
                           Get.toNamed(
-                              '/kategoriDetail/:id?idd=$id&name=$nama&lokasi=$lokasi&jabatan=$jabatan&desc_jabatan=$descJabatan&keahlian=$keahlian&desc_keahlian=$descKeahlian&pendidikan=$pendidikanTerakhir&pengalaman_kerja=$pengalaman&kontak=$kontak&image=$image',
+                              '/kategoriDetail/:id?idd=$id&name=$nama&lokasi=$lokasi&jabatan=$jabatan&desc_jabatan=$descJabatan&keahlian=$keahlian&desc_keahlian=$descKeahlian&pendidikan=$pendidikanTerakhir&pengalaman_kerja=$pengalaman&kontak=$kontak&image=$image&category=$category',
                               arguments: users);
                         },
                       ),

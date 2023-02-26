@@ -276,7 +276,7 @@ class _SettingPageState extends State<SettingPage> {
                               final snackBar = SnackBar(
                                   duration: 3.seconds,
                                   elevation: 0,
-                                  backgroundColor: Colors.green,
+                                  backgroundColor: Colors.greenAccent,
                                   behavior: SnackBarBehavior.floating,
                                   content: Row(
                                     children: [

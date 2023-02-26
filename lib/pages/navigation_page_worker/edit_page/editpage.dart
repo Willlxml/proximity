@@ -9,6 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:proximity/controller/Worker_controller.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../colors/color.dart';
 
 class EditPage extends StatefulWidget {
@@ -20,7 +21,9 @@ class EditPage extends StatefulWidget {
 
 class _EditPageState extends State<EditPage> {
   List<dynamic> _dataPendidikan = [];
+  List<dynamic> _dataCategory = [];
   String? _valPendidikan;
+  String? _valCategory;
   File? _image;
   final id = Get.parameters[0].toString();
   final controller = Get.put(WorkerController());
@@ -43,12 +46,28 @@ class _EditPageState extends State<EditPage> {
 
   void getPendidikan() async {
     final url = Uri.parse('http://103.179.86.77:4567/api/terakhir');
-    final response = await http.get(url);
+    final pref = await SharedPreferences.getInstance();
+    final tokens = pref.getString('token');
+    final response =
+        await http.get(url, headers: {'Authorization': 'Bearer $tokens'});
     var listdata = json.decode(response.body);
     print("data : $listdata");
 
     setState(() {
       _dataPendidikan = listdata;
+    });
+  }
+
+  void getCategory() async {
+    final url = Uri.parse('http://103.179.86.77:4567/api/category/');
+    final pref = await SharedPreferences.getInstance();
+    final tokens = pref.getString('token');
+    final response =
+        await http.get(url, headers: {'Authorization': 'Bearer $tokens'});
+    var listCategory = jsonDecode(response.body);
+
+    setState(() {
+      _dataCategory = listCategory;
     });
   }
 
@@ -67,9 +86,112 @@ class _EditPageState extends State<EditPage> {
     }
   }
 
+  Future<void> deleteUser() async {
+    final pref = await SharedPreferences.getInstance();
+    final tokens = pref.getString('token');
+    final idd = Get.arguments[0].toString();
+    Uri url = Uri.parse(
+      "http://103.179.86.77:4567/api/pekerjadelete/$idd",
+    );
+
+    final response = await http.delete(url, headers: {'Authorization': 'Bearer $tokens'});
+    if (response.statusCode >= 200 && response.statusCode < 300){
+      final snackBar = SnackBar(
+        duration: 3.seconds,
+        elevation: 0,
+        backgroundColor: Colors.greenAccent,
+        behavior: SnackBarBehavior.floating,
+        content: Text("This Job Vacancy successfully deleted."),
+      );
+      ScaffoldMessenger.of(context)
+        ..hideCurrentMaterialBanner()
+        ..showSnackBar(snackBar);
+    } else {
+      final snackBar = SnackBar(
+        duration: 3.seconds,
+        elevation: 0,
+        backgroundColor: Colors.redAccent,
+        behavior: SnackBarBehavior.floating,
+        content: Text("Failed delete this Job Vacancy"),
+      );
+      ScaffoldMessenger.of(context)
+        ..hideCurrentMaterialBanner()
+        ..showSnackBar(snackBar);
+    }
+  }
+
+  Future<Map<String, dynamic>> editUser(
+      String nama,
+      String location,
+      String jabatan,
+      String desc_jabatan,
+      String keahlian,
+      String desc_keahlian,
+      String pengalaman,
+      String kontak,
+      String pendidikanTerakhir,
+      String category,
+      BuildContext context) async {
+     
+    final idd = Get.arguments[0].toString();
+    Uri url = Uri.parse(
+        'http://103.179.86.77:4567/api/pekerjaupdate/$idd?_method=PUT');
+
+    final pref = await SharedPreferences.getInstance();
+    final tokens = pref.getString('token');
+    Map<String, String> headers = {'Authorization': 'Bearer $tokens'};
+    final UploadRequest = http.MultipartRequest('POST', url);
+    // final file = await http.MultipartFile.fromPath('file', image.path);
+
+    UploadRequest.headers.addAll(headers);
+    UploadRequest.fields["nama_lengkap"] = nama;
+    UploadRequest.fields["lokasi"] = location;
+    UploadRequest.fields["jabatan"] = jabatan;
+    UploadRequest.fields["desc_jabatan"] = desc_jabatan;
+    UploadRequest.fields["keahlian"] = keahlian;
+    UploadRequest.fields["desc_keahlian"] = desc_keahlian;
+    UploadRequest.fields["pendidikan_terakhir"] = pendidikanTerakhir;
+    UploadRequest.fields["pengalaman_kerja"] = pengalaman;
+    UploadRequest.fields["kontak"] = kontak;
+    UploadRequest.fields["category_id"] = category;
+    // UploadRequest.files.add(file);
+
+    final StreamedResponse = await UploadRequest.send();
+    final response = await http.Response.fromStream(StreamedResponse);
+    print(response.statusCode);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final snackBar = SnackBar(
+        duration: 3.seconds,
+        elevation: 0,
+        backgroundColor: Colors.green,
+        behavior: SnackBarBehavior.floating,
+        content: Text("Your data successfully uploaded"),
+      );
+      ScaffoldMessenger.of(context)
+        ..hideCurrentMaterialBanner()
+        ..showSnackBar(snackBar);
+    } else {
+      print(idd);
+      final snackBar = SnackBar(
+        duration: 3.seconds,
+        elevation: 0,
+        backgroundColor: Colors.red,
+        behavior: SnackBarBehavior.floating,
+        content: Text("Failed to upload your data"),
+      );
+      ScaffoldMessenger.of(context)
+        ..hideCurrentMaterialBanner()
+        ..showSnackBar(snackBar);
+    }
+    final Map<String, dynamic> responseData = json.decode(response.body);
+
+    return responseData;
+  }
+
   @override
   void didChangeDependencies() {
     getPendidikan();
+    getCategory();
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
@@ -84,6 +206,7 @@ class _EditPageState extends State<EditPage> {
               borderRadius: BorderRadius.vertical(bottom: Radius.circular(25))),
           centerTitle: true,
           foregroundColor: Colors.black,
+          leading: IconButton(onPressed:() => Get.offNamed('/listPage'), icon: Icon(Icons.arrow_back)),
           backgroundColor: Colors.white,
           actions: [
             Padding(
@@ -157,33 +280,6 @@ class _EditPageState extends State<EditPage> {
                       ),
                     ),
                   ),
-            // Padding(
-            //   padding: const EdgeInsets.only(left: 20, top: 10),
-            //   child: Row(
-            //     children: [
-            //       SizedBox(
-            //         width: 100,
-            //         child: ElevatedButton(
-            //           onPressed: () {},
-            //           child: Text(
-            //             "Hire",
-            //             style: TextStyle(
-            //                 color: Colors.black, fontWeight: FontWeight.w600),
-            //           ),
-            //           style: ElevatedButton.styleFrom(
-            //               elevation: 5, backgroundColor: Colors.white),
-            //         ),
-            //       ),
-            //       IconButton(
-            //         onPressed: () {},
-            //         icon: Icon(FontAwesomeIcons.heart),
-            //         style: IconButton.styleFrom(
-            //           elevation: 5,
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),``
             _image != null
                 ? SizedBox(
                     height: 0,
@@ -321,10 +417,14 @@ class _EditPageState extends State<EditPage> {
               padding: const EdgeInsets.all(10),
               child: DropdownButtonFormField(
                 borderRadius: BorderRadius.circular(10),
+                validator: (value) => value!.isEmpty
+                    ? 'Pendidikan Terakhir cannot be empty'
+                    : null,
                 isExpanded: true,
                 menuMaxHeight: 150,
                 decoration: InputDecoration(
                     filled: true,
+                    hintText: "Pendidikan Terakhir",
                     contentPadding: EdgeInsets.all(20),
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -339,67 +439,17 @@ class _EditPageState extends State<EditPage> {
                         borderRadius: BorderRadius.circular(10),
                         borderSide:
                             BorderSide(color: Colors.black, width: 2.0))),
-                value: _valPendidikan = Get.arguments[7].toString(),
-                items: [
-                  DropdownMenuItem(
-                      child: Text(
-                        'SD',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _valPendidikan = 1.toString()),
-                  DropdownMenuItem(
-                      child: Text(
-                        'SMP',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _valPendidikan = 2.toString()),
-                  DropdownMenuItem(
-                      child: Text(
-                        'SMA',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _valPendidikan = 3.toString()),
-                  DropdownMenuItem(
-                      child: Text(
-                        'D1',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _valPendidikan = 4.toString()),
-                  DropdownMenuItem(
-                      child: Text(
-                        'D2',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _valPendidikan = 5.toString()),
-                  DropdownMenuItem(
-                      child: Text(
-                        'D3',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _valPendidikan = 6.toString()),
-                  DropdownMenuItem(
-                      child: Text(
-                        'S1',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _valPendidikan = 7.toString()),
-                  DropdownMenuItem(
-                      child: Text(
-                        'S2',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _valPendidikan = 8.toString()),
-                  DropdownMenuItem(
-                      child: Text(
-                        'S3',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: _valPendidikan = 9.toString()),
-                ],
-                onChanged: (selectedValue) {
+                value: _valPendidikan,
+                items: _dataPendidikan.map((item) {
+                  return DropdownMenuItem(
+                    child: Text(item['nama']),
+                    value: item['id'].toString(),
+                  );
+                }).toList(),
+                onChanged: (v) {
                   setState(() {
-                    _valPendidikan = selectedValue.toString();
-                    print(selectedValue);
+                    _valPendidikan = v;
+                    print(_valPendidikan);
                   });
                 },
               ),
@@ -446,13 +496,53 @@ class _EditPageState extends State<EditPage> {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: DropdownButtonFormField(
+                borderRadius: BorderRadius.circular(10),
+                validator: (value) => value!.isEmpty
+                    ? 'Category pekerjaan cannot be empty'
+                    : null,
+                isExpanded: true,
+                menuMaxHeight: 150,
+                decoration: InputDecoration(
+                    filled: true,
+                    contentPadding: EdgeInsets.all(20),
+                    fillColor: Colors.white,
+                    hintText: "Category Pekerjaan",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    prefixIcon: Icon(FontAwesomeIcons.list),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            BorderSide(color: Colors.black, width: 2.0))),
+                value: _valCategory,
+                items: _dataCategory.map((item) {
+                  return DropdownMenuItem(
+                    child: Text(item['name']),
+                    value: item['id'].toString(),
+                  );
+                }).toList(),
+                onChanged: (v) {
+                  setState(() {
+                    _valCategory = v;
+                    print(_valCategory);
+                  });
+                },
+              ),
+            ),
             SizedBox(
               width: 300,
               child: ElevatedButton(
                 onPressed: () {
                   print("clicked");
-                  controller.editUser(
-                      id,
+                  editUser(
                       nameC.text,
                       lokasiC.text,
                       jabatanC.text,
@@ -462,7 +552,8 @@ class _EditPageState extends State<EditPage> {
                       pengalamanC.text,
                       contactC.text,
                       _valPendidikan!,
-                      context);
+                      _valCategory!,
+                      context).then((value) => Get.offNamed('/listPage'));
                 },
                 child: Text(
                   "SUBMIT",
@@ -471,7 +562,27 @@ class _EditPageState extends State<EditPage> {
                 ),
                 style: ElevatedButton.styleFrom(
                   elevation: 5,
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.greenAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 300,
+              child: ElevatedButton(
+                onPressed: () {
+                  deleteUser().then((value) => Get.offNamed('/listPage'));
+                },
+                child: Text(
+                  "Delete this Job Vacancy",
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w600),
+                ),
+                style: ElevatedButton.styleFrom(
+                  elevation: 5,
+                  backgroundColor: Colors.redAccent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),

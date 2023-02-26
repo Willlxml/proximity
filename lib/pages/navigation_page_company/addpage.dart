@@ -29,6 +29,9 @@ class _AddPageCompanyState extends State<AddPageCompany> {
   final controller = Get.put(AddPageCompanyController());
   List<Company> _allCompanys = [];
   List<Company> get allCompanys => _allCompanys;
+  List<dynamic> _dataCategory = [];
+    String? _valCategory;
+
   final GlobalKey<FormState> _formState = GlobalKey<FormState>();
   final TextEditingController namaC = TextEditingController();
   final TextEditingController lokasiC = TextEditingController();
@@ -82,6 +85,27 @@ class _AddPageCompanyState extends State<AddPageCompany> {
       // User canceled the picker
     }
   }
+
+  void getCategory() async {
+    final url = Uri.parse('http://103.179.86.77:4567/api/category/');
+    final pref = await SharedPreferences.getInstance();
+    final tokens = pref.getString('token');
+    final response =
+        await http.get(url, headers: {'Authorization': 'Bearer $tokens'});
+    var listCategory = jsonDecode(response.body);
+
+    setState(() {
+      _dataCategory = listCategory;
+    });
+  }
+
+  @override
+  void initState() {
+    getCategory();
+    // TODO: implement initState
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -246,7 +270,7 @@ class _AddPageCompanyState extends State<AddPageCompany> {
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: jabatanC,
-                   validator: (value) =>
+                  validator: (value) =>
                       value!.isEmpty ? 'Jabatan cannot be empty' : null,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
@@ -273,8 +297,9 @@ class _AddPageCompanyState extends State<AddPageCompany> {
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: descJabatanC,
-                   validator: (value) =>
-                      value!.isEmpty ? 'Deskripsi jabatan cannot be empty' : null,
+                  validator: (value) => value!.isEmpty
+                      ? 'Deskripsi jabatan cannot be empty'
+                      : null,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     filled: true,
@@ -300,7 +325,7 @@ class _AddPageCompanyState extends State<AddPageCompany> {
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: keahlianC,
-                   validator: (value) =>
+                  validator: (value) =>
                       value!.isEmpty ? 'Keahlian khusus cannot be empty' : null,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
@@ -327,8 +352,9 @@ class _AddPageCompanyState extends State<AddPageCompany> {
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: descKeahlianC,
-                   validator: (value) =>
-                      value!.isEmpty ? 'Deskripsi keahlian cannot be empty' : null,
+                  validator: (value) => value!.isEmpty
+                      ? 'Deskripsi keahlian cannot be empty'
+                      : null,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     filled: true,
@@ -391,7 +417,7 @@ class _AddPageCompanyState extends State<AddPageCompany> {
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: gajiC,
-                   validator: (value) =>
+                  validator: (value) =>
                       value!.isEmpty ? 'Gaji cannot be empty' : null,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
@@ -418,7 +444,7 @@ class _AddPageCompanyState extends State<AddPageCompany> {
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: sopC,
-                   validator: (value) =>
+                  validator: (value) =>
                       value!.isEmpty ? 'SOP cannot be empty' : null,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
@@ -445,7 +471,7 @@ class _AddPageCompanyState extends State<AddPageCompany> {
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: contactC,
-                   validator: (value) =>
+                  validator: (value) =>
                       value!.isEmpty ? 'Contact cannot be empty' : null,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
@@ -468,12 +494,66 @@ class _AddPageCompanyState extends State<AddPageCompany> {
                   ),
                 ),
               ),
+               Padding(
+                padding: const EdgeInsets.all(10),
+                child: DropdownButtonFormField(
+                  borderRadius: BorderRadius.circular(10),
+                  validator: (value) => value!.isEmpty
+                      ? 'Category pekerjaan cannot be empty'
+                      : null,
+                  isExpanded: true,
+                  menuMaxHeight: 150,
+                  decoration: InputDecoration(
+                      filled: true,
+                      contentPadding: EdgeInsets.all(20),
+                      fillColor: Colors.white,
+                      hintText: "Category Pekerjaan",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      prefixIcon: Icon(FontAwesomeIcons.list),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.black, width: 1.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 2.0))),
+                  value: _valCategory,
+                  items: _dataCategory.map((item) {
+                    return DropdownMenuItem(
+                      child: Text(item['name']),
+                      value: item['id'].toString(),
+                    );
+                  }).toList(),
+                  onChanged: (v) {
+                    setState(() {
+                      _valCategory = v;
+                      print(_valCategory);
+                    });
+                  },
+                ),
+              ),
               SizedBox(
                 width: 300,
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formState.currentState!.validate()) {
-                      controller.addCompany(_file!, _image!, namaC.text, lokasiC.text, jabatanC.text, descJabatanC.text, keahlianC.text, descKeahlianC.text, gajiC.text, sopC.text, contactC.text, context);
+                      controller.addCompany(
+                          _file!,
+                          _image!,
+                          namaC.text,
+                          lokasiC.text,
+                          jabatanC.text,
+                          descJabatanC.text,
+                          keahlianC.text,
+                          descKeahlianC.text,
+                          gajiC.text,
+                          sopC.text,
+                          contactC.text,
+                          _valCategory!,
+                          context);
                     }
                   },
                   child: Text(

@@ -23,17 +23,19 @@ class AddPageCompanyController extends GetxController {
       String gaji,
       String sop,
       String contact,
+      String category,
       BuildContext context) async {
     Uri url = Uri.parse("http://103.179.86.77:4567/api/mitrapost");
     final UploadRequest = http.MultipartRequest('POST', url);
 
     final pref = await SharedPreferences.getInstance();
-    String? tokens = pref.getString('token');
+    final tokens = pref.getString('token');
+    Map<String, String> headers = {'Authorization': 'Bearer $tokens'};
 
     final imageFile = await http.MultipartFile.fromPath('image', image.path);
     final FileFolder = await http.MultipartFile.fromPath('file', file.path);
 
-    UploadRequest.headers["authorization"] = tokens!;
+    UploadRequest.headers.addAll(headers);
     UploadRequest.fields["nama"] = nama;
     UploadRequest.fields["lokasi"] = location;
     UploadRequest.fields["jabatan"] = jabatan;
@@ -43,12 +45,14 @@ class AddPageCompanyController extends GetxController {
     UploadRequest.fields["gaji"] = gaji;
     UploadRequest.fields["sop"] = sop;
     UploadRequest.fields["kontak"] = contact;
+    UploadRequest.fields["category_id"] = category;
     UploadRequest.files.add(imageFile);
     UploadRequest.files.add(FileFolder);
 
     final StreamedResponse = await UploadRequest.send();
     final response = await http.Response.fromStream(StreamedResponse);
-    if (response.statusCode == 201) {
+    print(response.statusCode);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       final snackBar = SnackBar(
         duration: 3.seconds,
         elevation: 0,
