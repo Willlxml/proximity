@@ -96,6 +96,8 @@ class _CategoryDetailState extends State<CategoryDetail> {
       TextEditingController(text: "${Get.parameters["pendidikan"]}");
   final TextEditingController imageC =
       TextEditingController(text: "${Get.parameters["image"]}");
+  final TextEditingController categoryC =
+      TextEditingController(text: "${Get.parameters["category"]}");
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +130,8 @@ class _CategoryDetailState extends State<CategoryDetail> {
                               int.parse(pendidikanTerakhir.text),
                           pengalamanKerja: pengalamanC.text,
                           kontak: contactC.text,
-                          image: imageC.text))
+                          image: imageC.text,
+                          category: int.parse(categoryC.text)))
                       .then((value) {
                     final snackBar = SnackBar(
                       duration: 3.seconds,
@@ -446,7 +449,7 @@ class _CategoryDetailState extends State<CategoryDetail> {
                                 ),
                                 child: RichText(
                                   text: TextSpan(
-                                      text: "Kategori: ",
+                                      text: "Bidang: ",
                                       style: TextStyle(
                                         color: Colors.grey,
                                         fontWeight: FontWeight.normal,
@@ -483,27 +486,7 @@ class _CategoryDetailState extends State<CategoryDetail> {
                           color: Colors.black, fontWeight: FontWeight.w600),
                     ),
                     style: ElevatedButton.styleFrom(
-                        elevation: 5, backgroundColor: Colors.white),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Center(
-                child: SizedBox(
-                  width: 330,
-                  child: ElevatedButton(
-                    onPressed: () {
-
-                    },
-                    child: Text(
-                      "Delete this job vacancy",
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.w600),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        elevation: 5, backgroundColor: Colors.white),
+                        elevation: 5, backgroundColor: Colors.greenAccent),
                   ),
                 ),
               ),

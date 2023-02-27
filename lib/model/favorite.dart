@@ -11,6 +11,7 @@ class Favorite {
     required this.pengalamanKerja,
     required this.kontak,
     required this.image,
+    required this.category
   });
 
   int? id;
@@ -24,6 +25,7 @@ class Favorite {
   String? pengalamanKerja;
   String? kontak;
   String? image;
+  int? category;
 
     factory Favorite.fromMap(Map<String, dynamic> json) => new Favorite(
         id: json['id'],
@@ -37,6 +39,7 @@ class Favorite {
         pengalamanKerja: json['pengalaman_kerja'],
         kontak: json['kontak'],
         image: json['image'],
+        category: json['category_id'],
       );
  
   Map<String, dynamic> toMap() {
@@ -51,6 +54,7 @@ class Favorite {
       "pengalaman_kerja": pengalamanKerja,
       "kontak": kontak,
       "image": image,
+      "category_id": category
     };
 
   }

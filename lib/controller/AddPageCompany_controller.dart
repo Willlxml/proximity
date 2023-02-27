@@ -8,11 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../model/company.dart';
 
 class AddPageCompanyController extends GetxController {
-  List<Company> _allCompanys = [];
-  List<Company> get allCompanys => _allCompanys;
 
   Future<Map<String, dynamic>> addCompany(
-      File file,
       File image,
       String nama,
       String location,
@@ -20,20 +17,23 @@ class AddPageCompanyController extends GetxController {
       String desc_jabatan,
       String keahlian,
       String desc_keahlian,
+      String syarat,
       String gaji,
       String sop,
       String contact,
       String category,
       BuildContext context) async {
-    Uri url = Uri.parse("http://103.179.86.77:4567/api/mitrapost");
+    Uri url = Uri.parse(
+      // "https://webhook.site/2b52220e-c683-44a3-95f4-095908cb11a3"
+      "http://103.179.86.77:4567/api/mitrapost"
+    );
     final UploadRequest = http.MultipartRequest('POST', url);
 
     final pref = await SharedPreferences.getInstance();
     final tokens = pref.getString('token');
     Map<String, String> headers = {'Authorization': 'Bearer $tokens'};
 
-    final imageFile = await http.MultipartFile.fromPath('image', image.path);
-    final FileFolder = await http.MultipartFile.fromPath('file', file.path);
+    final FileFolder = await http.MultipartFile.fromPath('file', image.path);
 
     UploadRequest.headers.addAll(headers);
     UploadRequest.fields["nama"] = nama;
@@ -42,11 +42,11 @@ class AddPageCompanyController extends GetxController {
     UploadRequest.fields["desc_jabatan"] = desc_jabatan;
     UploadRequest.fields["keahlian"] = keahlian;
     UploadRequest.fields["desc_keahlian"] = desc_keahlian;
+    UploadRequest.fields["syarat"] = syarat;
     UploadRequest.fields["gaji"] = gaji;
     UploadRequest.fields["sop"] = sop;
     UploadRequest.fields["kontak"] = contact;
     UploadRequest.fields["category_id"] = category;
-    UploadRequest.files.add(imageFile);
     UploadRequest.files.add(FileFolder);
 
     final StreamedResponse = await UploadRequest.send();

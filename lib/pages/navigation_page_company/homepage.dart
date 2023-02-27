@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:proximity/controller/Login_controller.dart';
+import 'package:proximity/controller/category_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import '../../model/category.dart';
 
 class HomePageCompany extends StatefulWidget {
   @override
@@ -12,7 +17,8 @@ class _HomePageCompanyState extends State<HomePageCompany> {
   String? nama;
   Future<dynamic>? userData;
   bool isLoggedin = false;
-  final controller = Get.put(LoginController());
+  List<dynamic> categories = [];
+  final controllerCat = Get.put(CategoryController());
 
   Future<void> GetData() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -21,11 +27,15 @@ class _HomePageCompanyState extends State<HomePageCompany> {
       print(nama);
     });
   }
-
   @override
   void initState() {
-    userData = GetData();
     super.initState();
+    userData = GetData();
+    controllerCat.getCategory().then((response) {
+      setState(() {
+        categories  = response;
+      });
+    });
   }
 
   @override
@@ -109,13 +119,15 @@ class _HomePageCompanyState extends State<HomePageCompany> {
             child: GridView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: 9,
+                itemCount: categories.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   mainAxisSpacing: 13,
                   crossAxisSpacing: 13,
                   crossAxisCount: 3,
                 ),
                 itemBuilder: (context, index) {
+                  final category = categories[index];
+                  final id = category['id'];
                   return Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -123,7 +135,7 @@ class _HomePageCompanyState extends State<HomePageCompany> {
                       border: Border.all(width: 2, color: Colors.black),
                     ),
                     child: InkWell(
-                      onTap: () => Get.toNamed('/kategoriMitra/${index + 1}'),
+                      onTap: () => Get.toNamed('/kategoriMitra/$id', arguments: category),
                     ),
                   );
                 }),

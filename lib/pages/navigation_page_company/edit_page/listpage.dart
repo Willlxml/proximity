@@ -1,28 +1,29 @@
-import 'dart:convert';
 
+
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:proximity/colors/color.dart';
+import 'package:proximity/controller/Company_controller.dart';
+import 'package:proximity/pages/navigation_page_company/edit_page/editpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../colors/color.dart';
-import '../../../controller/Worker_controller.dart';
-
-class ListPage extends StatefulWidget {
-  const ListPage({super.key});
+class ListPageMitra extends StatefulWidget {
+  const ListPageMitra({super.key});
 
   @override
-  State<ListPage> createState() => _ListPageState();
+  State<ListPageMitra> createState() => _ListPageMitraState();
 }
 
-class _ListPageState extends State<ListPage> {
-  final controller = Get.put(WorkerController());
+class _ListPageMitraState extends State<ListPageMitra> {
+   final controller = Get.put(CompanyController());
   List<dynamic> users = [];
   Future<dynamic>? userData;
   bool isIniate = true;
 
+  
   @override
   void didChangeDependencies() {
     if (isIniate) {
@@ -40,21 +41,20 @@ class _ListPageState extends State<ListPage> {
     super.dispose();
   }
 
-  Future fetchUsers({int maxRetries = 5}) async {
+    Future fetchUsers({int maxRetries = 5}) async {
     // Get Data
     final pref = await SharedPreferences.getInstance();
     final tokens = await pref.getString('token');
     int retryCount = 0;
     while (retryCount < maxRetries) {
-      Uri url = Uri.parse('http://103.179.86.77:4567/api/pekerja');
-      final response =
-          await http.get(url, headers: {'Authorization': 'Bearer $tokens'});
+      Uri url = Uri.parse('http://103.179.86.77:4567/api/mitra');
+      final response = await http.get(url, headers: {'Authorization': 'Bearer $tokens'} );
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        final json = jsonDecode(response.body);
-        setState(() {
-          users = json['data'];
-        });
-        return response;
+          final json = jsonDecode(response.body);
+          setState(() {
+            users = json['data'];
+          });
+          return response;
       } else {
         await Future.delayed(Duration(seconds: 3));
         retryCount++;
@@ -83,7 +83,7 @@ class _ListPageState extends State<ListPage> {
             //     icon: Icon(Icons.help, color: Colors.black)),
           )
         ],
-        title: Text("Edit Worker"),
+        title: Text("Edit Company"),
       ),
       body: FutureBuilder(
           future: userData,
@@ -128,7 +128,7 @@ class _ListPageState extends State<ListPage> {
                                   BorderRadius.all(Radius.circular(10))),
                           subtitle: Text(jabatan),
                           onTap: () {
-                            Get.offNamed('editpage', arguments: [
+                            Get.off(EditPageCompany(), arguments: [
                               id, // 0
                               nama, // 1
                               lokasi, // 2
@@ -141,10 +141,11 @@ class _ListPageState extends State<ListPage> {
                               sop, // 9
                               kontak, // 10
                               image, // 11
-                              category, //1
-                            ])!
-                                .then((value) {
-                              setState(() {});
+                              category, // 12
+                            ])!.then((value) {
+                              setState(() {
+                                
+                              });
                             });
                           },
                         ),

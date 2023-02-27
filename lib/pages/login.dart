@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:proximity/controller/Login_controller.dart';
+import 'package:proximity/controller/databasehelper.dart';
 import 'package:proximity/pages/landingpage_worker.dart';
 import 'package:proximity/routes/route_name.dart';
 
@@ -166,6 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                 width: 300,
                 child: ElevatedButton(
                   onPressed: () {
+                    DatabaseHelper.instace.initDatabase();
                     if (_formState.currentState!.validate()) {
                       loginController.loginWithEmail(emailC.text, passC.text, context);
                     }

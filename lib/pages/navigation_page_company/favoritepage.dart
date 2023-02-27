@@ -74,6 +74,7 @@ class _FavoritePageCompanyState extends State<FavoritePageCompany> {
                 final pengalaman = favorite.pengalamanKerja;
                 final kontak = favorite.kontak;
                 final image = favorite.image;
+                final category = favorite.category;
                 return Padding(
                   padding: const EdgeInsets.only(right: 10, left: 10),
                   child: Column(
@@ -84,7 +85,7 @@ class _FavoritePageCompanyState extends State<FavoritePageCompany> {
                       ListTile(
                         onTap: () {
                           Get.toNamed('/favoriteDetail/', arguments: [
-                            id,
+                            id, // 0
                             nama, // 1
                             lokasi, // 2
                             jabatan, // 3
@@ -94,13 +95,15 @@ class _FavoritePageCompanyState extends State<FavoritePageCompany> {
                             pendidikanTerakhir, // 7
                             pengalaman, // 8
                             kontak, // 9
-                            image // 10
+                            image, // 10
+                            category, // 11
                           ])!.then((v) {
                             setState(() {
                               
                             });
                           });
                           print(favorite.pendidikanTerakhir);
+                          print(favorite.category);
                         },
                         leading: CircleAvatar(
                             backgroundImage: NetworkImage(favorite.image!)),

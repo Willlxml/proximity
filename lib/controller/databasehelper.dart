@@ -9,9 +9,9 @@ class DatabaseHelper {
   static final DatabaseHelper instace = DatabaseHelper._privateConstructor();
 
   static Database? _database;
-  Future<Database> get database async => _database ??= await _initDatabase();
+  Future<Database> get database async => _database ??= await initDatabase();
 
-  Future<Database> _initDatabase() async {
+  Future<Database> initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, 'favorite.db');
     return await openDatabase(
@@ -33,7 +33,8 @@ class DatabaseHelper {
     pendidikan_terakhir INTEGER,
     pengalaman_kerja TEXT,
     kontak TEXT,
-    image TEXT)
+    image TEXT,
+    category_id INTEGER)
 ''');
   }
 
@@ -55,5 +56,13 @@ class DatabaseHelper {
   Future<int> remove(int id) async {
     Database db = await instace.database;
     return await db.delete('favorite', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<void> dropDatabase() async {
+    Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    String path = join(documentsDirectory.path, 'favorite.db');
+
+    // Delete the database file.
+    await deleteDatabase(path);
   }
 }

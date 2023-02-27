@@ -24,8 +24,8 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
   String? _valPendidikan;
   File? _image;
   bool Clicked = true;
-
   String text = "Kosong";
+  String textCat = "Kosong";
 
   var data = [
     "default",
@@ -40,18 +40,33 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
     "S3"
   ];
 
+   var dataCat = [
+    "default",
+    "Health",
+    "Entertainment",
+    "Culinary",
+    "Management",
+    "Content Creator",
+    "Law",
+    "Otomotive",
+    "Marketing",
+    "Goverment",
+  ];
+
+
   void changeText() {
     setState(() {
       text = data[int.parse('${Get.arguments[7]}')];
+      textCat = dataCat[int.parse('${Get.arguments[11]}')];
     });
   }
-
   var id = Get.arguments[0];
   bool isIniate = true;
 
 
   @override
   void initState() {
+    print(id);
     changeText();
     // TODO: implement initState
     super.initState();
@@ -91,7 +106,7 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
               child: IconButton(
                 onPressed: () async {
                   await DatabaseHelper.instace
-                      .remove(int.parse(id))
+                      .remove(id)
                       .then((value) {
                     final snackBar = SnackBar(
                       duration: 3.seconds,
@@ -396,6 +411,29 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                                       ]),
                                 ),
                               ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 5,
+                                  bottom: 5,
+                                  top: 5,
+                                ),
+                                child: RichText(
+                                  text: TextSpan(
+                                      text: "Bidang: ",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 16,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: textCat,
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black))
+                                      ]),
+                                ),
+                              ),
                             ],
                           ),
                         ],
@@ -418,7 +456,7 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                           color: Colors.black, fontWeight: FontWeight.w600),
                     ),
                     style: ElevatedButton.styleFrom(
-                        elevation: 5, backgroundColor: Colors.white),
+                        elevation: 5, backgroundColor: Colors.greenAccent),
                   ),
                 ),
               ),

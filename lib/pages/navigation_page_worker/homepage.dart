@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:faker/faker.dart';
 import 'package:http/http.dart' as http;
+import 'package:proximity/pages/navigation_page_worker/category_page/categoryPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../controller/category_controller.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,9 +15,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-   String? nama;
-   String? idCategory;
-    List<dynamic> _dataCategory = [];
+  String? nama;
+  String? idCategory;
+  List<dynamic> categories = [];
+
+  final controllerCat = Get.put(CategoryController());
 
   Future<dynamic>? userData;
 
@@ -25,24 +30,14 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void getCategory() async {
-    final url = Uri.parse('http://103.179.86.77:4567/api/category/');
-    final pref = await SharedPreferences.getInstance();
-    final tokens = pref.getString('token');
-    final response =
-        await http.get(url, headers: {'Authorization': 'Bearer $tokens'});
-    var responseData = jsonDecode(response.body);
-    
-    setState(() {
-      _dataCategory = responseData;
-    });
-  }
-
-
   @override
   void initState() {
     userData = GetData();
-    getCategory();
+    controllerCat.getCategory().then((response) {
+      setState(() {
+        categories = response;
+      });
+    });
     // TODO: implement initState
     super.initState();
   }
@@ -119,13 +114,15 @@ class _HomePageState extends State<HomePage> {
             child: GridView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: 9,
+                itemCount: categories.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   mainAxisSpacing: 13,
                   crossAxisSpacing: 13,
                   crossAxisCount: 3,
                 ),
                 itemBuilder: (context, index) {
+                  final category = categories[index];
+                  final id = category['id'];
                   return Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -133,13 +130,8 @@ class _HomePageState extends State<HomePage> {
                       border: Border.all(width: 2, color: Colors.black),
                     ),
                     child: InkWell(
-                      onTap: () async{
-                        Get.toNamed('/kategori/${index+1}');
-                        // Obtain shared preferences.
-                        final prefs = await SharedPreferences.getInstance();
-                        await prefs.setString(idCategory!, '');
-
-                      },
+                      onTap: () => Get.toNamed('/kategoriWorker/$id',
+                          arguments: category),
                     ),
                   );
                 }),

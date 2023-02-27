@@ -13,6 +13,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:proximity/controller/AddPageCompany_controller.dart';
 import 'package:proximity/model/company.dart';
 import 'package:proximity/pages/landingpage_worker.dart';
+import 'package:proximity/pages/navigation_page_company/edit_page/listpage.dart';
 import 'package:proximity/pages/navigation_page_worker/homepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../colors/color.dart';
@@ -27,8 +28,6 @@ class AddPageCompany extends StatefulWidget {
 class _AddPageCompanyState extends State<AddPageCompany> {
   File? _image, _file;
   final controller = Get.put(AddPageCompanyController());
-  List<Company> _allCompanys = [];
-  List<Company> get allCompanys => _allCompanys;
   List<dynamic> _dataCategory = [];
     String? _valCategory;
 
@@ -42,6 +41,7 @@ class _AddPageCompanyState extends State<AddPageCompany> {
   final TextEditingController gajiC = TextEditingController();
   final TextEditingController sopC = TextEditingController();
   final TextEditingController contactC = TextEditingController();
+  final TextEditingController syaratC = TextEditingController();
 
   Future getImageGalery() async {
     try {
@@ -121,8 +121,10 @@ class _AddPageCompanyState extends State<AddPageCompany> {
             Padding(
               padding: const EdgeInsets.only(right: 10),
               child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.help, color: Colors.black)),
+                  onPressed: () {
+                    Get.to(ListPageMitra());
+                  },
+                  icon: Icon(Icons.edit, color: Colors.black)),
             )
           ],
           title: Text(
@@ -378,41 +380,33 @@ class _AddPageCompanyState extends State<AddPageCompany> {
               ),
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: SizedBox(
-                  width: 360,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () => UploadFile(),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(
-                          FontAwesomeIcons.file,
-                          color: Colors.black,
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        _file != null
-                            ? Text(
-                                "${_file!.path.split(Platform.pathSeparator).last}",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black),
-                              )
-                            : Text(
-                                "Terms & Rules",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black),
-                              ),
-                      ],
+                child: TextFormField(
+                  controller: syaratC,
+                  validator: (value) => value!.isEmpty
+                      ? 'Syarat cannot be empty'
+                      : null,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    filled: true,
+                    contentPadding: EdgeInsets.all(20),
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    prefixIcon: Icon(FontAwesomeIcons.trophy),
+                    hintText: "Syarat Perusahaan",
+                    prefixIconColor: Colors.black,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 1.0),
                     ),
-                    style: ElevatedButton.styleFrom(
-                        elevation: 5, backgroundColor: Colors.white),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.black, width: 2.0),
+                    ),
                   ),
                 ),
               ),
+              
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
@@ -540,20 +534,7 @@ class _AddPageCompanyState extends State<AddPageCompany> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formState.currentState!.validate()) {
-                      controller.addCompany(
-                          _file!,
-                          _image!,
-                          namaC.text,
-                          lokasiC.text,
-                          jabatanC.text,
-                          descJabatanC.text,
-                          keahlianC.text,
-                          descKeahlianC.text,
-                          gajiC.text,
-                          sopC.text,
-                          contactC.text,
-                          _valCategory!,
-                          context);
+                      controller.addCompany(_image!, namaC.text, lokasiC.text, jabatanC.text, descJabatanC.text, keahlianC.text, descKeahlianC.text, syaratC.text, gajiC.text, sopC.text, contactC.text, _valCategory!, context);
                     }
                   },
                   child: Text(

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:proximity/controller/databasehelper.dart';
 import 'package:proximity/pages/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -286,6 +287,7 @@ class _SettingPageCompanyState extends State<SettingPageCompany> {
                           child: ElevatedButton(
                             onPressed: () async {
                               await controller.Logout().then((value) {
+                                DatabaseHelper.instace.dropDatabase();
                                 Get.off(LoginPage());
                                 final snackBar = SnackBar(
                                     duration: 3.seconds,
