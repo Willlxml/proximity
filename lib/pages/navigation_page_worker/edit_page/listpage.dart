@@ -99,17 +99,16 @@ class _ListPageState extends State<ListPage> {
                 itemBuilder: (context, index) {
                   final user = users[index];
                   final id = user['id'];
-                  final nama = user['nama'];
+                  final nama = user['nama_lengkap'];
                   final lokasi = user['lokasi'];
                   final jabatan = user['jabatan'];
                   final descJabatan = user['desc_jabatan'];
                   final keahlian = user['keahlian'];
                   final descKeahlian = user['desc_keahlian'];
-                  final syarat = user['syarat'];
-                  final sop = user['sop'];
-                  final category = user['category_id'];
-                  final gaji = user['gaji'];
+                  final pendidikanTerakhir = user['pendidikan_terakhir'];
+                  final pengalaman = user['pengalaman_kerja'];
                   final kontak = user['kontak'];
+                  final category = user['category_id'];
                   final image = user['image'];
                   return Column(
                     children: [
@@ -136,12 +135,11 @@ class _ListPageState extends State<ListPage> {
                               descJabatan, // 4
                               keahlian, // 5
                               descKeahlian, // 6
-                              syarat, // 7
-                              gaji, // 8
-                              sop, // 9
-                              kontak, // 10
-                              image, // 11
-                              category, //1
+                              pendidikanTerakhir, // 7
+                              pengalaman, // 8
+                              kontak, // 9
+                              image, // 10
+                              category, //11
                             ])!
                                 .then((value) {
                               setState(() {});

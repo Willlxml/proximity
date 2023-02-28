@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
+import 'package:proximity/controller/databasehelper.dart';
+import 'package:proximity/controller/databasehelperr.dart';
 import 'package:proximity/pages/landingpage_company.dart';
 import 'package:proximity/pages/landingpage_worker.dart';
 import 'package:proximity/pages/login.dart';
@@ -16,8 +18,6 @@ class LoginController extends GetxController {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   String? _token, role, nama, emaill;
-
-
 
   Future<void> loginWithEmail(
       String email, String password, BuildContext context) async {
@@ -54,7 +54,7 @@ class LoginController extends GetxController {
                   width: 10,
                 ),
                 Text(
-                  "Invalid email or password, Please try again!",
+                  "Invalid email or password",
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
               ],
@@ -77,6 +77,7 @@ class LoginController extends GetxController {
           prefs?.reload();
           // menentukan role
           if (role! == 'pekerja') {
+            DatabaseHelperr.instace.initDatabase();
             Get.off(LandingPageWorker());
             final snackBar = SnackBar(
                 duration: 3.seconds,
@@ -102,6 +103,7 @@ class LoginController extends GetxController {
               ..hideCurrentMaterialBanner()
               ..showSnackBar(snackBar);
           } else {
+            DatabaseHelper.instace.initDatabase();
             Get.off(LandingPageCompany());
             final snackBar = SnackBar(
                 duration: 3.seconds,
@@ -141,7 +143,8 @@ class LoginController extends GetxController {
     final pref = await SharedPreferences.getInstance();
     await pref.setString('token', token);
   }
-  Future<void> SaveData(String role, String emaill, String nama) async{
+
+  Future<void> SaveData(String role, String emaill, String nama) async {
     final pref = await SharedPreferences.getInstance();
     await pref.setString('nama', nama);
     await pref.setString('email', emaill);
@@ -149,13 +152,12 @@ class LoginController extends GetxController {
   }
 
   Future<void> removeAuthToken() async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.remove('token');
-  await prefs.remove('emaill');
-  await prefs.remove('role');
-  await prefs.remove('nama');
-}
-
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+    await prefs.remove('emaill');
+    await prefs.remove('role');
+    await prefs.remove('nama');
+  }
 
   Future<void> Logout() async {
     // menghapus token dari local state
@@ -167,7 +169,7 @@ class LoginController extends GetxController {
     final response =
         await http.get(url, headers: {'Authorization': 'Bearer $tokens'});
     if (response.statusCode >= 200 && response.statusCode < 300) {
-     await removeAuthToken();
+      await removeAuthToken();
     } else {
       throw Exception('gagal logout');
     }

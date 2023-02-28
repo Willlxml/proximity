@@ -535,7 +535,16 @@ class _AddPageState extends State<AddPage> {
                           _valPendidikan!,
                           _valCategory!,
                           _image!,
-                          context);
+                          context).then((value) {
+                            namaC.clear();
+                            lokasiC.clear();
+                            jabatanC.clear();
+                            descJabatanC.clear();
+                            keahlianC.clear();
+                            descKeahlianC.clear();
+                            pengalamanC.clear();
+                            contactC.clear();
+                          });
                     }
                   },
                   child: Text(

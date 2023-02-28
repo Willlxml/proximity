@@ -304,7 +304,7 @@ class _SignupWorkerState extends State<SignupWorker> {
                   "I Agree with application terms & rules",
                   style: TextStyle(color: Colors.white),
                 ),
-                activeColor: Colors.green,
+                activeColor: Colors.greenAccent,
               ),
             ),
             SizedBox(height: 15),

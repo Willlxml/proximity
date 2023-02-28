@@ -392,7 +392,7 @@ class _AddPageCompanyState extends State<AddPageCompany> {
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10)),
-                    prefixIcon: Icon(FontAwesomeIcons.trophy),
+                    prefixIcon: Icon(FontAwesomeIcons.file),
                     hintText: "Syarat Perusahaan",
                     prefixIconColor: Colors.black,
                     enabledBorder: OutlineInputBorder(
@@ -534,7 +534,18 @@ class _AddPageCompanyState extends State<AddPageCompany> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formState.currentState!.validate()) {
-                      controller.addCompany(_image!, namaC.text, lokasiC.text, jabatanC.text, descJabatanC.text, keahlianC.text, descKeahlianC.text, syaratC.text, gajiC.text, sopC.text, contactC.text, _valCategory!, context);
+                      controller.addCompany(_image!, namaC.text, lokasiC.text, jabatanC.text, descJabatanC.text, keahlianC.text, descKeahlianC.text, syaratC.text, gajiC.text, sopC.text, contactC.text, _valCategory!, context).then((value) {
+                         namaC.clear();
+                         lokasiC.clear();
+                         jabatanC.clear();
+                        descJabatanC.clear();
+                        keahlianC.clear();
+                        descKeahlianC.clear();
+                        syaratC.clear();
+                        gajiC.clear();
+                        sopC.clear();
+                        contactC.clear();
+                      });
                     }
                   },
                   child: Text(

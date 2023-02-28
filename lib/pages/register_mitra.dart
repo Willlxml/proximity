@@ -355,7 +355,7 @@ class _RegisterMitraState extends State<RegisterMitra> {
                   style: TextStyle(
                       fontWeight: FontWeight.w600, color: Colors.white),
                 ),
-                activeColor: Colors.green,
+                activeColor: Colors.greenAccent,
               ),
               SizedBox(height: 15),
               SizedBox(

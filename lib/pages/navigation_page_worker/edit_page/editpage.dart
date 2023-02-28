@@ -163,7 +163,7 @@ class _EditPageState extends State<EditPage> {
       final snackBar = SnackBar(
         duration: 3.seconds,
         elevation: 0,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.greenAccent,
         behavior: SnackBarBehavior.floating,
         content: Text("Your data successfully uploaded"),
       );

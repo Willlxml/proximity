@@ -187,8 +187,9 @@ class _CategoryDetailState extends State<CategoryDetail> {
               height: 20,
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 10, left: 10),
+              padding: const EdgeInsets.only(right: 0, left: 0),
               child: Card(
+                margin: EdgeInsets.only(right: 10, left: 10),
                 clipBehavior: Clip.hardEdge,
                 elevation: 5,
                 child: Padding(
@@ -247,22 +248,25 @@ class _CategoryDetailState extends State<CategoryDetail> {
                                   bottom: 5,
                                   top: 5,
                                 ),
-                                child: RichText(
-                                  text: TextSpan(
-                                      text: "Jabatan yang di inginkan: ",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 16,
-                                      ),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                            text:
-                                                "${Get.parameters['jabatan']}",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.black))
-                                      ]),
+                                child: Container(
+                                  width: 330,
+                                  child: RichText(
+                                    text: TextSpan(
+                                        text: "Jabatan yang di inginkan: ",
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16,
+                                        ),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                              text:
+                                                  "${Get.parameters['jabatan']}",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black))
+                                        ]),
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -271,23 +275,26 @@ class _CategoryDetailState extends State<CategoryDetail> {
                                   bottom: 5,
                                   top: 5,
                                 ),
-                                child: RichText(
-                                  overflow: TextOverflow.clip,
-                                  text: TextSpan(
-                                      text: "Deskripsi jabatan: ",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 16,
-                                      ),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                            text:
-                                                "${Get.parameters['desc_jabatan']}",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.black))
-                                      ]),
+                                child: Container(
+                                  width: 330,
+                                  child: RichText(
+                                    overflow: TextOverflow.clip,
+                                    text: TextSpan(
+                                        text: "Deskripsi jabatan: ",
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16,
+                                        ),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                              text:
+                                                  "${Get.parameters['desc_jabatan']}",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black))
+                                        ]),
+                                  ),
                                 ),
                               ),
                               Padding(

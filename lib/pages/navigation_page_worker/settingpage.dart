@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:proximity/colors/color.dart';
 import 'package:proximity/controller/Login_controller.dart';
+import 'package:proximity/controller/databasehelperr.dart';
 import 'package:proximity/pages/login.dart';
 import 'package:proximity/routes/route_name.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -272,6 +273,7 @@ class _SettingPageState extends State<SettingPage> {
                         child: ElevatedButton(
                           onPressed: () async {
                             await controller.Logout().then((value) {
+                              DatabaseHelperr.instace.dropDatabase();
                               Get.off(LoginPage());
                               final snackBar = SnackBar(
                                   duration: 3.seconds,

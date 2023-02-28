@@ -167,7 +167,6 @@ class _LoginPageState extends State<LoginPage> {
                 width: 300,
                 child: ElevatedButton(
                   onPressed: () {
-                    DatabaseHelper.instace.initDatabase();
                     if (_formState.currentState!.validate()) {
                       loginController.loginWithEmail(emailC.text, passC.text, context);
                     }

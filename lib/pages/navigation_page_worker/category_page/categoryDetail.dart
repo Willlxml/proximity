@@ -1,46 +1,50 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:proximity/controller/Worker_controller.dart';
-import 'package:http/http.dart' as http;
-import 'package:proximity/controller/databasehelper.dart';
+import 'package:proximity/controller/databasehelperr.dart';
+import 'package:proximity/model/favorite.dart';
+import 'package:proximity/model/favoriteworker.dart';
+
 import '../../../colors/color.dart';
 
-class FavoriteDetail extends StatefulWidget {
-  const FavoriteDetail({super.key});
+class CategoryDetailPekerja extends StatefulWidget {
+  const CategoryDetailPekerja({super.key});
 
   @override
-  State<FavoriteDetail> createState() => _FavoriteDetailState();
+  State<CategoryDetailPekerja> createState() => _CategoryDetailPekerjaState();
 }
 
-class _FavoriteDetailState extends State<FavoriteDetail> {
-  List<dynamic> _dataPendidikan = [];
-  String? _valPendidikan;
-  File? _image;
+class _CategoryDetailPekerjaState extends State<CategoryDetailPekerja> {
+  String textCat = "kosong";
   bool Clicked = true;
-  String text = "Kosong";
-  String textCat = "Kosong";
 
-  var data = [
-    "default",
-    "SD",
-    "SMP",
-    "SMA",
-    "D1",
-    "D2",
-    "D3",
-    "S1",
-    "S2",
-    "S3"
-  ];
+  final TextEditingController nameC =
+      TextEditingController(text: "${Get.parameters['name']}");
+  final TextEditingController lokasiC =
+      TextEditingController(text: "${Get.parameters['lokasi']}");
+  final TextEditingController jabatanC =
+      TextEditingController(text: "${Get.parameters['jabatan']}");
+  final TextEditingController descJabatanC =
+      TextEditingController(text: "${Get.parameters['desc_jabatan']}");
+  final TextEditingController keahlianC =
+      TextEditingController(text: "${Get.parameters['keahlian']}");
+  final TextEditingController descKeahlianC =
+      TextEditingController(text: "${Get.parameters["desc_keahlian"]}");
+  final TextEditingController syaratC =
+      TextEditingController(text: "${Get.parameters["syarat"]}");
+  final TextEditingController sopC =
+      TextEditingController(text: "${Get.parameters["sop"]}");
+  final TextEditingController gajiC =
+      TextEditingController(text: "${Get.parameters["gaji"]}");
+  final TextEditingController contactC =
+      TextEditingController(text: "${Get.parameters["kontak"]}");
+  final TextEditingController imageC =
+      TextEditingController(text: "${Get.parameters["image"]}");
+  final TextEditingController categoryC =
+      TextEditingController(text: "${Get.parameters["category"]}");
 
-   var dataCat = [
+  var dataCat = [
     "default",
     "Health",
     "Entertainment",
@@ -53,46 +57,35 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
     "Goverment",
   ];
 
-
   void changeText() {
     setState(() {
-      text = data[int.parse('${Get.arguments[7]}')];
-      textCat = dataCat[int.parse('${Get.arguments[11]}')];
+      textCat = dataCat[int.parse('${Get.parameters['category']}')];
     });
   }
-  var id = Get.arguments[0];
-  bool isIniate = true;
-
 
   @override
   void initState() {
-    print(id);
-    changeText();
     // TODO: implement initState
+    changeText();
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    if (isIniate) {
-      return null;
+    if (Clicked == false) {
+      Clicked == false;
+    } else {
+      Clicked == true;
     }
-    isIniate = false;
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
   @override
-  void dispose() {
-    isIniate = true;
-    // TODO: implement dispose
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    var idd = Get.parameters["idd"];
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       backgroundColor: skyBlue,
       appBar: AppBar(
           shape: RoundedRectangleBorder(
@@ -105,13 +98,26 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
               padding: const EdgeInsets.only(right: 10),
               child: IconButton(
                 onPressed: () async {
-                  await DatabaseHelper.instace
-                      .remove(id)
+                  await DatabaseHelperr.instace
+                      .add(FavoriteWorker(
+                          id: int.parse(idd!),
+                          nama: nameC.text,
+                          lokasi: lokasiC.text,
+                          jabatan: jabatanC.text,
+                          descJabatan: descJabatanC.text,
+                          keahlian: keahlianC.text,
+                          descKeahlian: descKeahlianC.text,
+                          syarat: syaratC.text,
+                          gaji: gajiC.text,
+                          sop: sopC.text,
+                          kontak: contactC.text,
+                          image: imageC.text,
+                          category: int.parse(categoryC.text)))
                       .then((value) {
                     final snackBar = SnackBar(
                       duration: 3.seconds,
                       elevation: 0,
-                      backgroundColor: Colors.red,
+                      backgroundColor: Colors.greenAccent,
                       behavior: SnackBarBehavior.floating,
                       content: Row(
                         children: [
@@ -123,7 +129,7 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                             width: 10,
                           ),
                           Text(
-                            "Removed from Favorites",
+                            "Added to Favorites",
                             style: TextStyle(fontWeight: FontWeight.w600),
                           ),
                         ],
@@ -138,7 +144,7 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                   });
                 },
                 icon: Icon(
-                  (Clicked == true) ? Icons.favorite : Icons.favorite_border,
+                  (Clicked == false) ? Icons.favorite : Icons.favorite_border,
                   color: Colors.red,
                 ),
                 style: IconButton.styleFrom(
@@ -148,7 +154,7 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
             )
           ],
           title: Text(
-            "Profile of ${Get.arguments[1]}",
+            "Profile of ${Get.parameters['name']}",
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
@@ -185,7 +191,7 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                                   shape: BoxShape.circle),
                               child: CircleAvatar(
                                 backgroundImage: Image.network(
-                                  '${Get.arguments[10]}',
+                                  '${Get.parameters["image"]}',
                                   fit: BoxFit.cover,
                                 ).image,
                               )),
@@ -196,7 +202,7 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                           Padding(
                             padding: const EdgeInsets.only(
                                 left: 10, right: 10, top: 5, bottom: 5),
-                            child: Text("${Get.arguments[1]}",
+                            child: Text("${Get.parameters["name"]}",
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: TextStyle(
@@ -223,25 +229,22 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                                   bottom: 5,
                                   top: 5,
                                 ),
-                                child: Container(
-                                  width: 330,
-                                  child: RichText(
-                                    text: TextSpan(
-                                        text: "Jabatan yang di inginkan: ",
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 16,
-                                        ),
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                              text:
-                                                  "${Get.arguments[3]}",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Colors.black))
-                                        ]),
-                                  ),
+                                child: RichText(
+                                  text: TextSpan(
+                                      text: "Jabatan yang dicari: ",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 16,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text:
+                                                "${Get.parameters['jabatan']}",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black))
+                                      ]),
                                 ),
                               ),
                               Padding(
@@ -250,25 +253,23 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                                   bottom: 5,
                                   top: 5,
                                 ),
-                                child: Container(
-                                  width: 330,
-                                  child: RichText(
-                                    text: TextSpan(
-                                        text: "Deskripsi jabatan: ",
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 16,
-                                        ),
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                              text:
-                                                  "${Get.arguments[4]}",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Colors.black))
-                                        ]),
-                                  ),
+                                child: RichText(
+                                  overflow: TextOverflow.clip,
+                                  text: TextSpan(
+                                      text: "Deskripsi jabatan: ",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 16,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text:
+                                                "${Get.parameters['desc_jabatan']}",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black))
+                                      ]),
                                 ),
                               ),
                               Padding(
@@ -287,7 +288,7 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                                       ),
                                       children: <TextSpan>[
                                         TextSpan(
-                                            text: "${Get.arguments[2]}",
+                                            text: "${Get.parameters['lokasi']}",
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.black))
@@ -303,8 +304,11 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                                 child: Container(
                                   width: 330,
                                   child: RichText(
+                                    softWrap: true,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
                                     text: TextSpan(
-                                        text: "Keahlian: ",
+                                        text: "Keahlian yang diperlukan: ",
                                         style: TextStyle(
                                           color: Colors.grey,
                                           fontWeight: FontWeight.normal,
@@ -313,7 +317,7 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                                         children: <TextSpan>[
                                           TextSpan(
                                               text:
-                                                  "${Get.arguments[5]}",
+                                                  "${Get.parameters['keahlian']}",
                                               style: TextStyle(
                                                   fontSize: 16,
                                                   color: Colors.black))
@@ -330,6 +334,7 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                                 child: Container(
                                   width: 330,
                                   child: RichText(
+                                    overflow: TextOverflow.clip,
                                     text: TextSpan(
                                         text: "Deskripsi Keahlian: ",
                                         style: TextStyle(
@@ -337,10 +342,10 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                                           fontWeight: FontWeight.normal,
                                           fontSize: 16,
                                         ),
-                                        children: <TextSpan>[
+                                        children: [
                                           TextSpan(
                                               text:
-                                                  "${Get.arguments[6]}",
+                                                  "${Get.parameters['desc_keahlian']}",
                                               style: TextStyle(
                                                   fontSize: 16,
                                                   color: Colors.black))
@@ -354,21 +359,25 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                                   bottom: 5,
                                   top: 5,
                                 ),
-                                child: RichText(
-                                  text: TextSpan(
-                                      text: "Pendidikan Terakhir: ",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 16,
-                                      ),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                            text: text,
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.black))
-                                      ]),
+                                child: Container(
+                                  width: 330,
+                                  child: RichText(
+                                    overflow: TextOverflow.clip,
+                                    text: TextSpan(
+                                        text: "SOP: ",
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                              text: "${Get.parameters['sop']}",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black))
+                                        ]),
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -377,22 +386,53 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                                   bottom: 5,
                                   top: 5,
                                 ),
-                                child: RichText(
-                                  text: TextSpan(
-                                      text: "Pengalaman Kerja: ",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 16,
-                                      ),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                            text:
-                                                "${Get.arguments[8]}",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.black))
-                                      ]),
+                                child: Container(
+                                  width: 330,
+                                  child: RichText(
+                                    overflow: TextOverflow.clip,
+                                    text: TextSpan(
+                                        text: "Gaji: ",
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                              text: "${Get.parameters['gaji']}",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black))
+                                        ]),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 5,
+                                  bottom: 5,
+                                  top: 5,
+                                ),
+                                child: Container(
+                                  width: 330,
+                                  child: RichText(
+                                    overflow: TextOverflow.clip,
+                                    text: TextSpan(
+                                        text: "Syarat: ",
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                              text:
+                                                  "${Get.parameters['syarat']}",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black))
+                                        ]),
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -411,7 +451,7 @@ class _FavoriteDetailState extends State<FavoriteDetail> {
                                       ),
                                       children: <TextSpan>[
                                         TextSpan(
-                                            text: "${Get.arguments[9]}",
+                                            text: "${Get.parameters['kontak']}",
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.black))

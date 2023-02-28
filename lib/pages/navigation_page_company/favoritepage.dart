@@ -14,7 +14,6 @@ class FavoritePageCompany extends StatefulWidget {
 }
 
 class _FavoritePageCompanyState extends State<FavoritePageCompany> {
-  // final controller = Get.put(FavouriteController());
   @override
   void initState() {
     // TODO: implement initState
@@ -23,20 +22,7 @@ class _FavoritePageCompanyState extends State<FavoritePageCompany> {
   }
 
   @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // final fav = controller.favorite;
     return Scaffold(
       backgroundColor: skyBlue,
       appBar: AppBar(

@@ -17,7 +17,7 @@ class _LandingPageWorkerState extends State<LandingPageWorker> {
 
   final screens = [
     HomePage(),
-    FavoritePage(),
+    FavoritePageWorker(),
     AddPage(),
     MessagePage(),
     SettingPage(),
