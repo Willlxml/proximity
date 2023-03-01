@@ -345,7 +345,7 @@ class _FavoriteDetailWorkerState extends State<FavoriteDetailWorker> {
                                                   fontSize: 16,
                                                   color: Colors.black))
                                         ]),
-                                  ),
+                                  ),           
                                 ),
                               ),
                               Padding(

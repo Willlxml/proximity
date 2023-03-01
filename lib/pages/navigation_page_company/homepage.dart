@@ -135,7 +135,7 @@ class _HomePageCompanyState extends State<HomePageCompany> {
                       border: Border.all(width: 2, color: Colors.black),
                     ),
                     child: InkWell(
-                      onTap: () => Get.toNamed('/kategoriMitra/$id', arguments: category),
+                      onTap: () => Get.toNamed('/kategoriMitra/$id', arguments: [id]),
                     ),
                   );
                 }),

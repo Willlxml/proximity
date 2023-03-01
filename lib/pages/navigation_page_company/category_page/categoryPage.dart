@@ -40,11 +40,12 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
 
   Future fetchUsers({int maxRetries = 5}) async {
     // Get Data
+    final id = Get.arguments[0];
     final pref = await SharedPreferences.getInstance();
     final tokens = await pref.getString('token');
     int retryCount = 0;
     while (retryCount < maxRetries) {
-      Uri url = Uri.parse('http://103.179.86.77:4567/api/pekerja');
+      Uri url = Uri.parse('http://103.179.86.77:4567/api/listpekerja?category=$id');
       final response = await http.get(url, headers: {'Authorization': 'Bearer $tokens'} );
       if (response.statusCode >= 200 && response.statusCode < 300) {
           final json = jsonDecode(response.body);
@@ -93,7 +94,10 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
             return Center(
               child: CircularProgressIndicator(color: Colors.white,),
             );
-          } else {
+          } else if(!snapshot.hasData){
+            return Center(child: Text("Empty"),);
+          } 
+          else {
             return ListView.builder(
               itemCount: users.length,
               itemBuilder: (context, index) {

@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     child: InkWell(
                       onTap: () => Get.toNamed('/kategoriWorker/$id',
-                          arguments: category),
+                          arguments:[id] ),
                     ),
                   );
                 }),

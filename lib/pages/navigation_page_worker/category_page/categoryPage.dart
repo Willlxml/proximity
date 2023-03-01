@@ -18,11 +18,12 @@ class _CategoryPageState extends State<CategoryPageWorker> {
 
   Future fetchUsers({int maxRetries = 5}) async {
     // Get Data
+    final id = Get.arguments[0];
     final pref = await SharedPreferences.getInstance();
     final tokens = await pref.getString('token');
     int retryCount = 0;
     while (retryCount < maxRetries) {
-      Uri url = Uri.parse('http://103.179.86.77:4567/api/mitra');
+      Uri url = Uri.parse('http://103.179.86.77:4567/api/listmitra?category=$id');
       final response =
           await http.get(url, headers: {'Authorization': 'Bearer $tokens'});
       if (response.statusCode >= 200 && response.statusCode < 300) {
@@ -81,6 +82,8 @@ class _CategoryPageState extends State<CategoryPageWorker> {
                 color: Colors.white,
               ),
             );
+          } else if(!snapshot.hasData){
+            return Center(child: Text("Empty"),);
           } else {
             return ListView.builder(
               itemCount: users.length,
