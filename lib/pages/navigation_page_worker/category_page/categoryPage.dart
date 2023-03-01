@@ -23,7 +23,8 @@ class _CategoryPageState extends State<CategoryPageWorker> {
     final tokens = await pref.getString('token');
     int retryCount = 0;
     while (retryCount < maxRetries) {
-      Uri url = Uri.parse('http://103.179.86.77:4567/api/listmitra?category=$id');
+      Uri url =
+          Uri.parse('http://103.179.86.77:4567/api/listmitra?category=$id');
       final response =
           await http.get(url, headers: {'Authorization': 'Bearer $tokens'});
       if (response.statusCode >= 200 && response.statusCode < 300) {
@@ -35,7 +36,6 @@ class _CategoryPageState extends State<CategoryPageWorker> {
       } else {
         await Future.delayed(Duration(seconds: 3));
         retryCount++;
-        print(retryCount);
       }
     }
     throw Exception('Failed to get response after $maxRetries retries.');
@@ -82,8 +82,6 @@ class _CategoryPageState extends State<CategoryPageWorker> {
                 color: Colors.white,
               ),
             );
-          } else if(!snapshot.hasData){
-            return Center(child: Text("Empty"),);
           } else {
             return ListView.builder(
               itemCount: users.length,
@@ -110,8 +108,8 @@ class _CategoryPageState extends State<CategoryPageWorker> {
                     Padding(
                       padding: const EdgeInsets.only(right: 10, left: 10),
                       child: ListTile(
-                        leading:
-                            CircleAvatar(backgroundImage: NetworkImage(image ?? '')),
+                        leading: CircleAvatar(
+                            backgroundImage: NetworkImage(image ?? '')),
                         title: Text(nama ?? ''),
                         tileColor: Colors.white,
                         shape: RoundedRectangleBorder(

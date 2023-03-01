@@ -45,14 +45,16 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
     final tokens = await pref.getString('token');
     int retryCount = 0;
     while (retryCount < maxRetries) {
-      Uri url = Uri.parse('http://103.179.86.77:4567/api/listpekerja?category=$id');
-      final response = await http.get(url, headers: {'Authorization': 'Bearer $tokens'} );
+      Uri url =
+          Uri.parse('http://103.179.86.77:4567/api/listpekerja?category=$id');
+      final response =
+          await http.get(url, headers: {'Authorization': 'Bearer $tokens'});
       if (response.statusCode >= 200 && response.statusCode < 300) {
-          final json = jsonDecode(response.body);
-          setState(() {
-            users = json['data'];
-          });
-          return response;
+        final json = jsonDecode(response.body);
+        setState(() {
+          users = json['data'];
+        });
+        return response;
       } else {
         await Future.delayed(Duration(seconds: 3));
         retryCount++;
@@ -92,12 +94,15 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
           // var data = snapshot.data;
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-              child: CircularProgressIndicator(color: Colors.white,),
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
             );
-          } else if(!snapshot.hasData){
-            return Center(child: Text("Empty"),);
-          } 
-          else {
+          } else if (!snapshot.hasData) {
+            return Center(
+              child: Text("Empty"),
+            );
+          } else {
             return ListView.builder(
               itemCount: users.length,
               itemBuilder: (context, index) {
@@ -122,8 +127,8 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
                     Padding(
                       padding: const EdgeInsets.only(right: 10, left: 10),
                       child: ListTile(
-                        leading:
-                            CircleAvatar(backgroundImage: NetworkImage(image ?? '')),
+                        leading: CircleAvatar(
+                            backgroundImage: NetworkImage(image ?? '')),
                         title: Text(nama ?? ''),
                         tileColor: Colors.white,
                         shape: RoundedRectangleBorder(

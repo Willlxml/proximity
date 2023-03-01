@@ -27,13 +27,14 @@ class _HomePageCompanyState extends State<HomePageCompany> {
       print(nama);
     });
   }
+
   @override
   void initState() {
     super.initState();
     userData = GetData();
     controllerCat.getCategory().then((response) {
       setState(() {
-        categories  = response;
+        categories = response;
       });
     });
   }
@@ -135,7 +136,9 @@ class _HomePageCompanyState extends State<HomePageCompany> {
                       border: Border.all(width: 2, color: Colors.black),
                     ),
                     child: InkWell(
-                      onTap: () => Get.toNamed('/kategoriMitra/$id', arguments: [id]),
+                      onTap: () =>
+                          Get.toNamed('/kategoriMitra/$id', arguments: [id]),
+                      child: Image.asset('lib/asset/image/$index.jpg'),
                     ),
                   );
                 }),
