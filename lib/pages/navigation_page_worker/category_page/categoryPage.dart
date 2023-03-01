@@ -111,13 +111,13 @@ class _CategoryPageState extends State<CategoryPageWorker> {
                       padding: const EdgeInsets.only(right: 10, left: 10),
                       child: ListTile(
                         leading:
-                            CircleAvatar(backgroundImage: NetworkImage(image)),
-                        title: Text(nama),
+                            CircleAvatar(backgroundImage: NetworkImage(image ?? '')),
+                        title: Text(nama ?? ''),
                         tileColor: Colors.white,
                         shape: RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10))),
-                        subtitle: Text(jabatan),
+                        subtitle: Text(jabatan ?? ''),
                         onTap: () {
                           Get.toNamed(
                               '/kategoriDetailWorker/:id?idd=$id&name=$nama&lokasi=$lokasi&jabatan=$jabatan&desc_jabatan=$descJabatan&keahlian=$keahlian&desc_keahlian=$descKeahlian&syarat=$syarat&gaji=$gaji&sop=$sop&kontak=$kontak&image=$image&category=$category',

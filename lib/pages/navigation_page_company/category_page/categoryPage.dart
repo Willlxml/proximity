@@ -123,13 +123,13 @@ class _CategoryPageMitraState extends State<CategoryPageMitra> {
                       padding: const EdgeInsets.only(right: 10, left: 10),
                       child: ListTile(
                         leading:
-                            CircleAvatar(backgroundImage: NetworkImage(image)),
-                        title: Text(nama),
+                            CircleAvatar(backgroundImage: NetworkImage(image ?? '')),
+                        title: Text(nama ?? ''),
                         tileColor: Colors.white,
                         shape: RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10))),
-                        subtitle: Text(jabatan),
+                        subtitle: Text(jabatan ?? ''),
                         onTap: () {
                           Get.toNamed(
                               '/kategoriDetail/:id?idd=$id&name=$nama&lokasi=$lokasi&jabatan=$jabatan&desc_jabatan=$descJabatan&keahlian=$keahlian&desc_keahlian=$descKeahlian&pendidikan=$pendidikanTerakhir&pengalaman_kerja=$pengalaman&kontak=$kontak&image=$image&category=$category',
