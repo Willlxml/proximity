@@ -60,10 +60,10 @@ class DatabaseHelperr {
   }
 
   Future<void> dropDatabase() async {
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, 'favoriteworker.db');
+    // Get a reference to the database.
+  final db = await database;
 
-    // Delete the database file.
-    await deleteDatabase(path);
+  // Drop the table.
+  await db.execute('DROP TABLE IF EXISTS favoriteworker');
   }
 }

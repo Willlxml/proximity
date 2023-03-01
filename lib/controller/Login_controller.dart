@@ -11,6 +11,7 @@ import 'package:proximity/pages/landingpage_worker.dart';
 import 'package:proximity/pages/login.dart';
 import 'package:proximity/utils/api_endpoints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../colors/color.dart';
 
@@ -18,6 +19,49 @@ class LoginController extends GetxController {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   String? _token, role, nama, emaill;
+  Future<void> createTable() async {
+    // Get a reference to the database.
+    Database? database;
+    final db = await database;
+
+    // Create the table.
+     await db!.execute('''CREATE TABLE IF NOT EXISTS favoritemitra(
+    id INTEGER PRIMARY KEY NOT NULL,
+    nama_lengkap TEXT,
+    lokasi TEXT,
+    jabatan TEXT,
+    desc_jabatan TEXT,
+    keahlian TEXT,
+    desc_keahlian TEXT,
+    pendidikan_terakhir INTEGER,
+    pengalaman_kerja TEXT,
+    kontak TEXT,
+    image TEXT,
+    category_id INTEGER)
+''');
+  }
+  Future<void> createTablePekerja() async {
+    // Get a reference to the database.
+    Database? database;
+    final db = await database;
+
+    // Create the table.
+      await db!.execute('''CREATE TABLE IF NOT EXISTS favoriteworker(
+    id INTEGER PRIMARY KEY NOT NULL,
+    nama TEXT,
+    lokasi TEXT,
+    jabatan TEXT,
+    desc_jabatan TEXT,
+    keahlian TEXT,
+    desc_keahlian TEXT,
+    sop TEXT,
+    gaji TEXT,
+    syarat TEXT,
+    kontak TEXT,
+    image TEXT,
+    category_id INTEGER)
+''');
+  }
 
   Future<void> loginWithEmail(
       String email, String password, BuildContext context) async {
@@ -77,7 +121,7 @@ class LoginController extends GetxController {
           prefs?.reload();
           // menentukan role
           if (role! == 'pekerja') {
-            DatabaseHelperr.instace.initDatabase();
+            createTablePekerja();
             Get.off(LandingPageWorker());
             final snackBar = SnackBar(
                 duration: 3.seconds,
@@ -103,7 +147,7 @@ class LoginController extends GetxController {
               ..hideCurrentMaterialBanner()
               ..showSnackBar(snackBar);
           } else {
-            DatabaseHelper.instace.initDatabase();
+            createTable();
             Get.off(LandingPageCompany());
             final snackBar = SnackBar(
                 duration: 3.seconds,
